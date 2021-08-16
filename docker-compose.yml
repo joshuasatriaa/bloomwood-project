@@ -1,0 +1,95 @@
+version: "3"
+
+services:
+  nginx:
+    build:
+      context: docker/dev/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www
+      - ./docker/dev/nginx/logs:/var/log/nginx
+    ports:
+      # Client port
+      # - 3000:80
+      # Laravel port
+      - 8000:81
+      # Admin port
+      - 3001:82
+    depends_on:
+      # - client
+      - php
+
+  php:
+    build:
+      context: ./
+      dockerfile: docker/dev/php/Dockerfile
+    volumes:
+      - ./api:/var/www/api
+    environment:
+      XDEBUG_CONFIG: "remote_enable=1"
+      PHP_IDE_CONFIG: "serverName=Docker"
+    depends_on:
+      - mongo
+      - redis
+  #   - mailhog
+
+  # Supervisor container (schedule and queue runner)
+  supervisor:
+    build:
+      context: docker/dev/supervisor
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/
+      - ./docker/dev/supervisor/conf.d:/etc/supervisor/conf.d
+      - ./docker/dev/supervisor/logs:/var/log
+    depends_on:
+      - mongo
+      - redis
+      # - mailhog
+
+  redis:
+    build:
+      context: docker/dev/redis
+      dockerfile: Dockerfile
+    volumes:
+      - redis:/data
+    ports:
+      - 6001:6379
+
+  mongo:
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+
+  mongoclient:
+    image: mongoclient/mongoclient
+    ports:
+      - "8001:3000"
+    volumes:
+      - mongoclientdata:/data/db
+    depends_on:
+      - mongo
+
+  # client:
+  #   build:
+  #     context: ./
+  #     dockerfile: ./docker/dev/client/Dockerfile
+  #   volumes:
+  #     - ./client:/var/www/client:consistent
+  #     - /var/www/client/node_modules/
+  
+  admin:
+    build:
+      context: docker/dev/admin
+      dockerfile: Dockerfile
+    volumes:
+      - ./admin:/var/www/admin:consistent
+      - /var/www/admin/node_modules/
+    
+volumes:
+  mongodb-data:
+  mongoclientdata:
+  redis:
+    driver: local

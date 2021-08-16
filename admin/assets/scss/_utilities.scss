@@ -1,0 +1,92 @@
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/utilities';
+
+$utilities: map-merge(
+  $utilities,
+  (
+    'width': (
+      property: width,
+      class: w,
+      values: (
+        10: 10%,
+        25: 25%,
+        50: 50%,
+        75: 75%,
+        100: 100%,
+        auto: auto,
+      ),
+    ),
+    'max-width': (
+      property: max-width,
+      class: mw,
+      values: (
+        100: 100%,
+      ),
+    ),
+    'viewport-width': (
+      property: width,
+      class: vw,
+      values: (
+        5: 5vw,
+        25: 25vw,
+        50: 50vw,
+        100: 100vw,
+      ),
+    ),
+    'min-viewport-width': (
+      property: min-width,
+      class: min-vw,
+      values: (
+        100: 100vw,
+      ),
+    ),
+    'height': (
+      property: height,
+      class: h,
+      values: (
+        25: 25%,
+        50: 50%,
+        75: 75%,
+        100: 100%,
+        auto: auto,
+      ),
+    ),
+    'max-height': (
+      property: max-height,
+      class: mh,
+      values: (
+        100: 100%,
+      ),
+    ),
+    'viewport-height': (
+      property: height,
+      class: vh,
+      values: (
+        100: 100vh,
+      ),
+    ),
+    'min-viewport-height': (
+      property: min-height,
+      class: min-vh,
+      values: (
+        100: 100vh,
+      ),
+    ),
+    'rounded': (
+      property: border-radius,
+      class: rounded,
+      values: (
+        null: $border-radius,
+        0: 0,
+        1: $border-radius-sm,
+        2: $border-radius,
+        3: $border-radius-lg,
+        4: 0.4rem,
+        5: 0.5rem,
+        circle: 50%,
+        pill: $border-radius-pill,
+      ),
+    ),
+  )
+);

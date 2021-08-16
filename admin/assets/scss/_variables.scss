@@ -1,0 +1,87 @@
+@charset "utf-8";
+
+$font-family-base: 'Poppins', sans-serif;
+$enable-responsive-font-sizes: true;
+$enable-negative-margins: true;
+
+/*
+Main Colors / Base Theme
+*/
+// $primary: #034ed8;
+// $primary: #718dff;
+// $secondary: #302f2c;
+// $success: #6a8e7f;
+// $info: #38aecc;
+// $warning: #e59500;
+// $danger: #ff3c3c;
+// $light: rgb(211, 222, 237);
+
+$body-bg: #f3f7fc;
+// $body-color: #3c3c3c;
+// $body-color: #635f60;
+
+$border-radius: 0.2rem;
+$border-radius-sm: 0.3rem;
+$border-radius-lg: 1rem;
+$border-radius-pill: 50rem;
+
+// Allows for customizing button radius independently from global border radius
+$btn-border-radius: $border-radius;
+$btn-border-radius-sm: $border-radius-sm;
+$btn-border-radius-lg: $border-radius-lg;
+
+$btn-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+  border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+$btn-hover-bg-shade-amount: 10%;
+$btn-hover-bg-tint-amount: 10%;
+$btn-hover-border-shade-amount: 20%;
+$btn-hover-border-tint-amount: 10%;
+$btn-active-bg-shade-amount: 20%;
+$btn-active-bg-tint-amount: 20%;
+$btn-active-border-shade-amount: 25%;
+$btn-active-border-tint-amount: 10%;
+
+// $grid-breakpoints: (
+//   xs: 0,
+//   sm: 576px,
+//   md: 768px,
+//   lg: 992px,
+//   xl: 1200px,
+//   xxl: 1400px,
+// );
+
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer / 4,
+  2: $spacer / 2,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 3.5,
+  7: $spacer * 4.5,
+  8: $spacer * 6,
+  9: $spacer * 7,
+  10: $spacer * 8,
+  11: $spacer * 9,
+  12: $spacer * 10,
+  13: $spacer * 11,
+  14: $spacer * 12,
+  15: $spacer * 13,
+  16: $spacer * 14,
+  17: $spacer * 15,
+  18: $spacer * 16,
+  19: $spacer * 17,
+  20: $spacer * 18,
+  21: $spacer * 19,
+  22: $spacer * 20,
+  23: $spacer * 21,
+  24: $spacer * 22,
+  25: $spacer * 23,
+  26: $spacer * 24,
+  27: $spacer * 25,
+  28: $spacer * 26,
+  29: $spacer * 27,
+  30: $spacer * 28
+);
