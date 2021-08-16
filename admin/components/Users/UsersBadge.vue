@@ -15,11 +15,11 @@ export default {
     },
     trueLabel: {
       type: String,
-      default: 'Aktif',
+      default: 'Active',
     },
     falseLabel: {
       type: String,
-      default: 'Tidak Aktif',
+      default: 'Inactive',
     },
     trueClass: {
       type: String,

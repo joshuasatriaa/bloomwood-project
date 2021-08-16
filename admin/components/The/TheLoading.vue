@@ -1,20 +1,20 @@
 <template>
   <div id="overlay">
-    <breeding-rhombus-spinner
+    <intersecting-circles-spinner
       id="loader-element"
       :animation-duration="1300"
-      :size="100"
-      :color="'#0066a1'"
+      :size="150"
+      :color="'#5E4AE3'"
     />
   </div>
 </template>
 
 <script>
-import { BreedingRhombusSpinner } from 'epic-spinners'
+import { IntersectingCirclesSpinner } from 'epic-spinners'
 export default {
   name: 'TheLoading',
   components: {
-    BreedingRhombusSpinner,
+    IntersectingCirclesSpinner,
   },
 }
 </script>

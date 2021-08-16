@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid px-xl-7">
-    <h1>Tambah Pengguna Baru</h1>
+    <h1>Add New User</h1>
     <UsersForm />
   </div>
 </template>
