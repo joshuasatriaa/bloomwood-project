@@ -5,8 +5,8 @@
       :class="{ 'bg-danger': !isSuspended, 'bg-success': isSuspended }"
       @click="handleClick()"
     >
-      <span v-if="isSuspended">LEPAS SUSPENSI</span
-      ><span v-else>SUSPEN AKUN</span>
+      <span v-if="isSuspended">UN-SUSPEND</span
+      ><span v-else>SUSPEND ACCOUNT</span>
     </button>
   </div>
 </template>
@@ -35,7 +35,7 @@ export default {
       }
 
       await this.$store.dispatch('users/GET_USER', this.$route.params.id)
-      this.$successHandler('Berhasil mengubah status suspensi')
+      this.$successHandler('Successfully change suspend status')
     },
   },
 }

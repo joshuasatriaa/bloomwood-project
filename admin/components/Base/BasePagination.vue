@@ -7,7 +7,7 @@
           :disabled="!getLinks.prev"
           @click="handleClick('prev')"
         >
-          Sebelumnya
+          Prev
         </button>
       </li>
       <select
@@ -26,7 +26,7 @@
           :disabled="!getLinks.next"
           @click="handleClick('next')"
         >
-          Berikutnya
+          Next
         </button>
       </li>
     </ul>
@@ -85,7 +85,7 @@ export default {
         this.$errorHandler(error)
         return
       }
-      this.$successHandler('Halaman berhasil diganti!')
+      this.$successHandler('Page changed!')
     },
     handleClick(direction) {
       switch (direction) {

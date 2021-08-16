@@ -1,19 +1,19 @@
 <template>
   <div class="card border-0 shadow-sm p-4">
     <div class="card-body">
-      <h5>Panel Penyaring Data</h5>
+      <h5>Filter Data</h5>
       <div class="row mt-3">
         <div class="col-12 col-xl-5">
           <BaseInput
             v-model="form.search"
             type="text"
-            placeholder="Cari nama / email pengguna"
+            placeholder="Serach users's name / email"
             form-for="formSearch"
-            label="Cari"
+            label="Search"
           />
         </div>
         <div class="col-12 col-xl-7">
-          <label class="form-label">Kategori Pengguna</label>
+          <label class="form-label">User Roles</label>
           <div class="d-flex align-items-end">
             <BaseCheckbox
               v-model="form.roles.customer"
@@ -35,9 +35,9 @@
         <hr class="my-2" />
         <div class="col-12 text-end mt-3">
           <button class="btn btn-secondary px-5" @click="resetForm()">
-            Atur Ulang
+            Reset
           </button>
-          <button class="btn btn-primary px-5" @click="getUsers">Saring</button>
+          <button class="btn btn-primary px-5" @click="getUsers">Filter</button>
         </div>
       </div>
     </div>
@@ -74,7 +74,7 @@ export default {
       this.setQueryString()
       const [_, error] = await this.$async(this.GET_USERS({}))
       if (error) {
-        this.$errorHandler('Sesuatu bermasalah. Coba sebentar lagi.')
+        this.$errorHandler('Something went wrong. Please try again later.')
         return
       }
       this.$successHandler()
@@ -89,15 +89,10 @@ export default {
       this.SET_QUERY(qs)
     },
     resetForm() {
-      this.form = {
-        roles: {
-          tenant: true,
-          admin: true,
-          superadmin: true,
-          employee: true,
-        },
-        search: '',
+      for (const role in this.form.roles) {
+        this.form.roles[role] = true
       }
+      this.search = ''
     },
   },
 }

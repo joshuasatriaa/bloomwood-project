@@ -34,7 +34,7 @@ export default {
     },
     description: {
       type: String,
-      default: 'Mohon pilih satu opsi',
+      default: 'Please choose one',
     },
     value: {
       type: String,

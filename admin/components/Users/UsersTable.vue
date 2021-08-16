@@ -3,12 +3,12 @@
     <table v-if="USERS.data" class="table table-striped table-hover">
       <thead>
         <tr>
-          <th scope="col">Nama</th>
+          <th scope="col">Name</th>
           <th scope="col">Email</th>
-          <th scope="col">Peran</th>
+          <th scope="col">Role</th>
           <th scope="col">PIN</th>
-          <th scope="col">SUSPENSI</th>
-          <th scope="col" class="text-end">Aksi</th>
+          <th scope="col">Suspended</th>
+          <th scope="col" class="text-end">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -22,21 +22,21 @@
           <td>
             <UsersBadge
               :boolean="user.is_suspended"
-              true-label="Benar"
+              true-label="True"
               true-class="bg-danger"
-              false-label="Tidak"
+              false-label="False"
               false-class="bg-success"
             />
           </td>
           <td class="text-end">
             <NuxtLink :to="`/users/${user.uuid}`" class="btn btn-primary"
-              >Pengaturan Pengguna</NuxtLink
+              >Setting</NuxtLink
             >
           </td>
         </tr>
         <tr v-if="!USERS.data.length">
           <td colspan="6" class="text-center">
-            <span class="text-danger fw-bold">Data tidak ditemukan.</span>
+            <span class="text-danger fw-bold">Data not found.</span>
           </td>
         </tr>
       </tbody>

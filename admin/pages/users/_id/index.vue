@@ -1,13 +1,13 @@
 <template>
   <div class="container-fluid px-xl-7">
-    <h1>Detil Pengguna</h1>
+    <h1>User Detail</h1>
     <div v-if="USER" class="row mt-5">
       <div class="col text-end">
         <NuxtLink
           :to="`/users/${$route.params.id}/edit`"
           class="btn btn-primary"
         >
-          Ubah Data Pengguna</NuxtLink
+          Change User's Data</NuxtLink
         >
         <UsersSuspendButton :is-suspended="USER.is_suspended" />
       </div>
@@ -37,12 +37,12 @@
                 <span v-if="field.label === 'PIN'"
                   ><UsersBadge :boolean="field.value"
                 /></span>
-                <span v-else-if="field.label === 'Suspensi'">
+                <span v-else-if="field.label === 'Suspended'">
                   <UsersBadge
                     :boolean="field.value"
-                    true-label="Benar"
+                    true-label="True"
                     true-class="bg-danger"
-                    false-label="Tidak"
+                    false-label="False"
                     false-class="bg-success"
                   />
                 </span>
@@ -77,7 +77,7 @@ export default {
           value: '',
         },
         role: {
-          label: 'Peran',
+          label: 'Role',
           value: '',
         },
         pin: {
@@ -85,7 +85,7 @@ export default {
           value: false,
         },
         suspended: {
-          label: 'Suspensi',
+          label: 'Suspended',
           value: false,
         },
       },
@@ -110,7 +110,7 @@ export default {
       this.$store.dispatch('users/GET_USER', this.$route.params.id)
     )
     if (error) {
-      this.$errorHandler('Sesuatu bermasalah. Coba muat ulang halaman ini.')
+      this.$errorHandler()
       return
     }
 

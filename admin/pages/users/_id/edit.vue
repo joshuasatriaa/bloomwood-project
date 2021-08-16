@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid px-xl-7">
-    <h1>Pengaturan Pengguna</h1>
+    <h1>Edit User</h1>
     <UsersForm :update-form="true" />
   </div>
 </template>

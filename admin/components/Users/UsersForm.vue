@@ -3,7 +3,7 @@
     <div class="card p-5">
       <div v-if="updateForm" class="card-title">
         <h5 class="text-success fw-normal">
-          <span class="badge bg-secondary p-2">FORM PENGUBAHAN DATA AKUN</span>
+          <span class="badge bg-secondary p-2">UPDATE ACCOUNT DATA FORM</span>
         </h5>
       </div>
       <div class="card-body">
@@ -12,7 +12,7 @@
           type="text"
           placeholder="example@email.com"
           form-for="formName"
-          label="Nama Pengguna"
+          label="User's Name"
           required
         />
         <BaseInput
@@ -20,33 +20,31 @@
           type="email"
           placeholder="example@email.com"
           form-for="formEmail"
-          label="Alamat E-mail"
+          label="E-mail"
           required
         />
         <BaseInput
           v-model="form.password"
           type="password"
-          placeholder="Kata Sandi"
+          placeholder="Password"
           form-for="formPassword"
-          label="Kata Sandi"
+          label="Password"
         />
         <div v-if="updateForm" class="mb-2 mt-n3">
           <small class="text-danger"
-            >Jangan diisi jika tidak ingin memperbarui kata sandi.</small
+            >Please don't fill if you don't want to update the password.</small
           >
         </div>
         <BaseSelect
           v-model="form.role_uuid"
-          label="Pilih Peran"
+          label="Choose Role"
           form-for="formRole"
           :options="roleOptions"
         />
 
-        <div class="mt-5">
+        <div class="mt-4">
           <ThePinModal />
-          <p v-if="!hasPin" class="text-danger mb-0 mt-2">
-            PIN belum dimasukkan.
-          </p>
+          <p v-if="!hasPin" class="text-danger mb-0 mt-2">Please enter PIN.</p>
         </div>
 
         <button
@@ -56,7 +54,7 @@
           :disable="isDisable"
           @click="submitForm()"
         >
-          <span v-if="updateForm">UBAH</span><span v-else>SIMPAN</span>
+          <span v-if="updateForm">UPDATE</span><span v-else>SUBMIT</span>
         </button>
       </div>
     </div>
@@ -168,7 +166,7 @@ export default {
         return
       }
 
-      this.$successHandler('Berhasil memperbarui data pengguna.')
+      this.$successHandler('Changes saved.')
       this.$router.push(`/users/${this.$route.params.id}`)
     },
     async storeUser() {
@@ -178,7 +176,7 @@ export default {
         return
       }
 
-      this.$successHandler('Berhasil menyimpan data pengguna baru.')
+      this.$successHandler('Data saved.')
       this.$router.push('/users')
     },
   },

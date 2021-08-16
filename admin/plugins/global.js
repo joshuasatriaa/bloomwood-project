@@ -27,11 +27,14 @@ export default (context, inject) => {
     )
   }
 
-  const errorHandler = (message = 'Sesuatu bermasalah.', opt = {}) => {
+  const errorHandler = (
+    message = 'Something went wrong. Please try again later.',
+    opt = {}
+  ) => {
     context.app.$toast.error(message, opt)
   }
 
-  const successHandler = (message = 'Berhasil mengambil data.') => {
+  const successHandler = (message = 'Data fetched.') => {
     context.app.$toast.success(message)
   }
 

@@ -6,7 +6,7 @@
       data-bs-toggle="modal"
       data-bs-target="#pinModal"
     >
-      Masukkan PIN Anda
+      Enter your PIN
     </button>
 
     <!-- Modal -->
@@ -22,7 +22,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header border-0">
-            <h5 id="pinModalLabel" class="modal-title">Masukkan PIN Anda</h5>
+            <h5 id="pinModalLabel" class="modal-title">Enter your PIN</h5>
             <button
               type="button"
               class="btn-close"
@@ -42,10 +42,10 @@
                 required
               />
               <p class="my-2 text-danger text-small">
-                PIN merupakan 6 digit angka.
+                PIN is a 6 digit number.
               </p>
               <small class="text-muted"
-                >Aksi ini membutuhkan verifikasi PIN Anda.</small
+                >This action need your PIN verification.</small
               >
             </div>
           </div>
@@ -56,7 +56,7 @@
               data-bs-dismiss="modal"
               @click="reset(true)"
             >
-              Batal
+              Cancel
             </button>
             <button
               type="button"
@@ -69,7 +69,7 @@
                 reset(false)
               "
             >
-              Simpan
+              Save
             </button>
           </div>
         </div>
@@ -97,7 +97,7 @@ export default {
       if (isNaN(this.pin)) {
         this.pin = ''
         this.$toast.clear()
-        this.$errorHandler('Mohon masukkan angka saja.', {
+        this.$errorHandler('Only numbers allowed', {
           timeout: 2000,
         })
       }

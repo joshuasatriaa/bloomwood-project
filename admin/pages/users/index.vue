@@ -1,13 +1,13 @@
 <template>
   <div class="container-fluid px-xl-7">
-    <h1>Daftar Pengguna</h1>
+    <h1>User List</h1>
     <div class="row mt-3">
       <div class="col-12 col-xl-10 mx-auto">
         <UsersFilterPanel />
       </div>
       <div class="col-12 text-end mt-4">
         <NuxtLink to="/users/create" class="btn btn-primary shadow-sm"
-          >Tambah Pengguna</NuxtLink
+          >Add User</NuxtLink
         >
       </div>
       <div class="col-12 mt-4 bg-white rounded-3 p-lg-4 shadow-sm">
