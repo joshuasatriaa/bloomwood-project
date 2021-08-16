@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Fake\FakeProductSeeder;
 use Database\Seeders\Fake\FakeRoleSeeder;
 use Database\Seeders\Fake\FakeUserPinSeeder;
 use Database\Seeders\Fake\FakeUserSeeder;
@@ -19,7 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             FakeRoleSeeder::class,
             FakeUserSeeder::class,
-            FakeUserPinSeeder::class
+            FakeUserPinSeeder::class,
+            FakeProductSeeder::class,
         ]);
     }
 }

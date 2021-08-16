@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MeController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
@@ -24,6 +25,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('roles', RoleController::class)->only('index');
     Route::post('/suspend-user/{user}', [UserController::class, 'suspendUser']);
     Route::post('/unsuspend-user/{user}', [UserController::class, 'unSuspendUser']);
+
+    Route::apiResource('products', ProductController::class)->except(['index', 'show']);
 });
+
+Route::apiResource('products', ProductController::class)->only(['index']);
+Route::get('products/{slug}/{product}', [ProductController::class, 'show']);
 
 Route::post('/auth/token', TokenController::class);
