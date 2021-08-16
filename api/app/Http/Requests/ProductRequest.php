@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class ProductRequest extends FormRequest
 {
@@ -13,8 +14,27 @@ class ProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this->user()->is(config('constants.superadmin.slug')) | $this->user()->is(config('constants.admin.slug'));
     }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        // if (!$this->images) {
+        //     $this->merge([
+        //         'images' => [],
+        //     ]);
+        // }
+
+        $this->merge([
+            'slug' => Str::slug($this->name),
+        ]);
+    }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -24,7 +44,8 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'string'],
+            'description' => ['required', 'string']
         ];
     }
 }

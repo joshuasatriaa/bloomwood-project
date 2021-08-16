@@ -205,7 +205,7 @@ permissions:
 	sudo chown -R www-data:www-data api/storage
 	sudo chmod -R 775 api/bootstrap/cache
 	sudo chmod -R 775 api/storage
-	sudo chmod -R 1777 docker/dev/mysql/dumps
+# sudo chmod -R 1777 docker/dev/mysql/dumps
 
 # Permissions alias
 perm: permissions

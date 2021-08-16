@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -23,31 +24,33 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Cache::tags('products-index')
-            ->remember('products-' . request()->get('page', 1), 33600, function () {
-                return ProductResource::collection(Product::latest()->paginate(30));
-            });
+        return Cache::remember('products-' . request('page', 1), 300, function () {
+            return ProductResource::collection(Product::latest()->paginate(30));
+        });
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ProductRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $product = Product::create($request->validated());
+
+        return (new ProductResource($product))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param string $_
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(string $_, Product $product)
+    public function show(Product $product)
     {
         return Cache::tags('products-show')
             ->remember('products-' . $product->id, 33600, function () use ($product) {

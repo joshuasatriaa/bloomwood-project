@@ -29,7 +29,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('products', ProductController::class)->except(['index', 'show']);
 });
 
-Route::apiResource('products', ProductController::class)->only(['index']);
-Route::get('products/{slug}/{product}', [ProductController::class, 'show']);
+Route::apiResource('products', ProductController::class)->only(['index', 'show']);
 
 Route::post('/auth/token', TokenController::class);

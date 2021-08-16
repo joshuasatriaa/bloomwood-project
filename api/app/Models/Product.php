@@ -22,8 +22,19 @@ class Product extends Model
         'description'
     ];
 
+    protected $with = [
+        'user',
+        'user.role',
+        'categories',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 }
