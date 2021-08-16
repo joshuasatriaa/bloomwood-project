@@ -12,7 +12,7 @@ class UserPin extends Model
     // use UuidTrait;
     use HasFactory;
 
-    protected $table = 'user_pins';
+    protected $collection = 'user_pins';
     protected $fillable = [
         'user_id',
         'pin'
