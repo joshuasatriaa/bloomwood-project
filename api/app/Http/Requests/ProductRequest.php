@@ -14,7 +14,7 @@ class ProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->is(config('constants.superadmin.slug')) | $this->user()->is(config('constants.admin.slug'));
+        return $this->user()->is(config('constants.superadmin.slug')) || $this->user()->is(config('constants.admin.slug'));
     }
 
     /**
@@ -45,7 +45,10 @@ class ProductRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'description' => ['required', 'string']
+            'description' => ['required', 'string'],
+            'slug' => ['required', 'string'],
+            'category_ids' => ['required', 'array'],
+            'category_ids.*' => ['required', 'numeric']
         ];
     }
 }

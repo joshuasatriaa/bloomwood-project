@@ -24,8 +24,8 @@ class Product extends Model
 
     protected $with = [
         'user',
-        'user.role',
         'categories',
+        'productImages'
     ];
 
     public function user()
@@ -35,6 +35,11 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, null, 'product_ids', 'category_ids');
+    }
+
+    public function productImages()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 }
