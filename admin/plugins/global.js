@@ -79,8 +79,6 @@ export default (context, inject) => {
       }
     }
 
-    console.log(formData)
-
     return formData
   }
 

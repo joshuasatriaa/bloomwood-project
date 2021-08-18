@@ -16,7 +16,13 @@
             {{ index + 1 }}
           </td>
           <td>
-            <img :src="product.images[0].thumbnail_image" alt="" height="50" />
+            <img
+              v-if="product.images.length > 0"
+              :src="product.images[0].thumbnail_image"
+              alt=""
+              height="50"
+            />
+            <p v-else class="text-danger">no image</p>
           </td>
           <td>{{ product.name }}</td>
           <td>{{ product.user.name }}</td>

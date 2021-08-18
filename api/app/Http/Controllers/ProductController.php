@@ -46,8 +46,7 @@ class ProductController extends Controller
     {
         $validated = $request->validated();
         $product = Product::create($validated);
-
-        $this->categoryService->attachModelToCategories($product, $validated['category_ids'], 'products');
+        $product->categories()->sync($validated['category_ids']);
 
         $paths = $this->imageService->uploadImages($request, 'product-images', 'images');
         $product->productImages()->createMany($paths);
@@ -67,10 +66,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return Cache::tags('products-show')
-            ->remember('products-' . $product->id, 600, function () use ($product) {
-                return new ProductResource($product);
-            });
+        return new ProductResource($product);
     }
 
     /**
@@ -84,8 +80,14 @@ class ProductController extends Controller
     {
         $validated = $request->validated();
         $product->update($validated);
+        $product->categories()->sync($validated['category_ids']);
 
-        $this->categoryService->attachModelToCategories($product, $validated['category_ids'], 'products');
+        $paths = $this->imageService->uploadImages($request, 'product-images', 'images');
+        if (count($paths) > 0) {
+            $product->productImages()->createMany($paths);
+        }
+
+        Cache::tags(['products-index'])->flush();
 
         return new ProductResource($product);
     }

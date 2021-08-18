@@ -24,12 +24,6 @@ class ProductRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (!$this->images) {
-            $this->merge([
-                'images' => [],
-            ]);
-        }
-
         $this->merge([
             'user_id' => $this->user()->id,
             'slug' => Str::slug($this->name),
@@ -51,7 +45,7 @@ class ProductRequest extends FormRequest
             'slug' => ['required', 'string'],
             'category_ids' => ['required', 'array'],
             'category_ids.*' => ['required', 'string'],
-            'images' => ['required', 'array'],
+            'images' => ['sometimes', 'array'],
             'images.*' => ['sometimes', 'image']
         ];
     }

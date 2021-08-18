@@ -7,6 +7,7 @@
       :options="dropzoneOptions"
       @vdropzone-file-added="fileAdded"
       @vdropzone-max-files-exceeded="fileExceeded"
+      @vdropzone-removed-file="fileRemoved"
     />
   </div>
 </template>
@@ -43,6 +44,14 @@ export default {
         return
       }
       this.images.push(file)
+      this.$emit('newImage', this.images)
+    },
+    fileRemoved(file) {
+      this.images.forEach((v, k) => {
+        if (v === file) {
+          this.images.splice(k, 1)
+        }
+      })
       this.$emit('newImage', this.images)
     },
     fileExceeded(file) {

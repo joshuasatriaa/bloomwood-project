@@ -1,9 +1,19 @@
 <template>
-  <div>dedit</div>
+  <div class="container">
+    <h1>Edit Product</h1>
+    <ProductsForm v-if="product.data" :is-update="true" :product="product" />
+  </div>
 </template>
 
 <script>
-export default {}
+import { useGetProduct } from '@/composables/useProduct'
+export default {
+  setup() {
+    const { product } = useGetProduct()
+
+    return { product }
+  },
+}
 </script>
 
 <style></style>

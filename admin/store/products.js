@@ -49,7 +49,10 @@ export const actions = {
     return res
   },
   async UPDATE_PRODUCT({ commit }, { id, payload }) {
-    const res = await this.$axios.$patch(`/api/products/${id}`, payload)
+    const res = await this.$axios.$post(
+      `/api/products/${id}?_method=PUT`,
+      payload
+    )
     commit('SET_PRODUCT', res)
     return res
   },

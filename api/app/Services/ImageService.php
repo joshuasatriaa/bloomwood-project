@@ -16,15 +16,18 @@ class ImageService implements ImageServiceContract
     {
         $result = [];
         $requestImages = $request->file($requestArrayField);
-        foreach ($requestImages as $index => $val) {
-            $originalImage = $requestImages[$index];
-            $originalPath = $this->saveOriginalImage($originalImage, $folderName);
-            $thumbPath = $this->saveThumbnailImage($originalImage, $folderName);
 
-            array_push($result, [
-                'original_image' => $originalPath,
-                'thumbnail_image' => $thumbPath
-            ]);
+        if ($requestImages) {
+            foreach ($requestImages as $index => $val) {
+                $originalImage = $requestImages[$index];
+                $originalPath = $this->saveOriginalImage($originalImage, $folderName);
+                $thumbPath = $this->saveThumbnailImage($originalImage, $folderName);
+
+                array_push($result, [
+                    'original_image' => $originalPath,
+                    'thumbnail_image' => $thumbPath
+                ]);
+            }
         }
 
         return $result;
