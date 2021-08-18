@@ -1,7 +1,7 @@
 <template>
   <div class="table-responsive">
     <table v-if="products.data" class="table table-striped table-hover">
-      <thead class="table-primary">
+      <thead class="">
         <tr>
           <th scope="col">#</th>
           <th scope="col">Image</th>

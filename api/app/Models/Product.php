@@ -24,6 +24,7 @@ class Product extends Model
 
     protected $with = [
         'user',
+        'user.role',
         'categories',
         'productImages'
     ];

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
@@ -27,8 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/unsuspend-user/{user}', [UserController::class, 'unSuspendUser']);
 
     Route::apiResource('products', ProductController::class)->except(['index', 'show']);
+    Route::apiResource('categories', CategoryController::class)->except(['index', 'show']);
 });
 
 Route::apiResource('products', ProductController::class)->only(['index', 'show']);
+Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
 
 Route::post('/auth/token', TokenController::class);

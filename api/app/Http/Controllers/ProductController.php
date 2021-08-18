@@ -31,7 +31,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Cache::remember('products-' . request('page', 1), 600, function () {
+        return Cache::tags(['products-index'])->remember('products-' . request('page', 1), 600, function () {
             return ProductResource::collection(Product::latest()->paginate(30));
         });
     }
@@ -51,6 +51,8 @@ class ProductController extends Controller
 
         $paths = $this->imageService->uploadImages($request, 'product-images', 'images');
         $product->productImages()->createMany($paths);
+
+        Cache::tags(['products-index'])->flush();
 
         return (new ProductResource($product))
             ->response()

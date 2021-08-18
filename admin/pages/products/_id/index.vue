@@ -1,13 +1,18 @@
 <template>
   <div class="container">
     <h1>Product Details</h1>
+    <NuxtLink
+      :to="`/products/${$route.params.id}/edit`"
+      class="btn btn-success text-white px-4"
+      >Edit</NuxtLink
+    >
     <div v-if="product.data">
       <div class="row mt-4">
         <div class="col bg-secondary shadow rounded-3">
           <ProductsCarousel />
         </div>
       </div>
-      <div class="row mt-4">
+      <div class="row mt-7">
         <h2 class="border-start border-4 border-primary">Product Name</h2>
         <p class="m-0 fw-bold">{{ product.data.name }}</p>
       </div>

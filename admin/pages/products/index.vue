@@ -1,6 +1,13 @@
 <template>
   <div class="container">
     <h1 class="mb-4">Product List</h1>
+    <div class="row">
+      <div class="col text-end">
+        <NuxtLink to="/products/create" class="btn btn-success text-white mb-4"
+          >Add New Product</NuxtLink
+        >
+      </div>
+    </div>
     <ProductsTable v-if="products" :products="products" />
     <div class="col-12 col-md-6 d-flex justify-content-end ms-auto">
       <BasePagination
@@ -14,6 +21,7 @@
 <script>
 import { useGetProducts } from '@/composables/useProduct'
 export default {
+  middleware: 'auth',
   setup() {
     const { products } = useGetProducts()
     return { products }

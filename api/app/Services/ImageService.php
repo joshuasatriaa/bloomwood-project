@@ -34,7 +34,7 @@ class ImageService implements ImageServiceContract
     {
         $newImage = Image::make($originalImage);
         $path = $this->generatePath($originalImage, $folderName);
-        $newImage->save(storage_path('app/public/' . $path)  . 'jpg', 85, 'jpg');
+        $newImage->save(storage_path('app/public/' . $path), 85, 'jpg');
 
         return $path;
     }
@@ -43,7 +43,7 @@ class ImageService implements ImageServiceContract
     {
         $newImage = Image::make($originalImage);
         $path = $this->generatePath($originalImage, $folderName, true);
-        $newImage->save(storage_path('app/public/' . $path)  . 'jpg', 85, 'jpg');
+        $newImage->save(storage_path('app/public/' . $path), 85, 'jpg');
 
         return $path;
     }

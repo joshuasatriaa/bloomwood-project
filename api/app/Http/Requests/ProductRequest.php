@@ -24,13 +24,14 @@ class ProductRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        // if (!$this->images) {
-        //     $this->merge([
-        //         'images' => [],
-        //     ]);
-        // }
+        if (!$this->images) {
+            $this->merge([
+                'images' => [],
+            ]);
+        }
 
         $this->merge([
+            'user_id' => $this->user()->id,
             'slug' => Str::slug($this->name),
         ]);
     }
@@ -44,13 +45,14 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id' => ['required'],
             'name' => ['required', 'string'],
             'description' => ['required', 'string'],
             'slug' => ['required', 'string'],
             'category_ids' => ['required', 'array'],
-            'category_ids.*' => ['required', 'numeric'],
+            'category_ids.*' => ['required', 'string'],
             'images' => ['required', 'array'],
-            'images.*' => ['required', 'image']
+            'images.*' => ['sometimes', 'image']
         ];
     }
 }
