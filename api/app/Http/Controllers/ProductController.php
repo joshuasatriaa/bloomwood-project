@@ -6,16 +6,19 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\CategoryService;
+use App\Services\Contracts\ImageServiceContract;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
     protected $categoryService;
+    protected $imageService;
 
-    public function __construct(CategoryService $categoryService)
+    public function __construct(CategoryService $categoryService, ImageServiceContract $imageService)
     {
         $this->categoryService = $categoryService;
+        $this->imageService = $imageService;
 
         $this->middleware(['role.check:superadmin,admin'])->only(['store', 'update', 'destroy']);
         // $this->middleware('check.pin')->only(['store', 'update', 'destroy']);
@@ -45,6 +48,9 @@ class ProductController extends Controller
         $product = Product::create($validated);
 
         $this->categoryService->attachModelToCategories($product, $validated['category_ids'], 'products');
+
+        $paths = $this->imageService->uploadImages($request, 'product-images', 'images');
+        $product->productImages()->createMany($paths);
 
         return (new ProductResource($product))
             ->response()

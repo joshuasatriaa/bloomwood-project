@@ -48,7 +48,9 @@ class ProductRequest extends FormRequest
             'description' => ['required', 'string'],
             'slug' => ['required', 'string'],
             'category_ids' => ['required', 'array'],
-            'category_ids.*' => ['required', 'numeric']
+            'category_ids.*' => ['required', 'numeric'],
+            'images' => ['required', 'array'],
+            'images.*' => ['required', 'image']
         ];
     }
 }

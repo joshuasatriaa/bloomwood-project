@@ -22,10 +22,10 @@ class ProductResource extends JsonResource
             'updated_at' => $this->updated_at,
             'user' => [
                 'id' => $this->user->id,
-                'name' =>  $this->user->name,
+                'name' => $this->user->name
             ],
             'categories' => CategoryResource::collection($this->categories),
-            'images' => ProductResource::collection($this->productImages)
+            'images' => ProductImageResource::collection($this->productImages)
         ];
     }
 }

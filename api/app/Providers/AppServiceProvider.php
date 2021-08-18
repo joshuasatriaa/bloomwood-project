@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Contracts\ImageServiceContract;
+use App\Services\ImageService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+
+        $this->app->bind(
+            ImageServiceContract::class,
+            ImageService::class
+        );
     }
 
     /**
