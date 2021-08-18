@@ -21,7 +21,9 @@
           <td>{{ product.name }}</td>
           <td>{{ product.user.name }}</td>
           <td class="text-end">
-            <button class="btn btn-primary">Details</button>
+            <NuxtLink :to="`/products/${product.id}`" class="btn btn-primary"
+              >Details</NuxtLink
+            >
           </td>
         </tr>
         <tr v-if="!products.data.length">
