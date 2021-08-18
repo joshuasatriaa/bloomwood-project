@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class MeController extends Controller
 {
@@ -15,6 +16,8 @@ class MeController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return new UserResource($request->user());
+        return Cache::remember('user-' . $request->user()->id, 600, function () use ($request) {
+            return new UserResource($request->user());
+        });
     }
 }

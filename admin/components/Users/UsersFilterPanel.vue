@@ -92,7 +92,7 @@ export default {
       for (const role in this.form.roles) {
         this.form.roles[role] = true
       }
-      this.search = ''
+      this.form.search = ''
     },
   },
 }
