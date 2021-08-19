@@ -51,7 +51,7 @@ const useProductForm = () => {
     }
 
     app.$successHandler('Product data updated.')
-    router.push('/products')
+    router.push('/products/' + route.value.params.id)
   }
 
   const deleteProductImage = async (id, index) => {

@@ -8,6 +8,7 @@
         >Bloomwood</NuxtLink
       >
       <button
+        id="navbarToggleBtn"
         class="navbar-toggler border-0"
         type="button"
         data-bs-toggle="collapse"
@@ -66,6 +67,14 @@
 <script>
 export default {
   name: 'TheNavbar',
+  watch: {
+    '$route.path'() {
+      const el = document.getElementById('mainNavbar')
+      if (el.classList.contains('show')) {
+        document.getElementById('navbarToggleBtn').click()
+      }
+    },
+  },
   methods: {
     async logMeOut() {
       const [_, error] = await this.$async(this.$auth.logout())
