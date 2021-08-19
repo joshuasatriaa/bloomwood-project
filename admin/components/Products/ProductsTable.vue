@@ -39,7 +39,7 @@
           </td>
         </tr>
         <tr v-if="!products.data.length">
-          <td colspan="4" class="text-center">
+          <td colspan="5" class="text-center">
             <span class="text-danger fw-bold">Data not found.</span>
           </td>
         </tr>

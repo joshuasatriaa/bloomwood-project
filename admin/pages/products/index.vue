@@ -8,6 +8,7 @@
         >
       </div>
     </div>
+    <BaseSearch :callback="getProducts" />
     <ProductsTable v-if="products" :products="products" />
     <div class="col-12 col-md-6 d-flex justify-content-end ms-auto">
       <BasePagination
@@ -23,8 +24,8 @@ import { useGetProducts } from '@/composables/useProduct'
 export default {
   middleware: 'auth',
   setup() {
-    const { products } = useGetProducts()
-    return { products }
+    const { products, getProducts } = useGetProducts()
+    return { products, getProducts }
   },
 }
 </script>

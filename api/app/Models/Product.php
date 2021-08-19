@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\FilterTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
@@ -10,6 +11,7 @@ class Product extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use FilterTrait;
 
     protected $dates = ['deleted_at'];
 

@@ -39,7 +39,9 @@ const useGetProducts = () => {
   const store = useStore()
   const route = useRoute()
 
-  const getProducts = async () => {
+  const getProducts = async (search = '') => {
+    const qs = app.$qsHandler('search', search)
+    store.commit('products/SET_QUERY', qs)
     const [_, err] = await app.$async(
       store.dispatch('products/GET_PRODUCTS', {})
     )
