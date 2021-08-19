@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class ProductImageController extends Controller
@@ -25,6 +26,8 @@ class ProductImageController extends Controller
         Storage::disk('public')->delete($productImage->original_image);
         Storage::disk('public')->delete($productImage->thumbnail_image);
         $productImage->delete();
+
+        Cache::tags(['products-index'])->flush();
 
         return response()->json([], 204);
     }

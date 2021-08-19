@@ -105,6 +105,8 @@ class ProductController extends Controller
 
         $product->delete();
 
+        Cache::tags(['products-index'])->flush();
+
         return response()->json([], 204);
     }
 
