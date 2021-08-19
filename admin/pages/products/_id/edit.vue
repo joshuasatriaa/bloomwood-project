@@ -8,6 +8,7 @@
 <script>
 import { useGetProduct } from '@/composables/useProduct'
 export default {
+  middleware: 'auth',
   setup() {
     const { product } = useGetProduct()
 
