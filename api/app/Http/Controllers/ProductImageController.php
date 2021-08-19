@@ -23,8 +23,7 @@ class ProductImageController extends Controller
      */
     public function destroy(ProductImage $productImage)
     {
-        Storage::disk('public')->delete($productImage->original_image);
-        Storage::disk('public')->delete($productImage->thumbnail_image);
+        $productImage->deleteFromStorage();
         $productImage->delete();
 
         Cache::tags(['products-index'])->flush();

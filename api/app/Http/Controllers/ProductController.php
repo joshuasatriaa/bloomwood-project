@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Services\CategoryService;
 use App\Services\Contracts\ImageServiceContract;
 use Illuminate\Http\Request;
@@ -114,10 +115,11 @@ class ProductController extends Controller
     {
         $images = $product->productImages()->get();
 
+        /**
+         * @var ProductImage $image
+         */
         foreach ($images as $image) {
-            Storage::disk('public')->delete($image->original_image);
-            Storage::disk('public')->delete($image->thumbnail_image);
-
+            $image->deleteFromStorage();
             $image->delete();
         }
     }

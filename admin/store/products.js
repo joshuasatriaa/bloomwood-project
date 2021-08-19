@@ -56,4 +56,8 @@ export const actions = {
     commit('SET_PRODUCT', res)
     return res
   },
+  async DELETE_PRODUCT({ commit }, id) {
+    const res = await this.$axios.$delete(`/api/products/${id}`)
+    return res
+  },
 }

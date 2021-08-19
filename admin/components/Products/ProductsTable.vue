@@ -4,7 +4,7 @@
       <thead class="">
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Image</th>
+          <th scope="col"></th>
           <th scope="col">Name</th>
           <th scope="col">By</th>
           <th scope="col" class="text-end">Action</th>
@@ -24,12 +24,18 @@
             />
             <p v-else class="text-danger">no image</p>
           </td>
-          <td>{{ product.name }}</td>
+          <td class="text-nowrap">{{ product.name }}</td>
           <td>{{ product.user.name }}</td>
-          <td class="text-end">
+          <td class="text-end text-nowrap">
             <NuxtLink :to="`/products/${product.id}`" class="btn btn-primary"
               >Details</NuxtLink
             >
+            <button
+              class="btn btn-danger"
+              @click="deleteConfirmation(product.id)"
+            >
+              Delete
+            </button>
           </td>
         </tr>
         <tr v-if="!products.data.length">
@@ -43,6 +49,8 @@
 </template>
 
 <script>
+import { useProductForm } from '@/composables/useProductForm'
+
 export default {
   name: 'ProductsTable',
   props: {
@@ -50,6 +58,18 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    const { deleteProduct } = useProductForm()
+
+    const deleteConfirmation = (id) => {
+      const conf = confirm('Are you sure you want to delete this product?')
+      if (conf) {
+        deleteProduct(id)
+      }
+    }
+
+    return { deleteConfirmation }
   },
 }
 </script>

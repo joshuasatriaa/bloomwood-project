@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
 use Jenssegers\Mongodb\Eloquent\Model;
 
 class ProductImage extends Model
@@ -20,5 +21,11 @@ class ProductImage extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function deleteFromStorage(): void
+    {
+        Storage::disk('public')->delete($this->original_image);
+        Storage::disk('public')->delete($this->thumbnail_image);
     }
 }

@@ -67,12 +67,26 @@ const useProductForm = () => {
     previewImages.splice(index, 1)
   }
 
+  const deleteProduct = async (id) => {
+    const [_, err] = await app.$async(
+      store.dispatch('products/DELETE_PRODUCT', id)
+    )
+    if (err) {
+      app.$errorHandler(err)
+      return
+    }
+
+    app.$successHandler('Product deleted.')
+    store.dispatch('products/GET_PRODUCTS', {})
+  }
+
   return {
     form,
     previewImages,
     createProduct,
     updateProduct,
     deleteProductImage,
+    deleteProduct,
   }
 }
 
