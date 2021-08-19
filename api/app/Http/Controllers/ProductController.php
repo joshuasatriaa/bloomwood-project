@@ -9,6 +9,7 @@ use App\Services\CategoryService;
 use App\Services\Contracts\ImageServiceContract;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -100,8 +101,22 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        $this->deleteProductImages($product);
+
         $product->delete();
 
         return response()->json([], 204);
+    }
+
+    private function deleteProductImages(Product $product)
+    {
+        $images = $product->productImages()->get();
+
+        foreach ($images as $image) {
+            Storage::disk('public')->delete($image->original_image);
+            Storage::disk('public')->delete($image->thumbnail_image);
+
+            $image->delete();
+        }
     }
 }

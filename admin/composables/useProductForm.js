@@ -21,6 +21,7 @@ const useProductForm = () => {
     category_ids: [],
     images: [],
   })
+  const previewImages = reactive([])
 
   const createProduct = async () => {
     const payload = app.$jsonToFormData(form)
@@ -53,7 +54,26 @@ const useProductForm = () => {
     router.push('/products')
   }
 
-  return { form, createProduct, updateProduct }
+  const deleteProductImage = async (id, index) => {
+    const [_, err] = await app.$async(
+      store.dispatch('productImages/DELETE_PRODUCT_IMAGE', id)
+    )
+    if (err) {
+      app.$errorHandler(err)
+      return
+    }
+
+    app.$successHandler('Product image deleted.')
+    previewImages.splice(index, 1)
+  }
+
+  return {
+    form,
+    previewImages,
+    createProduct,
+    updateProduct,
+    deleteProductImage,
+  }
 }
 
 export { useProductForm }

@@ -51,7 +51,7 @@
                   class="table table-hover"
                 >
                   <tbody>
-                    <tr v-for="image in previewImages" :key="image.id">
+                    <tr v-for="(image, index) in previewImages" :key="image.id">
                       <td scope="row">
                         <img
                           :src="image.thumbnail_image"
@@ -59,11 +59,20 @@
                           class="mx-3"
                         />
                       </td>
-                      <td><button class="btn btn-danger">Delete</button></td>
+                      <td>
+                        <button
+                          class="btn btn-danger"
+                          @click="deleteProductImage(image.id, index)"
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
-                <h3 class="text-danger fw-bold text-center">No image found</h3>
+                <h3 v-else class="text-danger fw-bold text-center">
+                  No image found
+                </h3>
               </div>
 
               <BaseDropzone
@@ -104,9 +113,14 @@ export default {
     },
   },
   setup(props) {
-    const { form, createProduct, updateProduct } = useProductForm()
+    const {
+      form,
+      previewImages,
+      createProduct,
+      updateProduct,
+      deleteProductImage,
+    } = useProductForm()
     const { categories } = useGetCategories()
-    const previewImages = []
 
     const initData = (data) => {
       form.name = data.name
@@ -121,7 +135,14 @@ export default {
       initData(props.product.data)
     }
 
-    return { form, categories, createProduct, previewImages, updateProduct }
+    return {
+      form,
+      previewImages,
+      categories,
+      createProduct,
+      updateProduct,
+      deleteProductImage,
+    }
   },
 }
 </script>
