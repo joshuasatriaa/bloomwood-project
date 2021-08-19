@@ -36,16 +36,16 @@
           >
         </div>
         <BaseSelect
-          v-model="form.role_uuid"
+          v-model="form.role_id"
           label="Choose Role"
           form-for="formRole"
           :options="roleOptions"
         />
 
-        <div class="mt-4">
+        <!-- <div class="mt-4">
           <ThePinModal />
           <p v-if="!hasPin" class="text-danger mb-0 mt-2">Please enter PIN.</p>
-        </div>
+        </div> -->
 
         <button
           type="button"
@@ -77,21 +77,21 @@ export default {
         name: '',
         email: '',
         password: '',
-        pin: null,
-        role_uuid: '',
+        // pin: '',
+        role_id: '',
       },
       roleOptions: [],
     }
   },
   computed: {
     ...mapGetters({
-      PIN: 'pinModal/PIN',
+      // PIN: 'pinModal/PIN',
       ROLES: 'roles/ROLES',
       USER: 'users/USER',
     }),
-    hasPin() {
-      return this.PIN.length === 6
-    },
+    // hasPin() {
+    //   return this.form.pin.length === 6
+    // },
     isDisable() {
       for (const prop in this.form) {
         if (!this.form[prop]) {
@@ -105,9 +105,9 @@ export default {
     },
   },
   watch: {
-    PIN() {
-      this.form.pin = this.PIN
-    },
+    // PIN() {
+    //   this.form.pin = this.PIN
+    // },
   },
   mounted() {
     this.initRoleOptions()
@@ -127,8 +127,8 @@ export default {
       if (!error) {
         this.ROLES.data.forEach((x) => {
           this.roleOptions.push({
-            id: x.uuid,
-            value: x.uuid,
+            id: x.id,
+            value: x.id,
             label: x.name,
           })
         })
@@ -144,7 +144,7 @@ export default {
       const currentUser = this.USER.data
       this.form.name = currentUser.name
       this.form.email = currentUser.email
-      this.form.role_uuid = currentUser.role.uuid
+      this.form.role_id = currentUser.role.id
 
       this.$successHandler()
     },
