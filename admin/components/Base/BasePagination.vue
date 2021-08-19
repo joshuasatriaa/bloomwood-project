@@ -78,6 +78,8 @@ export default {
       const payload = {
         page: this.selectedPage,
       }
+
+      this.$scrollTo('#the-navbar')
       const [_, error] = await this.$async(
         this.$store.dispatch(`${this.action}`, payload)
       )

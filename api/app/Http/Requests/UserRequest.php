@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
             'password' => ['string'],
-            'role_uuid' => ['required', 'string', 'exists:roles,uuid']
+            'role_id' => ['required', 'string', 'exists:roles,_id']
         ];
 
         if (request()->isMethod('POST')) {

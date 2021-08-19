@@ -24,6 +24,10 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
+      {
+        name: 'robots',
+        content: 'noindex',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
@@ -36,7 +40,12 @@ export default {
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/bootstrap.js', '@/plugins/global.js'],
+  plugins: [
+    '@/plugins/bootstrap.js',
+    '@/plugins/global.js',
+    { src: '@/plugins/treeSelect.js', mode: 'client' },
+    { src: '@/plugins/dropzone.js', mode: 'client' },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -45,6 +54,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
+    '@nuxtjs/composition-api/module',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -53,6 +63,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/style-resources',
     '@nuxtjs/auth-next',
+    'vue-scrollto/nuxt',
     [
       'vue-toastification/nuxt',
       {

@@ -11,7 +11,7 @@ class Role extends Model
     // use UuidTrait;
     use HasFactory;
 
-    protected $table = 'roles';
+    protected $collection = 'roles';
     protected $fillable = [
         'name',
         'slug'

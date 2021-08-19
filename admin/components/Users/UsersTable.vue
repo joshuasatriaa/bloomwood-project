@@ -6,7 +6,7 @@
           <th scope="col">Name</th>
           <th scope="col">Email</th>
           <th scope="col">Role</th>
-          <th scope="col">PIN</th>
+          <!-- <th scope="col">PIN</th> -->
           <th scope="col">Suspended</th>
           <th scope="col" class="text-end">Action</th>
         </tr>
@@ -16,9 +16,9 @@
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.role.name }}</td>
-          <td>
+          <!-- <td>
             <UsersBadge :boolean="user.has_pin" />
-          </td>
+          </td> -->
           <td>
             <UsersBadge
               :boolean="user.is_suspended"

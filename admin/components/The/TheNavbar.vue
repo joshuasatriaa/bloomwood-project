@@ -1,5 +1,8 @@
 <template>
-  <nav class="navbar navbar-expand-xl navbar-light bg-light shadow mb-5 py-3">
+  <nav
+    id="the-navbar"
+    class="navbar navbar-expand-xl navbar-light bg-light shadow mb-5 py-3"
+  >
     <div class="container-fluid">
       <NuxtLink to="/" class="navbar-brand fw-bold text-primary"
         >Bloomwood</NuxtLink
@@ -22,6 +25,9 @@
           </li>
           <li class="nav-item">
             <NuxtLink to="/users" class="nav-link">Users</NuxtLink>
+          </li>
+          <li class="nav-item">
+            <NuxtLink to="/products" class="nav-link">Products</NuxtLink>
           </li>
           <li class="nav-item dropdown me-5">
             <a

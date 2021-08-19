@@ -27,15 +27,19 @@ export default (context, inject) => {
     )
   }
 
-  const errorHandler = (
-    message = 'Something went wrong. Please try again later.',
-    opt = {}
-  ) => {
-    context.app.$toast.error(message, opt)
+  const errorHandler = (errorData, message = '') => {
+    const mess =
+      message ||
+      `${errorData.response.status}, ${errorData.response.data.message}`
+
+    context.app.$toast.error(mess)
   }
 
   const successHandler = (message = 'Data fetched.') => {
-    context.app.$toast.success(message)
+    context.app.$toast.success(message, {
+      position: POSITION.TOP_CENTER,
+      timeout: 1500,
+    })
   }
 
   const qsHandler = (input, params) => {
@@ -65,9 +69,9 @@ export default (context, inject) => {
       if (json[key]) {
         if (Array.isArray(value)) {
           json[key].forEach((x, index) => {
-            for (const [k, v] of Object.entries(x)) {
-              formData.append(`${key}[${index}][${k}]`, v)
-            }
+            // for (const [k, v] of Object.entries(x)) {
+            formData.append(`${key}[${index}]`, x)
+            // }
           })
         } else {
           formData.append(`${key}`, value)

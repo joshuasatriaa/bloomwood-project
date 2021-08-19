@@ -34,10 +34,10 @@
             <tr v-for="(field, index) in fields" :key="index">
               <th scope="row" class="py-2">{{ field.label }}</th>
               <th scope="row" class="py-2 text-primary fw-normal">
-                <span v-if="field.label === 'PIN'"
+                <!-- <span v-if="field.label === 'PIN'"
                   ><UsersBadge :boolean="field.value"
-                /></span>
-                <span v-else-if="field.label === 'Suspended'">
+                /></span> -->
+                <span v-if="field.label === 'Suspended'">
                   <UsersBadge
                     :boolean="field.value"
                     true-label="True"
@@ -80,10 +80,10 @@ export default {
           label: 'Role',
           value: '',
         },
-        pin: {
-          label: 'PIN',
-          value: false,
-        },
+        // pin: {
+        //   label: 'PIN',
+        //   value: false,
+        // },
         suspended: {
           label: 'Suspended',
           value: false,
@@ -122,7 +122,7 @@ export default {
       this.fields.name.value = this.USER.name
       this.fields.email.value = this.USER.email
       this.fields.role.value = this.USER.role.name
-      this.fields.pin.value = this.USER.has_pin
+      // this.fields.pin.value = this.USER.has_pin
       this.fields.suspended.value = this.USER.is_suspended
     },
   },

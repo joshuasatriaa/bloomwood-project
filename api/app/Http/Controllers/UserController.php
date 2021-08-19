@@ -17,7 +17,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware(['role.check:superadmin']);
-        $this->middleware('check.pin')->only(['store', 'update', 'destroy']);
+        // $this->middleware('check.pin')->only(['store', 'update', 'destroy']);
     }
 
     /**
@@ -46,7 +46,6 @@ class UserController extends Controller
         $this->authorize('create', Auth::user());
 
         $validated = $request->validated();
-        $validated['role_id'] = $this->getRoleId($validated['role_uuid']);
         $user = User::create($validated);
 
         return (new UserResource($user))
@@ -76,7 +75,6 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         $validated = $request->validated();
-        $validated['role_id'] = $this->getRoleId($validated['role_uuid']);
         $user->update($validated);
 
         return new UserResource($user);
@@ -113,8 +111,8 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    private function getRoleId($uuid)
+    private function getRoleId($id)
     {
-        return Role::where('uuid', $uuid)->first()->id;
+        return Role::where('_id', $id)->first()->id;
     }
 }
