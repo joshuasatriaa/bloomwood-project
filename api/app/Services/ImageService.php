@@ -8,6 +8,23 @@ use Intervention\Image\Facades\Image;
 
 class ImageService implements ImageServiceContract
 {
+
+    public function uploadThumbnails(Request $request, string $folderName, string $requestArrayField, string $field)
+    {
+        $result = [];
+        $requestImages = $request->file($requestArrayField);
+
+        if ($requestImages) {
+            foreach ($requestImages as $index => $val) {
+                $thumbPath = $this->saveThumbnailImage($requestImages[$index][$field], $folderName);
+
+                array_push($result, $thumbPath);
+            }
+        }
+
+        return $result;
+    }
+
     /**
      * Upload multiple images to specified folder
      * 
@@ -46,6 +63,9 @@ class ImageService implements ImageServiceContract
     {
         $newImage = Image::make($originalImage);
         $path = $this->generatePath($originalImage, $folderName, true);
+        $newImage->resize(null, 200, function ($constraint) {
+            $constraint->aspectRatio();
+        });
         $newImage->save(storage_path('app/public/' . $path), 85, 'jpg');
 
         return $path;

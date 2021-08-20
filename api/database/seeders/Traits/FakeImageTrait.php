@@ -9,6 +9,20 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 trait FakeImageTrait
 {
+    public function saveVariantImage(string $image, string $folderName)
+    {
+        $filename = $this->generateFileName($image);
+        $thumbnailPath = $folderName . "/{$filename}_thumbnail.jpg";
+
+        $image = Image::make(storage_path('app/seeder-images/' . $image));
+        $image->resize(null, 200, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $image->save(storage_path("app/public/" . $thumbnailPath), 85, 'jpg');
+
+        return $thumbnailPath;
+    }
+
     public function saveImages(Collection $randomImages, Model $model, string $relationName, string $folderName, $isPublic = true)
     {
         $public = $isPublic ? 'public' : 'private';

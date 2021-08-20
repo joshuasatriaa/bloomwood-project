@@ -24,6 +24,17 @@ class ProductRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
+        if ($this->variants['0']['thumbnail_image'] === 'null') {
+            $this->merge([
+                'variants' => [
+                    [
+                        'name' => null,
+                        'thumbnail_image' => null
+                    ]
+                ]
+            ]);
+        }
+
         $this->merge([
             'user_id' => $this->user()->id,
             'slug' => Str::slug($this->name),
@@ -46,7 +57,10 @@ class ProductRequest extends FormRequest
             'category_ids' => ['required', 'array'],
             'category_ids.*' => ['required', 'string'],
             'images' => ['sometimes', 'array'],
-            'images.*' => ['sometimes', 'image']
+            'images.*' => ['sometimes', 'image'],
+            'variants' => ['sometimes', 'nullable', 'array'],
+            'variants.*.name' => ['sometimes', 'nullable', 'string'],
+            'variants.*.thumbnail_image' => ['sometimes', 'nullable', 'image']
         ];
     }
 }

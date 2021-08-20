@@ -9,8 +9,10 @@
               ><span v-else>Update</span> Form</span
             >
           </h5>
+
           <div class="row mt-5">
             <div class="col-10 mx-auto">
+              <h3 class="mb-3 text-uppercase fw-bold">Main Info</h3>
               <BaseInput
                 v-model="form.name"
                 type="text"
@@ -79,6 +81,86 @@
                 label="Images"
                 @newImage="(images) => (form.images = images)"
               />
+
+              <!-- VARIANTS -->
+              <hr class="text-primary border border-4" />
+
+              <div>
+                <h3 class="mb-3 mt-5 text-uppercase fw-bold">Variants</h3>
+                <!-- VARIANTS PREVIEW -->
+                <div v-if="isUpdate" class="mb-3">
+                  <label for="previewVariants" class="form-label"
+                    >Current Available Variants</label
+                  >
+                  <table
+                    v-if="previewVariants.length > 0"
+                    class="table table-hover"
+                  >
+                    <tbody>
+                      <tr
+                        v-for="(variant, index) in previewVariants"
+                        :key="variant.id"
+                      >
+                        <td scope="row">
+                          <img
+                            :src="variant.thumbnail_image"
+                            width="100"
+                            class="mx-3"
+                          />
+                        </td>
+                        <td scope="row">
+                          {{ variant.name }}
+                        </td>
+                        <td class="text-end">
+                          <button
+                            class="btn btn-danger"
+                            @click="deleteProductVariant(variant.id, index)"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <h3 v-else class="text-danger fw-bold text-center">
+                    No variant found
+                  </h3>
+                </div>
+                <!-- PREVIEW END -->
+                <div class="col text-end">
+                  <button class="btn btn-primary mb-3" @click="moreVariant">
+                    Add More Variant
+                  </button>
+                </div>
+                <template>
+                  <div v-for="(variant, index) in form.variants" :key="index">
+                    <div class="col text-start">
+                      <button
+                        v-if="index !== 0"
+                        class="btn btn-sm btn-danger mb-3"
+                        @click="deleteVariant(index)"
+                      >
+                        Remove Variant Below
+                      </button>
+                    </div>
+                    <BaseInput
+                      v-model="variant.name"
+                      type="text"
+                      placeholder="Variant of the product"
+                      form-for="formVariant"
+                      :label="`Variant ${index + 1} Name`"
+                      required
+                    />
+                    <BaseDropzone
+                      :label="`Variant ${index + 1} Image`"
+                      :max-images="1"
+                      @newImage="
+                        (image) => (variant.thumbnail_image = image[0])
+                      "
+                    />
+                  </div>
+                </template>
+              </div>
             </div>
           </div>
           <div class="row mt-3">
@@ -119,6 +201,10 @@ export default {
       createProduct,
       updateProduct,
       deleteProductImage,
+      moreVariant,
+      deleteVariant,
+      previewVariants,
+      deleteProductVariant,
     } = useProductForm()
     const { categories } = useGetCategories()
 
@@ -128,6 +214,9 @@ export default {
       form.category_ids = data.categories.map((x) => x.id)
       data.images.forEach((x) => {
         previewImages.push(x)
+      })
+      data.variants.forEach((x) => {
+        previewVariants.push(x)
       })
     }
 
@@ -142,6 +231,10 @@ export default {
       createProduct,
       updateProduct,
       deleteProductImage,
+      moreVariant,
+      deleteVariant,
+      previewVariants,
+      deleteProductVariant,
     }
   },
 }

@@ -40,6 +40,18 @@ class FakeProductSeeder extends Seeder
             'flower-3.jfif',
         ]);
 
+        $variantImages = collect([
+            'variant-1.jpg',
+            'variant-2.jpg',
+            'variant-3.jpg',
+        ]);
+
+        $variants = collect([
+            'blue',
+            'red',
+            'green'
+        ]);
+
         $users = User::whereHas('role', function ($query) {
             $query->whereIn('slug', [config('constants.superadmin.slug'), config('constants.admin.slug')]);
         })->get();
@@ -53,6 +65,16 @@ class FakeProductSeeder extends Seeder
             $p =  \App\Models\Product::factory([
                 'user_id' => $users->random(1)->first()->id
             ])->create();
+
+            for ($x = 0; $x < random_int(1, 2); $x++) {
+                $data =
+                    [
+                        'name' => $variants->random(1)->first(),
+                        'thumbnail_image' => $this->saveVariantImage($variantImages->random(1)->first(), $this->IMAGE_FOLDER)
+                    ];
+
+                $p->productVariants()->create($data);
+            }
 
             $this->saveImages($randomImages, $p, 'productImages', $this->IMAGE_FOLDER);
 

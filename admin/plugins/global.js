@@ -69,9 +69,13 @@ export default (context, inject) => {
       if (json[key]) {
         if (Array.isArray(value)) {
           json[key].forEach((x, index) => {
-            // for (const [k, v] of Object.entries(x)) {
-            formData.append(`${key}[${index}]`, x)
-            // }
+            if (typeof x === 'object' && key !== 'images') {
+              for (const [k, v] of Object.entries(x)) {
+                formData.append(`${key}[${index}][${k}]`, v)
+              }
+            } else {
+              formData.append(`${key}[${index}]`, x)
+            }
           })
         } else {
           formData.append(`${key}`, value)
