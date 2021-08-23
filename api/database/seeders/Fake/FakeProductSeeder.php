@@ -40,12 +40,6 @@ class FakeProductSeeder extends Seeder
             'flower-3.jfif',
         ]);
 
-        $variantImages = collect([
-            'variant-1.jpg',
-            'variant-2.jpg',
-            'variant-3.jpg',
-        ]);
-
         $addOns = collect([
             [
                 'name' => 'Box',
@@ -65,10 +59,20 @@ class FakeProductSeeder extends Seeder
             ],
         ]);
 
+
         $variants = collect([
-            'blue',
-            'red',
-            'green'
+            [
+                'name' => 'Red',
+                'image' =>  'variant-1.jpg',
+            ],
+            [
+                'name' => 'Yellow',
+                'image' =>  'variant-2.jpg',
+            ],
+            [
+                'name' => 'Blue',
+                'image' =>   'variant-3.jpg',
+            ],
         ]);
 
         $users = User::whereHas('role', function ($query) {
@@ -86,11 +90,12 @@ class FakeProductSeeder extends Seeder
             ])->create();
 
             for ($x = 0; $x < random_int(1, 2); $x++) {
+                $randomVar =  $variants->random(1)->first();
                 $data =
                     [
-                        'name' => $variants->random(1)->first(),
+                        'name' => $randomVar['name'],
                         'price' => 50000,
-                        'thumbnail_image' => $this->saveThumbImages($variantImages->random(1)->first(), $this->IMAGE_FOLDER)
+                        'thumbnail_image' => $this->saveThumbImages($randomVar['image'], $this->IMAGE_FOLDER)
                     ];
 
                 $p->productVariants()->create($data);

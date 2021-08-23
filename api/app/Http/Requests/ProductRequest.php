@@ -35,6 +35,17 @@ class ProductRequest extends FormRequest
             ]);
         }
 
+        if ($this->add_ons['0']['thumbnail_image'] === 'null') {
+            $this->merge([
+                'add_ons' => [
+                    [
+                        'name' => null,
+                        'thumbnail_image' => null
+                    ]
+                ]
+            ]);
+        }
+
         $this->merge([
             'user_id' => $this->user()->id,
             'slug' => Str::slug($this->name),
@@ -54,13 +65,19 @@ class ProductRequest extends FormRequest
             'name' => ['required', 'string'],
             'description' => ['required', 'string'],
             'slug' => ['required', 'string'],
+            'price' => ['required', 'numeric'],
             'category_ids' => ['required', 'array'],
             'category_ids.*' => ['required', 'string'],
             'images' => ['sometimes', 'array'],
             'images.*' => ['sometimes', 'image'],
             'variants' => ['sometimes', 'nullable', 'array'],
             'variants.*.name' => ['sometimes', 'nullable', 'string'],
-            'variants.*.thumbnail_image' => ['sometimes', 'nullable', 'image']
+            'variants.*.price' => ['sometimes', 'nullable', 'numeric'],
+            'variants.*.thumbnail_image' => ['sometimes', 'nullable', 'image'],
+            'add_ons' => ['sometimes', 'nullable', 'array'],
+            'add_ons.*.name' => ['sometimes', 'nullable', 'string'],
+            'add_ons.*.price' => ['sometimes', 'nullable', 'numeric'],
+            'add_ons.*.thumbnail_image' => ['sometimes', 'nullable', 'image']
         ];
     }
 }

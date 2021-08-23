@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MeController;
+use App\Http\Controllers\ProductAddOnController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductVariantController;
@@ -33,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('categories', CategoryController::class)->except(['index', 'show']);
     Route::apiResource('product-images', ProductImageController::class)->only(['destroy']);
     Route::apiResource('product-variants', ProductVariantController::class)->only(['destroy']);
+    Route::apiResource('product-add-ons', ProductAddOnController::class)->only(['destroy']);
 });
 
 Route::apiResource('products', ProductController::class)->only(['index', 'show']);

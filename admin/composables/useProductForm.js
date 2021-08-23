@@ -18,17 +18,27 @@ const useProductForm = () => {
   const form = reactive({
     name: '',
     description: '',
+    price: '0',
     category_ids: [],
     images: [],
     variants: [
       {
         name: '',
+        price: '0',
+        thumbnail_image: null,
+      },
+    ],
+    add_ons: [
+      {
+        name: '',
+        price: '0',
         thumbnail_image: null,
       },
     ],
   })
   const previewImages = reactive([])
   const previewVariants = reactive([])
+  const previewAddOns = reactive([])
 
   const createProduct = async () => {
     const payload = app.$jsonToFormData(form)
@@ -90,6 +100,7 @@ const useProductForm = () => {
   const moreVariant = () => {
     form.variants.push({
       name: '',
+      price: '0',
       thumbnail_image: null,
     })
   }
@@ -111,6 +122,33 @@ const useProductForm = () => {
     previewVariants.splice(index, 1)
   }
 
+  // ADD ONS
+
+  const moreAddOn = () => {
+    form.add_ons.push({
+      name: '',
+      price: '0',
+      thumbnail_image: null,
+    })
+  }
+
+  const deleteAddOn = (idx) => {
+    form.add_ons.splice(idx, 1)
+  }
+
+  const deleteProductAddOn = async (id, index) => {
+    const [_, err] = await app.$async(
+      store.dispatch('productAddOns/DELETE_PRODUCT_ADD_ON', id)
+    )
+    if (err) {
+      app.$errorHandler(err)
+      return
+    }
+
+    app.$successHandler('Product add on deleted.')
+    previewAddOns.splice(index, 1)
+  }
+
   return {
     form,
     previewImages,
@@ -122,6 +160,10 @@ const useProductForm = () => {
     deleteVariant,
     previewVariants,
     deleteProductVariant,
+    previewAddOns,
+    moreAddOn,
+    deleteAddOn,
+    deleteProductAddOn,
   }
 }
 

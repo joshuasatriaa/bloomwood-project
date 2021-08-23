@@ -59,10 +59,12 @@ class ProductController extends Controller
 
         $paths = $this->imageService->uploadImages($request, 'product-images', 'images');
         $validated = $this->saveVariants($request, $validated);
+        $validated = $this->saveAddOns($request, $validated);
 
         $product = Product::create($validated);
         $product->productImages()->createMany($paths);
         $product->productVariants()->createMany($validated['variants']);
+        $product->productVariants()->createMany($validated['add_ons']);
         $product->categories()->sync($validated['category_ids']);
 
         Cache::tags(['products-index'])->flush();
@@ -106,6 +108,11 @@ class ProductController extends Controller
             $product->productVariants()->createMany($validated['variants']);
         }
 
+        if ($validated['add_ons'][0]['name']) {
+            $validated = $this->saveAddOns($request, $validated);
+            $product->productAddOns()->createMany($validated['add_ons']);
+        }
+
         Cache::tags(['products-index'])->flush();
 
         return new ProductResource($product);
@@ -146,6 +153,16 @@ class ProductController extends Controller
         $thumbnails = $this->imageService->uploadThumbnails($request, 'product-images', 'variants', 'thumbnail_image');
         foreach ($thumbnails as $index => $thumb) {
             $validated['variants'][$index]['thumbnail_image'] = $thumb;
+        }
+
+        return $validated;
+    }
+
+    private function saveAddOns(Request $request, array $validated)
+    {
+        $thumbnails = $this->imageService->uploadThumbnails($request, 'product-images', 'add_ons', 'thumbnail_image');
+        foreach ($thumbnails as $index => $thumb) {
+            $validated['add_ons'][$index]['thumbnail_image'] = $thumb;
         }
 
         return $validated;
