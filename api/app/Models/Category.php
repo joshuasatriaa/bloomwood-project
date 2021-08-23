@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\FilterTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 use Jenssegers\Mongodb\Eloquent\Model;
@@ -9,6 +10,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
+    use FilterTrait;
 
     protected $collection = "categories";
 

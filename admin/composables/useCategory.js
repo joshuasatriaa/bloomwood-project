@@ -20,7 +20,7 @@ const useGetCategory = () => {
       return
     }
 
-    app.$successHandler('Category data fetched.')
+    app.$successHandler('Product data fetched.')
   }
 
   onMounted(async () => {
@@ -39,7 +39,9 @@ const useGetCategories = () => {
   const store = useStore()
   const route = useRoute()
 
-  const getCategories = async () => {
+  const getCategories = async (search = '') => {
+    const qs = app.$qsHandler('search', search)
+    store.commit('categories/SET_QUERY', qs)
     const [_, err] = await app.$async(
       store.dispatch('categories/GET_CATEGORIES', {})
     )

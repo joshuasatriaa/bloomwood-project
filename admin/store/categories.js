@@ -1,6 +1,7 @@
 export const state = () => ({
   categories: {},
   category: {},
+  qs: '',
 })
 
 export const getters = {
@@ -9,6 +10,9 @@ export const getters = {
   },
   CATEGORY(state) {
     return state.category
+  },
+  QUERY(state) {
+    return state.qs
   },
 }
 
@@ -19,11 +23,18 @@ export const mutations = {
   SET_CATEGORY(state, payload) {
     state.category = payload
   },
+  SET_QUERY(state, payload) {
+    state.qs = payload
+  },
 }
 
 export const actions = {
-  async GET_CATEGORIES({ commit }) {
-    const res = await this.$axios.$get(`/api/categories`)
+  async GET_CATEGORIES({ commit, state }, { page = 1 }) {
+    let query = ''
+    if (state.qs) {
+      query = state.qs
+    }
+    const res = await this.$axios.$get(`/api/categories?page=${page}${query}`)
     commit('SET_CATEGORIES', res)
     return res
   },
@@ -38,8 +49,15 @@ export const actions = {
     return res
   },
   async UPDATE_CATEGORY({ commit }, { id, payload }) {
-    const res = await this.$axios.$patch(`/api/categories/${id}`, payload)
+    const res = await this.$axios.$post(
+      `/api/categories/${id}?_method=PUT`,
+      payload
+    )
     commit('SET_CATEGORY', res)
+    return res
+  },
+  async DELETE_CATEGORY({ commit }, id) {
+    const res = await this.$axios.$delete(`/api/categories/${id}`)
     return res
   },
 }

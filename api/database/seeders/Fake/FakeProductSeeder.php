@@ -40,6 +40,41 @@ class FakeProductSeeder extends Seeder
             'flower-3.jfif',
         ]);
 
+        $addOns = collect([
+            [
+                'name' => 'Box',
+                'image' => 'add-box.jpg'
+            ],
+            [
+                'name' => 'Card',
+                'image' => 'add-card.jpg'
+            ],
+            [
+                'name' => 'Ribbon',
+                'image' => 'add-ribbon.jpg'
+            ],
+            [
+                'name' => 'Wine',
+                'image' => 'add-wine.jpg'
+            ],
+        ]);
+
+
+        $variants = collect([
+            [
+                'name' => 'Red',
+                'image' =>  'variant-1.jpg',
+            ],
+            [
+                'name' => 'Yellow',
+                'image' =>  'variant-2.jpg',
+            ],
+            [
+                'name' => 'Blue',
+                'image' =>   'variant-3.jpg',
+            ],
+        ]);
+
         $users = User::whereHas('role', function ($query) {
             $query->whereIn('slug', [config('constants.superadmin.slug'), config('constants.admin.slug')]);
         })->get();
@@ -53,6 +88,30 @@ class FakeProductSeeder extends Seeder
             $p =  \App\Models\Product::factory([
                 'user_id' => $users->random(1)->first()->id
             ])->create();
+
+            for ($x = 0; $x < random_int(1, 2); $x++) {
+                $randomVar =  $variants->random(1)->first();
+                $data =
+                    [
+                        'name' => $randomVar['name'],
+                        'price' => 50000,
+                        'thumbnail_image' => $this->saveThumbImages($randomVar['image'], $this->IMAGE_FOLDER)
+                    ];
+
+                $p->productVariants()->create($data);
+            }
+
+            for ($x = 0; $x < random_int(1, 4); $x++) {
+                $rand = $addOns->random(1)->first();
+                $data =
+                    [
+                        'name' => $rand['name'],
+                        'price' => 10000,
+                        'thumbnail_image' => $this->saveThumbImages($rand['image'], $this->IMAGE_FOLDER)
+                    ];
+
+                $p->productAddOns()->create($data);
+            }
 
             $this->saveImages($randomImages, $p, 'productImages', $this->IMAGE_FOLDER);
 

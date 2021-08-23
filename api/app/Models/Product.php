@@ -21,14 +21,17 @@ class Product extends Model
         'user_id',
         'name',
         'slug',
-        'description'
+        'description',
+        'price'
     ];
 
     protected $with = [
         'user',
         'user.role',
         'categories',
-        'productImages'
+        'productImages',
+        'productVariants',
+        'productAddOns'
     ];
 
     public function user()
@@ -44,5 +47,15 @@ class Product extends Model
     public function productImages()
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    public function productVariants()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
+
+    public function productAddOns()
+    {
+        return $this->hasMany(ProductAddOn::class);
     }
 }

@@ -19,6 +19,7 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'slug' => $this->slug,
+            'price' => $this->price,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'user' => [
@@ -26,7 +27,9 @@ class ProductResource extends JsonResource
                 'name' => $this->user->name
             ],
             'categories' => CategoryResource::collection($this->categories),
-            'images' => ProductImageResource::collection($this->productImages)
+            'images' => ProductImageResource::collection($this->productImages),
+            'variants' => ProductVariantResource::collection($this->productVariants),
+            'add_ons' => ProductAddOnResource::collection($this->productAddOns)
         ];
     }
 }

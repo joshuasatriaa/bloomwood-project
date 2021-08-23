@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <h1>Add New Product</h1>
-    <ProductsForm />
+    <h1>Add New Category</h1>
+    <CategoriesForm />
   </div>
 </template>
 

@@ -19,6 +19,10 @@ export default {
       type: String,
       default: 'Images',
     },
+    maxImages: {
+      type: Number,
+      default: 5,
+    },
   },
   data() {
     return {
@@ -26,7 +30,7 @@ export default {
         url: 'placeholder',
         thumbnailWidth: 250,
         maxFilesize: 1,
-        maxFiles: 5,
+        maxFiles: this.maxImages,
         manuallyAddFile: true,
         autoProcessQueue: false,
         addRemoveLinks: true,

@@ -27,6 +27,7 @@ class ProductFactory extends Factory
             'name' => $name . '-' . Str::random(2),
             'slug' => Str::slug($name),
             'description' => $this->faker->paragraph(),
+            'price' => $this->faker->randomElement([300000, 500000, 800000, 1000000, 2000000, 3000000])
         ];
     }
 }

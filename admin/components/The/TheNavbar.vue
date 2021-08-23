@@ -8,6 +8,7 @@
         >Bloomwood</NuxtLink
       >
       <button
+        id="navbarToggleBtn"
         class="navbar-toggler border-0"
         type="button"
         data-bs-toggle="collapse"
@@ -28,6 +29,12 @@
           </li>
           <li class="nav-item">
             <NuxtLink to="/products" class="nav-link">Products</NuxtLink>
+          </li>
+          <li class="nav-item">
+            <NuxtLink to="/categories" class="nav-link">Categories</NuxtLink>
+          </li>
+          <li class="nav-item">
+            <NuxtLink to="/invoices" class="nav-link">Invoices</NuxtLink>
           </li>
           <li class="nav-item dropdown me-5">
             <a
@@ -63,6 +70,14 @@
 <script>
 export default {
   name: 'TheNavbar',
+  watch: {
+    '$route.path'() {
+      const el = document.getElementById('mainNavbar')
+      if (el.classList.contains('show')) {
+        document.getElementById('navbarToggleBtn').click()
+      }
+    },
+  },
   methods: {
     async logMeOut() {
       const [_, error] = await this.$async(this.$auth.logout())
