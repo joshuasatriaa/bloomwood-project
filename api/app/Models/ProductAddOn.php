@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Storage;
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class ProductVariant extends Model
+class ProductAddOn extends Model
 {
     use HasFactory;
 
-    protected $collection = 'product_variants';
+    protected $collection = 'product_add_ons';
 
     protected $fillable = [
         'name',
@@ -18,11 +18,11 @@ class ProductVariant extends Model
         'thumbnail_image'
     ];
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
+    /*
+    * The "booted" method of the model.
+    *
+    * @return void
+    */
     protected static function booted()
     {
         static::deleted(function ($variant) {

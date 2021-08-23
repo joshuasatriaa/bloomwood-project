@@ -46,6 +46,25 @@ class FakeProductSeeder extends Seeder
             'variant-3.jpg',
         ]);
 
+        $addOns = collect([
+            [
+                'name' => 'Box',
+                'image' => 'add-box.jpg'
+            ],
+            [
+                'name' => 'Card',
+                'image' => 'add-card.jpg'
+            ],
+            [
+                'name' => 'Ribbon',
+                'image' => 'add-ribbon.jpg'
+            ],
+            [
+                'name' => 'Wine',
+                'image' => 'add-wine.jpg'
+            ],
+        ]);
+
         $variants = collect([
             'blue',
             'red',
@@ -70,10 +89,23 @@ class FakeProductSeeder extends Seeder
                 $data =
                     [
                         'name' => $variants->random(1)->first(),
-                        'thumbnail_image' => $this->saveVariantImage($variantImages->random(1)->first(), $this->IMAGE_FOLDER)
+                        'price' => 50000,
+                        'thumbnail_image' => $this->saveThumbImages($variantImages->random(1)->first(), $this->IMAGE_FOLDER)
                     ];
 
                 $p->productVariants()->create($data);
+            }
+
+            for ($x = 0; $x < random_int(1, 4); $x++) {
+                $rand = $addOns->random(1)->first();
+                $data =
+                    [
+                        'name' => $rand['name'],
+                        'price' => 10000,
+                        'thumbnail_image' => $this->saveThumbImages($rand['image'], $this->IMAGE_FOLDER)
+                    ];
+
+                $p->productAddOns()->create($data);
             }
 
             $this->saveImages($randomImages, $p, 'productImages', $this->IMAGE_FOLDER);

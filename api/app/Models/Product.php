@@ -22,6 +22,7 @@ class Product extends Model
         'name',
         'slug',
         'description',
+        'price'
     ];
 
     protected $with = [
@@ -29,7 +30,8 @@ class Product extends Model
         'user.role',
         'categories',
         'productImages',
-        'productVariants'
+        'productVariants',
+        'productAddOns'
     ];
 
     public function user()
@@ -50,5 +52,10 @@ class Product extends Model
     public function productVariants()
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    public function productAddOns()
+    {
+        return $this->hasMany(ProductAddOn::class);
     }
 }

@@ -9,7 +9,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 trait FakeImageTrait
 {
-    public function saveVariantImage(string $image, string $folderName)
+    public function saveThumbImages(string $image, string $folderName)
     {
         $filename = $this->generateFileName($image);
         $thumbnailPath = $folderName . "/{$filename}_thumbnail.jpg";
