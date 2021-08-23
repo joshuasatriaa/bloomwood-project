@@ -64,7 +64,7 @@ class ProductController extends Controller
         $product = Product::create($validated);
         $product->productImages()->createMany($paths);
         $product->productVariants()->createMany($validated['variants']);
-        $product->productVariants()->createMany($validated['add_ons']);
+        $product->productAddOns()->createMany($validated['add_ons']);
         $product->categories()->sync($validated['category_ids']);
 
         Cache::tags(['products-index'])->flush();
