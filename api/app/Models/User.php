@@ -51,8 +51,25 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     protected $with = [
-        'role'
+        'role',
+        'customerAddresses'
     ];
+
+    protected $attributes = [
+        'is_suspended' => 0,
+    ];
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            $user->role_id = $this->getCustomerId();
+        });
+    }
 
     public function role()
     {
@@ -69,6 +86,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Product::class);
     }
 
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function customerAddresses()
+    {
+        return $this->hasMany(CustomerAddress::class);
+    }
+
     public function is($role)
     {
         return $this->role->slug === $role;
@@ -77,5 +104,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);
+    }
+
+    private function getCustomerId(): string
+    {
+        return Role::where('slug', 'customer')->first()->id;
     }
 }
