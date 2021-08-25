@@ -29,6 +29,7 @@ RUN docker-php-ext-install gd
 # RUN docker-php-ext-install pdo_mysql exif pcntl
 
 # MongoDB
+RUN apt-get install -y libcurl4-openssl-dev pkg-config libssl-dev
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 # BC Math
@@ -44,7 +45,7 @@ RUN pecl install redis
 RUN docker-php-ext-enable redis
 
 # Custom php.ini config
-# COPY php.ini /usr/local/etc/php/php.ini
+# COPY docker/dev/php/php.ini /usr/local/etc/php/php.ini
 
 # Install Xdebug
 RUN pecl install xdebug
