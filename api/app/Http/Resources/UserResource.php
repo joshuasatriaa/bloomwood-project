@@ -21,7 +21,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role' => new RoleResource($this->role),
             'has_pin' => $this->userPin()->exists(),
-            'is_suspended' => (bool) $this->is_suspended
+            'is_suspended' => (bool) $this->is_suspended,
+            'addresses' => CustomerAddressResource::collection($this->customerAddresses)
         ];
     }
 }

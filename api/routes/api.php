@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressAreaController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MeController;
 use App\Http\Controllers\ProductAddOnController;
@@ -35,9 +36,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('product-images', ProductImageController::class)->only(['destroy']);
     Route::apiResource('product-variants', ProductVariantController::class)->only(['destroy']);
     Route::apiResource('product-add-ons', ProductAddOnController::class)->only(['destroy']);
+
+    Route::apiResource('address-areas', AddressAreaController::class)->except(['index', 'show']);
 });
 
 Route::apiResource('products', ProductController::class)->only(['index', 'show']);
 Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
+Route::apiResource('address-areas', AddressAreaController::class)->only(['index', 'show']);
 
 Route::post('/auth/token', TokenController::class);

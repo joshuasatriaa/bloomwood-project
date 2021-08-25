@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Fake\FakeAddressAreaSeeder;
 use Database\Seeders\Fake\FakeCategorySeeder;
+use Database\Seeders\Fake\FakeInvoiceSeeder;
 use Database\Seeders\Fake\FakeProductSeeder;
 use Database\Seeders\Fake\FakeRoleSeeder;
 use Database\Seeders\Fake\FakeUserPinSeeder;
@@ -24,6 +26,8 @@ class DatabaseSeeder extends Seeder
             FakeUserPinSeeder::class,
             FakeCategorySeeder::class,
             FakeProductSeeder::class,
+            FakeAddressAreaSeeder::class,
+            // FakeInvoiceSeeder::class
         ]);
     }
 }
