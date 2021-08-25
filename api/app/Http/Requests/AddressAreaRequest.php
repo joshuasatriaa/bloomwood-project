@@ -13,7 +13,7 @@ class AddressAreaRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class AddressAreaRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'small_price' => ['required', 'numeric'],
+            'medium_price' => ['required', 'numeric'],
         ];
     }
 }

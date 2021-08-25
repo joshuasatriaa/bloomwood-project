@@ -34,6 +34,11 @@
             <NuxtLink to="/categories" class="nav-link">Categories</NuxtLink>
           </li>
           <li class="nav-item">
+            <NuxtLink to="/address-areas" class="nav-link"
+              >Address Areas</NuxtLink
+            >
+          </li>
+          <li class="nav-item">
             <NuxtLink to="/invoices" class="nav-link">Invoices</NuxtLink>
           </li>
           <li class="nav-item dropdown me-5">

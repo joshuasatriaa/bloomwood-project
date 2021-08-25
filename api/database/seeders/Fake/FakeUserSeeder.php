@@ -2,11 +2,20 @@
 
 namespace Database\Seeders\Fake;
 
+use App\Models\AddressArea;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class FakeUserSeeder extends Seeder
 {
+    protected $faker;
+
+    public function __construct(Faker $faker)
+    {
+        $this->faker = $faker->create();
+    }
+
     /**
      * Run the database seeds.
      *
@@ -33,10 +42,21 @@ class FakeUserSeeder extends Seeder
             ]
         );
 
+        $areas = AddressArea::all();
+
         for ($i = 0; $i < 10; $i++) {
-            \App\Models\User::factory([
+            $user = \App\Models\User::factory([
                 'role_id' => $roles->whereNotIn('slug', ['superadmin', 'admin'])->random(1)->first()->id
             ])->create();
+
+            for ($x = 0; $x < random_int(1, 2); $x++) {
+                $randomAreaId = $areas->random(1)->first()->id;
+
+                $user->customerAddresses()->create([
+                    'address' => $this->faker->address,
+                    'address_area_id' => $randomAreaId
+                ]);
+            }
         }
     }
 }
