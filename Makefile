@@ -202,7 +202,7 @@ env-client:
 
 # Add permissions for Laravel cache and storage folders
 permissions:
-	sudo chown -R www-data:www-data api/storage
+	sudo chown -R ${USER}:www-data api/storage
 	sudo chmod -R 775 api/bootstrap/cache
 	sudo chmod -R 775 api/storage
 # sudo chmod -R 1777 docker/dev/mysql/dumps
