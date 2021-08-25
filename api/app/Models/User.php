@@ -59,18 +59,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_suspended' => 0,
     ];
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::creating(function ($user) {
-            $user->role_id = $this->getCustomerId();
-        });
-    }
-
     public function role()
     {
         return $this->belongsTo(Role::class);
@@ -104,10 +92,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);
-    }
-
-    private function getCustomerId(): string
-    {
-        return Role::where('slug', 'customer')->first()->id;
     }
 }

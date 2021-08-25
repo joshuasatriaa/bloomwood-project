@@ -71,6 +71,7 @@ class AddressAreaController extends Controller
         $validated = $request->validated();
 
         $addressArea->update($validated);
+        Cache::tags(['address-areas-index'])->flush();
 
         return new AddressAreaResource($addressArea);
     }

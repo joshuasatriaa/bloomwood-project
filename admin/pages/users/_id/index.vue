@@ -69,7 +69,7 @@ export default {
           value: '',
         },
         name: {
-          label: 'Nama',
+          label: 'Name',
           value: '',
         },
         email: {

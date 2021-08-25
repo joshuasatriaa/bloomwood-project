@@ -22,11 +22,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             FakeRoleSeeder::class,
+            FakeAddressAreaSeeder::class,
             FakeUserSeeder::class,
             FakeUserPinSeeder::class,
             FakeCategorySeeder::class,
             FakeProductSeeder::class,
-            FakeAddressAreaSeeder::class,
             // FakeInvoiceSeeder::class
         ]);
     }
