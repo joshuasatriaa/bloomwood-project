@@ -38,8 +38,12 @@ class Invoice extends Model
          *      ]
          * ]
          */
+        'status', // [pending, paid, processed, delivered]
         'notes',
         'address',
+        'address_area', // copy of AddressArea
+        'pick_up',
+        'delivery_fee',
         'grand_total',
     ];
 

@@ -20,6 +20,8 @@ class AddressAreaImport implements ToModel, WithBatchInserts, WithChunkReading, 
             'district' => $row['district'],
             'urban' => $row['urban'],
             'postal_code' => $row['postal_code'],
+            'small_price' => 15000,
+            'medium_price' => 35000
         ]);
     }
 
