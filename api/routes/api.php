@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressAreaController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MeController;
+use App\Http\Controllers\NavigationGroupController;
 use App\Http\Controllers\ProductAddOnController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
@@ -38,10 +39,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('product-add-ons', ProductAddOnController::class)->only(['destroy']);
 
     Route::apiResource('address-areas', AddressAreaController::class)->except(['index', 'show']);
+    Route::apiResource('navigation-groups', NavigationGroupController::class)->except(['index', 'show']);
 });
 
 Route::apiResource('products', ProductController::class)->only(['index', 'show']);
 Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
+Route::apiResource('navigation-groups', NavigationGroupController::class)->only(['index', 'show']);
 Route::apiResource('address-areas', AddressAreaController::class)->only(['index', 'show']);
 
 Route::post('/auth/token', TokenController::class);
