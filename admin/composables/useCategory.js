@@ -20,7 +20,7 @@ const useGetCategory = () => {
       return
     }
 
-    app.$successHandler('Product data fetched.')
+    app.$successHandler('Categories data fetched.')
   }
 
   onMounted(async () => {

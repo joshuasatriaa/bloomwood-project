@@ -35,4 +35,9 @@ class Category extends Model
     {
         return $this->belongsToMany(Product::class, null, 'category_ids', 'product_ids');
     }
+
+    public function navigationGroups()
+    {
+        return $this->belongsToMany(NavigationGroup::class, null, 'category_ids', 'navigation_group_ids');
+    }
 }
