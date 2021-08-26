@@ -26,7 +26,7 @@ class NavigationGroupRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'category_ids' => ['required', 'array'],
-            'category_ids.*' => ['required', 'numeric'],
+            'category_ids.*' => ['required', 'string'],
         ];
     }
 }

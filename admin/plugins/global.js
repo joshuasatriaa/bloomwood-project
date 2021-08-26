@@ -37,7 +37,7 @@ export default (context, inject) => {
 
   const successHandler = (message = 'Data fetched.') => {
     context.app.$toast.success(message, {
-      position: POSITION.TOP_CENTER,
+      position: POSITION.TOP_LEFT,
       timeout: 1500,
     })
   }

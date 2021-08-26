@@ -1,6 +1,21 @@
 <template>
   <div class="container">
-    <h1 class="mb-4">Category List</h1>
+    <h1 class="mb-4">Navigation Group List</h1>
+    <div class="row">
+      <div class="col text-end">
+        <NuxtLink
+          to="/categories/groups/create"
+          class="btn btn-success text-white mb-4"
+          >Add New Group</NuxtLink
+        >
+      </div>
+    </div>
+    <CategoriesGroupTable
+      v-if="navigationGroups"
+      :navigation-groups="navigationGroups"
+    />
+    <hr />
+    <h1 class="mb-4 mt-4">Category List</h1>
     <div class="row">
       <div class="col text-end">
         <NuxtLink
@@ -23,11 +38,14 @@
 
 <script>
 import { useGetCategories } from '@/composables/useCategory'
+import { useGetNavigationGroups } from '@/composables/useNavigationGroup'
 export default {
   middleware: 'auth',
   setup() {
     const { categories, getCategories } = useGetCategories()
-    return { categories, getCategories }
+    const { navigationGroups, getNavigationGroups } = useGetNavigationGroups()
+
+    return { categories, getCategories, navigationGroups, getNavigationGroups }
   },
 }
 </script>
