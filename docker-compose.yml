@@ -31,7 +31,7 @@ services:
     depends_on:
       - mongo
       - redis
-  #   - mailhog
+      - mailhog
 
   # Supervisor container (schedule and queue runner)
   supervisor:
@@ -39,13 +39,13 @@ services:
       context: docker/dev/supervisor
       dockerfile: Dockerfile
     volumes:
-      - ./:/var/www/
+      - ./:/var/www
       - ./docker/dev/supervisor/conf.d:/etc/supervisor/conf.d
       - ./docker/dev/supervisor/logs:/var/log
     depends_on:
       - mongo
       - redis
-      # - mailhog
+      - mailhog
 
   redis:
     build:
@@ -55,6 +55,14 @@ services:
       - redis:/data
     ports:
       - 6001:6379
+
+  # Mailhog container (SMTP testing)
+  mailhog:
+    build:
+      context: docker/dev/mailhog
+      dockerfile: Dockerfile
+    ports:
+      - 8026:8025
 
   mongo:
     image: mongo:5.0
@@ -79,15 +87,15 @@ services:
   #   volumes:
   #     - ./client:/var/www/client:consistent
   #     - /var/www/client/node_modules/
-  
+
   admin:
     build:
       context: docker/dev/admin
       dockerfile: Dockerfile
     volumes:
       - ./admin:/var/www/admin:consistent
-      - /var/www/admin/node_modules/
-    
+      - /var/www/admin/node_modules
+
 volumes:
   mongodb-data:
   mongoclientdata:

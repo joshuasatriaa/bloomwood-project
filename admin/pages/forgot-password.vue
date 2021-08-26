@@ -13,7 +13,7 @@
       <div class="col-12 col-lg-6 d-flex justify-content-center mx-auto">
         <div class="card w-100 border-0 shadow rounded-5 py-5">
           <div class="card-body d-flex flex-column align-items-center">
-            <h1 class="fw-bold">Traffic Boost</h1>
+            <h1 class="fw-bold">Bloomwood</h1>
             <h5 class="fw-bold">Forget Password</h5>
             <div class="w-75 mt-4">
               <form @submit.prevent="forgetPassword()">
@@ -57,7 +57,7 @@ export default {
         this.$axios.$post('/forgot-password', this.form)
       )
       if (error) {
-        this.$errorHandler('Request failed! Try again later.')
+        this.$inputWarning(error)
         return
       }
       this.$successHandler(

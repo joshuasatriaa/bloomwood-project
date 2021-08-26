@@ -31,14 +31,24 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
+            'address' => ['required', 'string'],
+            'address_area_id' => ['required', 'string'],
+            'phone_number' => ['required', 'numeric']
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
             'role_id' => $this->getCustomerId()
         ]);
+
+        $user->customerAddresses()->create([
+            'address' => $input['address'],
+            'address_area_id' => $input['address_area_id']
+        ]);
+
+        return $user;
     }
 
     private function getCustomerId(): string
