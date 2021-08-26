@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class ProductRequest extends FormRequest
 {
@@ -66,6 +67,7 @@ class ProductRequest extends FormRequest
             'description' => ['required', 'string'],
             'slug' => ['required', 'string'],
             'price' => ['required', 'numeric'],
+            'size' => ['required', Rule::in(['S', 'M'])],
             'category_ids' => ['required', 'array'],
             'category_ids.*' => ['required', 'string'],
             'images' => ['sometimes', 'array'],

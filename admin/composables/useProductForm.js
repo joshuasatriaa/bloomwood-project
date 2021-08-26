@@ -19,6 +19,7 @@ const useProductForm = () => {
     name: '',
     description: '',
     price: '0',
+    size: '',
     category_ids: [],
     images: [],
     variants: [

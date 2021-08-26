@@ -23,15 +23,14 @@ export default (context, inject) => {
     context.app.$toast.error(
       error.response.data.message ||
         error.response.data.error ||
-        'Sesuatu bermasalah.'
+        'Something went wrong.'
     )
   }
 
   const errorHandler = (errorData, message = '') => {
     const mess =
       message ||
-      `${errorData.response.status}, ${errorData.response.data.message}`
-
+      `${errorData.response?.status}, ${errorData.response?.data?.message}`
     context.app.$toast.error(mess)
   }
 

@@ -52,6 +52,18 @@
                 />
               </div>
 
+              <BaseSelect
+                v-model="form.size"
+                placeholder="The size of the product"
+                form-for="formSize"
+                label="Size"
+                :options="[
+                  { id: 'S', value: 'S', label: 'Small' },
+                  { id: 'M', value: 'M', label: 'Medium' },
+                ]"
+                required
+              />
+
               <!-- PRODUCT PREVIEW IMAGE -->
               <div v-if="isUpdate" class="mb-3">
                 <label for="previewImages" class="form-label"
@@ -327,6 +339,7 @@ export default {
       form.description = data.description
       form.price = data.price.toString()
       form.category_ids = data.categories.map((x) => x.id)
+      form.size = data.size
       data.images.forEach((x) => {
         previewImages.push(x)
       })
