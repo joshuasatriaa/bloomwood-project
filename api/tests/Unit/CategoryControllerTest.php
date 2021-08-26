@@ -13,6 +13,6 @@ class CategoryControllerTest extends TestCase
      */
     public function test_example()
     {
-        $this->assertTrue(true);
+        $this->assertEquals(2, 1+2);
     }
 }
