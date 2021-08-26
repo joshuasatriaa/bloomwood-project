@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'phone_number' => $this->phone_number,
             'role' => new RoleResource($this->role),
             'has_pin' => $this->userPin()->exists(),
             'is_suspended' => (bool) $this->is_suspended,
