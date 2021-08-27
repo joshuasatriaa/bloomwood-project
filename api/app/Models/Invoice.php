@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Jenssegers\Mongodb\Eloquent\Model;
 
@@ -52,8 +53,13 @@ class Invoice extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function generateInvoiceNumber(): string
+    public static function generateInvoiceNumber(): string
     {
         return 'INV-' . Carbon::now()->format('dmy') . '-' . Carbon::now()->timestamp . '-' . Str::random(5);
+    }
+
+    public function scopeOwn($query)
+    {
+        return $query->where('user_id', Auth::id());
     }
 }
