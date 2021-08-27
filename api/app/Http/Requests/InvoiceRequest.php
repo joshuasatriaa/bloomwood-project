@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Invoice;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceRequest extends FormRequest
 {
@@ -18,20 +19,6 @@ class InvoiceRequest extends FormRequest
     }
 
     /**
-     * Prepare the data for validation.
-     *
-     * @return void
-     */
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'user_id' => '61279db0e7f750297629c06a',
-            'invoice_number' => Invoice::generateInvoiceNumber(),
-            'status' => 'pending'
-        ]);
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -39,9 +26,6 @@ class InvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => ['required', 'string'],
-            'invoice_number' => ['required', 'string'],
-            'status' => ['required', 'string'],
             'notes' => ['required', 'string'],
             'address' => ['required', 'string'],
             'address_area_id' => ['required', 'string'],

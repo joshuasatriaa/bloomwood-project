@@ -48,6 +48,21 @@ class Invoice extends Model
         'grand_total',
     ];
 
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::creating(function ($invoice) {
+            $invoice->user_id = Auth::id();
+            $invoice->status = 'pending';
+            $invoice->invoice_number = self::generateInvoiceNumber();
+        });
+    }
+
+
     public function user()
     {
         return $this->belongsTo(User::class);

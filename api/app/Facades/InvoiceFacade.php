@@ -4,6 +4,7 @@ namespace App\Facades;
 
 use App\Models\Invoice;
 use App\Services\InvoiceService;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceFacade
 {
@@ -28,6 +29,7 @@ class InvoiceFacade
     public function generate(): Invoice
     {
         $invoice = new Invoice($this->validatedRequest);
+        $invoice->user_id = Auth::id();
         $invoice->address_area = $this->addressArea;
         $invoice->products_detail = $this->productsDetail;
         $invoice->delivery_fee = $this->deliveryFee;
