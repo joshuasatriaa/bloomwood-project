@@ -20,6 +20,8 @@ class AddressAreaImport implements ToModel, WithBatchInserts, WithChunkReading, 
             'district' => $row['district'],
             'urban' => $row['urban'],
             'postal_code' => $row['postal_code'],
+            'small_price' => 15000,
+            'medium_price' => 35000
         ]);
     }
 
@@ -35,6 +37,13 @@ class AddressAreaImport implements ToModel, WithBatchInserts, WithChunkReading, 
 
     public function limit(): int
     {
-        return config('app.env') != 'production' ? 500 : 0;
+        switch (config('app.env')) {
+            case 'production':
+                return 0;
+            case 'testing':
+                return 10;
+            default:
+                return 500;
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressAreaController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MeController;
 use App\Http\Controllers\NavigationGroupController;
 use App\Http\Controllers\ProductAddOnController;
@@ -41,6 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('address-areas', AddressAreaController::class)->except(['index', 'show']);
     Route::apiResource('navigation-groups', NavigationGroupController::class)->except(['index', 'show']);
 });
+Route::apiResource('invoices', InvoiceController::class);
 
 Route::apiResource('products', ProductController::class)->only(['index', 'show']);
 Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
