@@ -10,13 +10,13 @@ services:
       - ./docker/dev/nginx/logs:/var/log/nginx
     ports:
       # Client port
-      # - 3000:80
+      - 3123:80
       # Laravel port
       - 8000:81
       # Admin port
       - 3001:82
     depends_on:
-      # - client
+      - client
       - php
 
   php:
@@ -80,13 +80,13 @@ services:
     depends_on:
       - mongo
 
-  # client:
-  #   build:
-  #     context: ./
-  #     dockerfile: ./docker/dev/client/Dockerfile
-  #   volumes:
-  #     - ./client:/var/www/client:consistent
-  #     - /var/www/client/node_modules/
+  client:
+    build:
+      context: ./
+      dockerfile: ./docker/dev/client/Dockerfile
+    volumes:
+      - ./client:/var/www/client:consistent
+      - /var/www/client/node_modules/
 
   admin:
     build:
