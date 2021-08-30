@@ -14,15 +14,10 @@ use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
-    protected $userRole;
-    protected $user;
     protected $paymentGateway;
 
     public function __construct(PaymentGatewayContract $paymentGatewayContract)
     {
-        $user = auth()->user();
-        $this->user = $user;
-        $this->userRole = $user->role->slug;
         $this->paymentGateway = $paymentGatewayContract;
     }
     /**
@@ -32,7 +27,8 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $admins = $this->userRole == 'superadmin' || $this->userRole == 'admin';
+        $userRole =  auth()->user()->role->slug;
+        $admins = $userRole == 'superadmin' || $userRole == 'admin';
 
         $invoices = Invoice::query()->when(!$admins, function ($q) {
             return $q->own();
@@ -49,13 +45,14 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceRequest $request)
     {
+        $user = auth()->user();
         $invoiceFacade = new InvoiceFacade(new InvoiceService(), $request->validated());
         $invoice = $invoiceFacade->generate();
 
         $token = $this->paymentGateway
             ->setInvoiceId($invoice->id)
             ->setGrossAmount($invoice->grand_total)
-            ->setCustomerDetail($this->user->name, $this->user->email, $this->user->phone_number)
+            ->setCustomerDetail($user->name, $user->email, $user->phone_number)
             ->getToken();
 
         $invoice->token = $token;
