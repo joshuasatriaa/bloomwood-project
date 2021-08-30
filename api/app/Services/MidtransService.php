@@ -40,7 +40,6 @@ class MidtransService implements PaymentGatewayContract
 
     public function setCustomerDetail(string $name, string $email, string $phoneNumber): PaymentGatewayContract
     {
-        // $this->user = $user;
         $this->customer = [
             'full_name' => $name,
             'email' => $email,

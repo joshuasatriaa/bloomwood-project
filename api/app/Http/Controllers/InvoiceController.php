@@ -20,9 +20,9 @@ class InvoiceController extends Controller
 
     public function __construct(PaymentGatewayContract $paymentGatewayContract)
     {
-        $this->user = User::find('6128c9b2d1ed38447c1ae9ea');
-        // $this->userRole = $user->role->slug;
-        $this->userRole = 'superadmin';
+        $user = auth()->user();
+        $this->user = $user;
+        $this->userRole = $user->role->slug;
         $this->paymentGateway = $paymentGatewayContract;
     }
     /**
