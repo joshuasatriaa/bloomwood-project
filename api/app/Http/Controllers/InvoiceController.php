@@ -6,17 +6,24 @@ use App\Facades\InvoiceFacade;
 use App\Http\Requests\InvoiceRequest;
 use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
+use App\Models\User;
+use App\Services\Contracts\PaymentGatewayContract;
 use App\Services\InvoiceService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
     protected $userRole;
+    protected $user;
+    protected $paymentGateway;
 
-    public function __construct()
+    public function __construct(PaymentGatewayContract $paymentGatewayContract)
     {
-        $user = auth()->user();
-        $this->userRole = $user->role->slug;
+        $this->user = User::find('6128c9b2d1ed38447c1ae9ea');
+        // $this->userRole = $user->role->slug;
+        $this->userRole = 'superadmin';
+        $this->paymentGateway = $paymentGatewayContract;
     }
     /**
      * Display a listing of the resource.
@@ -44,6 +51,14 @@ class InvoiceController extends Controller
     {
         $invoiceFacade = new InvoiceFacade(new InvoiceService(), $request->validated());
         $invoice = $invoiceFacade->generate();
+
+        $token = $this->paymentGateway
+            ->setInvoiceId($invoice->id)
+            ->setGrossAmount($invoice->grand_total)
+            ->setCustomerDetail($this->user->name, $this->user->email, $this->user->phone_number)
+            ->getToken();
+
+        $invoice->token = $token;
 
         return (new InvoiceResource($invoice))
             ->response()
