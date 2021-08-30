@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="logMeIn()">
+    <form @submit.prevent="register()">
       <input
         v-model="form.email"
         type="email"
@@ -17,14 +17,14 @@
         label="Password"
         required
       />
-      <input
+      <!-- <input
         v-model="form.confirmPassword"
         type="password"
         placeholder="Password"
         form-for="formConfirmPassword"
         label="Password"
         required
-      />
+      /> -->
       <input
         v-model="form.fullName"
         type="text"
@@ -33,22 +33,22 @@
         label="Full Name"
         required
       />
-      <input
+      <!-- <input
         v-model="form.phoneNumber"
         type="number"
         placeholder="Phone Number"
         form-for="formPhoneNumber"
         label="Phone Number"
         required
-      />
-      <input
+      /> -->
+      <!-- <input
         v-model="form.area"
         type="text"
         placeholder="Area"
         form-for="formArea"
         label="Area"
         required
-      />
+      /> -->
       <NuxtLink to="/forgot-password">Forget Password?</NuxtLink>
 
       <button
@@ -56,7 +56,7 @@
         class="btn btn-primary w-100 mt-3 text-white"
         style="width: 50px; color: black"
       >
-        LOGIN
+        REGISTER
       </button>
     </form>
   </div>
@@ -80,14 +80,13 @@ export default {
     }
   },
   methods: {
-    async logMeIn() {
+    async register() {
       this.$store.dispatch('TOGGLE_LOADING', true)
       try {
-        await this.$auth.loginWith('laravelSanctum', {
-          data: {
-            email: this.form.email,
-            password: this.form.password,
-          },
+        await this.$axios.$post('/api/users', {
+          name: this.form.fullName,
+          email: this.form.email,
+          password: this.form.password,
         })
         this.$router.push('/home')
       } catch (err) {

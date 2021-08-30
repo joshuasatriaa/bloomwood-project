@@ -1,51 +1,48 @@
 <template>
-  <div className="relative h-10 mt-5 mb-10">
-    <label
-      htmlFor="password"
-      class="
-        transition
-        transform
-        duration-800
-        ease-in-out
-        left-2
-        bottom-0
-        absolute
-        text-primary
-        px-1
-      "
-      :class="`${styling}`"
-    >
-      {{ label }}
-    </label>
+  <div class="input-field relative -translate-y-7">
     <input
+      :id="id"
       v-bind="$attrs"
       ref="formInput"
+      placeholder=" "
       :type="type"
       :value="value"
       required
       class="
         mt-5
-        h-full
+        h-9
         w-full
-        bg-white
-        border-gray-300 border-2
-        px-2
-        border-blue
-        rounded-md
+        border-primary border-b-4 border-blue
         focus:outline-none
-        focus:ring-1
-        focus:ring-gray-800
-        focus:border-transparent
       "
-      @focus="() => setIsFocused(true)"
-      @blur="() => setIsFocused(false)"
       @input="onInput($event)"
     />
+    <label
+      :for="id"
+      class="
+        transition
+        transform
+        duration-800
+        cursor-text
+        ease-in-out
+        left-0
+        bottom-3
+        absolute
+        text-secondary
+        font-bold
+      "
+    >
+      {{ label }}
+    </label>
   </div>
 </template>
 <script>
 export default {
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     label: {
       type: String,
       required: true,
@@ -58,38 +55,20 @@ export default {
       type: String,
       default: 'text',
     },
-    height: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    example: {
-      type: String,
-      required: false,
-      default: '',
-    },
-  },
-  data() {
-    return {
-      isFocusedStyle: '',
-      isFocuced: false,
-    }
-  },
-  computed: {
-    styling() {
-      return this.value || this.isFocused ? '-translate-y-7 -translate-x-2' : ''
-    },
   },
   methods: {
-    setIsFocused(boolVal) {
-      console.log('jalan', boolVal)
-      this.isFocused = boolVal
-    },
     onInput(event) {
       this.$emit('input', event.target.value)
-      this.error = ''
     },
   },
 }
 </script>
-<style></style>
+<style>
+.input-field:focus-within label {
+  @apply -translate-y-5;
+}
+
+input:not(:placeholder-shown) ~ label {
+  @apply -translate-y-5;
+}
+</style>

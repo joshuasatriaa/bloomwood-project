@@ -1,5 +1,7 @@
 <template>
   <div>
+    <button @click="payment">testtt</button>
+    <button @click="logMeOut">logout</button>
     <div class="border-t border-b border-secondary relative mb-24">
       <div
         class="
@@ -102,21 +104,43 @@ export default {
       NAVIGATION_GROUPS: 'NAVIGATION_GROUPS',
     }),
   },
+  async mounted() {
+    const res = await this.$axios.$get('/api/products')
+    const address = await this.$axios.$get('/api/address-areas')
+    console.log(res)
+    console.log(address)
+  },
   methods: {
     async logMeOut() {
-      // eslint-disable-next-line no-unused-vars
       const [_, error] = await this.$async(this.$auth.logout())
       if (error) {
         alert(error)
-        // this.$errorHandler('Something went wrong! Please refresh this page.')
         return
       }
       this.$router.push('/')
-      // this.$successHandler('Successfully logout.')
     },
     ...mapActions({
       GET_NAVIGATION_GROUPS: 'GET_NAVIGATION_GROUPS',
     }),
+    async payment() {
+      const res = await this.$axios.$post('/api/invoices', {
+        notes: 'hello',
+        address: 'Jln. test',
+        address_area_id: '6128c8c22799b71e1a7e90f6',
+        pick_up: false,
+        products: [
+          {
+            id: '6128c8c72799b71e1a7e932f',
+            variant_id: '6128c8c72799b71e1a7e9330',
+            add_ons: [
+              {
+                id: '6128c8c82799b71e1a7e9331',
+              },
+            ],
+          },
+        ],
+      })
+    },
   },
 }
 </script>
