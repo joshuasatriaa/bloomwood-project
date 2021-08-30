@@ -12,6 +12,7 @@ module.exports = {
         pink: '#E0AFA0', // The Pink
         'soft-gray': '#DEDEDE', // Border
         brown: '#463F3A', // The Brown
+        'dark-icon': '#625F60', // Dark Icon
       },
     },
     fontFamily: {

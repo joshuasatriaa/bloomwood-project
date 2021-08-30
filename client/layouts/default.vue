@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <div class="overflow-x-hidden">
     <MainHeader />
     <MainNav />
-    <Nuxt />
+    <main>
+      <Nuxt />
+    </main>
     <MainFooter class="mt-20" />
   </div>
 </template>

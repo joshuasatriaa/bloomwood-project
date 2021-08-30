@@ -4,9 +4,9 @@
       <span class="font-bold text-secondary mr-5 hidden sm:block"
         >Connect with us</span
       >
-      <IconInstagram class="mr-5" />
-      <IconFacebook class="mr-5" />
-      <IconBrideStory class="mr-5" />
+      <IconInstagram class="fill-current text-dark-icon mr-5" />
+      <IconFacebook class="fill-current text-dark-icon mr-5" />
+      <IconBrideStory class="fill-current text-primary mr-5" />
     </div>
     <div class="h-full flex">
       <div

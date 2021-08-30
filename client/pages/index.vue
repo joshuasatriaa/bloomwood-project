@@ -38,19 +38,53 @@
           </div>
         </div>
       </div>
-      <img src="/main-cover.jpg" class="w-full h-auto" />
+      <img src="/main-cover.jpg" class="w-full min-h-full" />
     </div>
 
-    <div>
-      <img src="/flower.jpg" />
+    <div class="grid grid-cols-5 gap-0 mb-20">
+      <img v-for="(flower, idx) in 5" :key="idx" src="/flower.jpg" />
     </div>
 
-    <div class="container mx-auto">
+    <div class="container mx-auto mb-20 px-10">
       <h2 class="text-3xl font-bold text-primary text-center mb-16">
         Most Gifted
       </h2>
-      <div class="grid grid-cols-4 gap-x-10">
+      <div
+        class="
+          grid grid-cols-1
+          sm:grid-cols-2
+          md:grid-cols-4
+          xl:grid-cols-4
+          gap-x-10 gap-y-5
+        "
+      >
         <HomeProductItem v-for="(product, idx) in 4" :key="idx" />
+      </div>
+    </div>
+
+    <div class="container mx-auto">
+      <h2
+        class="text-2xl sm:text-5xl md:text-7xl font-bold text-right mb-10"
+        style="color: #f2f2f2"
+      >
+        @bloomwoodflorist
+      </h2>
+      <div
+        class="
+          grid grid-cols-1
+          gap-x-2 gap-y-3
+          sm:grid-cols-2
+          md:grid-cols-3 md:gap-x-7 md:gap-y-8
+          lg:grid-cols-4
+          xl:grid-cols-5
+        "
+      >
+        <img
+          v-for="(product, idx) in 10"
+          :key="idx"
+          src="/flower-2.jpg"
+          class="w-full"
+        />
       </div>
     </div>
   </div>
