@@ -10,7 +10,7 @@ services:
       - ./docker/dev/nginx/logs:/var/log/nginx
     ports:
       # Client port
-      - 3123:80
+      - 3000:80
       # Laravel port
       - 8000:81
       # Admin port
