@@ -62,7 +62,6 @@ class MidtransService implements PaymentGatewayContract
         MidtransConfig::$is3ds = $this->is3ds;
 
         $snapToken = \Midtrans\Snap::getSnapToken($this->generateInvoiceDetail());
-
         return $snapToken;
     }
 
