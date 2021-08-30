@@ -3,7 +3,7 @@
     <div class="container mx-auto text-white">
       <p class="flex justify-evenly mb-10">
         <NuxtLink to="/">About Us</NuxtLink>
-        <NuxtLink to="/">Contact Us</NuxtLink>
+        <NuxtLink to="/contact-us">Contact Us</NuxtLink>
         <NuxtLink to="/care-instructions">Care Instruction</NuxtLink>
         <NuxtLink to="/">Sitemap</NuxtLink>
       </p>
