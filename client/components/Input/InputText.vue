@@ -12,6 +12,7 @@
         mt-5
         h-9
         w-full
+        bg-transparent
         border-primary border-b-4 border-blue
         focus:outline-none
       "
@@ -28,6 +29,7 @@
         left-0
         bottom-3
         absolute
+        bg-transparent
         text-secondary
         font-bold
       "

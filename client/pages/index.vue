@@ -105,14 +105,14 @@ export default {
     }),
   },
   async mounted() {
-    const res = await this.$axios.$get('/api/products')
-    const address = await this.$axios.$get('/api/address-areas')
-    const roles = await this.$axios.$get('/api/roles')
-    const invoices = await this.$axios.$get('/api/invoices')
-    console.log(res)
-    console.log(address)
-    console.log(roles)
-    console.log(invoices)
+    // const res = await this.$axios.$get('/api/products')
+    // const address = await this.$axios.$get('/api/address-areas')
+    // const roles = await this.$axios.$get('/api/roles')
+    // const invoices = await this.$axios.$get('/api/invoices')
+    // console.log(res)
+    // console.log(address)
+    // console.log(roles)
+    // console.log(invoices)
   },
   methods: {
     async logMeOut() {

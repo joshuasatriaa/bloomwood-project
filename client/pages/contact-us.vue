@@ -55,7 +55,7 @@
               bg-primary
               font-bold
               text-lg text-white
-              py-4
+              py-3
               rounded-md
             "
           >
