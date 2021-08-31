@@ -13,6 +13,8 @@ module.exports = {
         'soft-gray': '#DEDEDE', // Border
         brown: '#463F3A', // The Brown
         'dark-icon': '#625F60', // Dark Icon
+        disabled: '#ECECEC',
+        'disabled-dark': '#B2ADAF',
       },
     },
     fontFamily: {
@@ -22,7 +24,7 @@ module.exports = {
       padding: {
         DEFAULT: '0.5rem',
         sm: '1rem',
-        md: '0rem',
+        md: '0.5rem',
       },
     },
   },

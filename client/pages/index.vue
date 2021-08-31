@@ -1,7 +1,7 @@
 <template>
   <div>
-    <button @click="payment">testtt</button>
-    <button @click="logMeOut">logout</button>
+    <!-- <button @click="payment">testtt</button> -->
+    <!-- <button @click="logMeOut">logout</button> -->
     <div class="border-t border-b border-secondary relative mb-24">
       <div
         class="
@@ -93,27 +93,10 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+// import { mapActions, mapGetters } from 'vuex'
+// import { useGetCategories } from '@/composables/useCategory'
 
 export default {
-  async fetch() {
-    await this.GET_NAVIGATION_GROUPS({})
-  },
-  computed: {
-    ...mapGetters({
-      NAVIGATION_GROUPS: 'NAVIGATION_GROUPS',
-    }),
-  },
-  async mounted() {
-    // const res = await this.$axios.$get('/api/products')
-    // const address = await this.$axios.$get('/api/address-areas')
-    // const roles = await this.$axios.$get('/api/roles')
-    // const invoices = await this.$axios.$get('/api/invoices')
-    // console.log(res)
-    // console.log(address)
-    // console.log(roles)
-    // console.log(invoices)
-  },
   methods: {
     async logMeOut() {
       const [_, error] = await this.$async(this.$auth.logout())
@@ -123,28 +106,28 @@ export default {
       }
       this.$router.push('/')
     },
-    ...mapActions({
-      GET_NAVIGATION_GROUPS: 'GET_NAVIGATION_GROUPS',
-    }),
-    async payment() {
-      const res = await this.$axios.$post('/api/invoices', {
-        notes: 'hello',
-        address: 'Jln. test',
-        address_area_id: '6128c8c22799b71e1a7e90f6',
-        pick_up: false,
-        products: [
-          {
-            id: '6128c8c72799b71e1a7e932f',
-            variant_id: '6128c8c72799b71e1a7e9330',
-            add_ons: [
-              {
-                id: '6128c8c82799b71e1a7e9331',
-              },
-            ],
-          },
-        ],
-      })
-    },
+    // ...mapActions({
+    //   GET_NAVIGATION_GROUPS: 'GET_NAVIGATION_GROUPS',
+    // }),
+    // async payment() {
+    //   const res = await this.$axios.$post('/api/invoices', {
+    //     notes: 'hello',
+    //     address: 'Jln. test',
+    //     address_area_id: '6128c8c22799b71e1a7e90f6',
+    //     pick_up: false,
+    //     products: [
+    //       {
+    //         id: '6128c8c72799b71e1a7e932f',
+    //         variant_id: '6128c8c72799b71e1a7e9330',
+    //         add_ons: [
+    //           {
+    //             id: '6128c8c82799b71e1a7e9331',
+    //           },
+    //         ],
+    //       },
+    //     ],
+    //   })
+    // },
   },
 }
 </script>

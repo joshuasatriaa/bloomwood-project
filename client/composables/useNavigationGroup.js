@@ -21,12 +21,12 @@ const useGetNavigationGroup = () => {
     )
   }
 
-  onServerPrefetch(async () => {
+  useFetch(async () => {
     await getNavigationGroup()
   })
 
   const navigationGroup = computed(() => {
-    return store.getters.NAVIGATION_GROUP
+    return { ...store.getters.NAVIGATION_GROUP }
   })
 
   return { navigationGroup, getNavigationGroup }
@@ -43,11 +43,7 @@ const useGetNavigationGroups = () => {
     )
   }
 
-  // onServerPrefetch(async () => {
-  //   await getNavigationGroups()
-  // })
-
-  const { fetch, fetchState } = useFetch(async () => {
+  useFetch(async () => {
     await getNavigationGroups()
   })
 
