@@ -27,11 +27,15 @@ module.exports = {
         md: '0.5rem',
       },
     },
+    aspectRatio: {
+      27: '27',
+      40: '40',
+    },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/aspect-ratio')],
   purge: {
     content: [
       `components/**/*.{vue,js}`,
