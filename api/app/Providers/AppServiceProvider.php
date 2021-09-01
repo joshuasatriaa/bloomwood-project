@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Services\Contracts\ImageServiceContract;
+use App\Services\Contracts\PaymentGatewayContract;
 use App\Services\ImageService;
+use App\Services\MidtransService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ImageServiceContract::class,
             ImageService::class
+        );
+
+        $this->app->bind(
+            PaymentGatewayContract::class,
+            MidtransService::class
         );
     }
 

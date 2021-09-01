@@ -27,6 +27,7 @@ class InvoiceResource extends JsonResource
             'grand_total' => $this->grand_total,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
+            'payment_token' => $this->token
         ];
     }
 }
