@@ -6,8 +6,11 @@ use App\Facades\InvoiceFacade;
 use App\Models\AddressArea;
 use App\Models\Invoice;
 use App\Models\Product;
+use App\Services\Contracts\PaymentGatewayContract;
 use App\Services\InvoiceService;
+use App\Services\MidtransService;
 use Illuminate\Foundation\Testing\WithFaker;
+use Mockery;
 use Tests\TestCase;
 use Tests\Traits\MigrateSeedOnce;
 use Tests\Traits\TestTrait;
@@ -17,6 +20,15 @@ class InvoiceControllerTest extends TestCase
     use WithFaker,
         MigrateSeedOnce,
         TestTrait;
+
+    /** @test */
+    public function unauthenticated_can_not_access_all_routes_invoices()
+    {
+        $this->getJson(route('invoices.index'))->assertStatus(401);
+        $this->getJson(route('invoices.show', ['invoice' => '-1']))->assertStatus(401);
+        $this->postJson(route('invoices.store', []))->assertStatus(401);
+        $this->putJson(route('invoices.update', ['invoice' => '-1']))->assertStatus(401);
+    }
 
     /** @test */
     public function superadmin_can_list_all_invoices()
@@ -66,12 +78,24 @@ class InvoiceControllerTest extends TestCase
     }
 
     /** @test */
-    public function customer_can_create_invoice()
+    public function customer_can_create_invoice_with_midtrans_class()
     {
         $user = $this->createBasicUser();
         $this->actingAs($user);
 
         $request = $this->generateFakeRequest();
+
+        $mock = $this->mock(MidtransService::class);
+        $this->app->instance(PaymentGatewayContract::class, $mock);
+
+        $tokenContent = 'token_success';
+
+        $mock->shouldReceive('getToken')->once()->andReturn($tokenContent);
+        $mock->shouldReceive(
+            'setInvoiceId',
+            'setGrossAmount',
+            'setCustomerDetail'
+        )->once()->andReturnSelf();
 
         $this->postJson(route('invoices.store'), $request)
             ->assertJson([
@@ -83,10 +107,10 @@ class InvoiceControllerTest extends TestCase
                         [
                             'id' => $request['products'][0]['id']
                         ]
-                    ]
+                    ],
+                    'payment_token' => $tokenContent
                 ]
-            ])
-            ->assertStatus(201);
+            ])->assertStatus(201);
     }
 
     /** @test */

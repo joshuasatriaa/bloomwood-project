@@ -4,6 +4,8 @@ return [
 
     'superadmin_mail' => env('SUPERADMIN_MAIL'),
     'superadmin_pw' => env('SUPERADMIN_PW'),
+    'midtrans_server_key' => env('MIDTRANS_SERVER_KEY'),
+    'midtrans_production' => env('MIDTRANS_PRODUCTION', false),
 
     /*
     |--------------------------------------------------------------------------
