@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <button @click="payment">testtt</button> -->
-    <!-- <button @click="logMeOut">logout</button> -->
+    <button @click="logMeOut">logout</button>
     <div class="border-t border-b border-secondary relative mb-24">
       <div
         class="

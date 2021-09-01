@@ -9,8 +9,10 @@
       <IconBrideStory class="fill-current text-primary mr-5" />
     </div>
     <div class="h-full flex">
-      <div
+      <NuxtLink
+        to="/account"
         class="
+          group
           h-full
           flex
           items-center
@@ -19,11 +21,25 @@
           border-soft-gray border-l border-r
         "
       >
-        <IconAccount class="mr-5" />
-        <span class="text-secondary">Account</span>
-      </div>
-      <div class="h-full flex items-center px-3 sm:px-5">
-        <IconCart class="mr-3" />
+        <IconAccount
+          class="
+            mr-3
+            fill-current
+            text-secondary
+            group-hover:text-primary
+            transition-colors
+          "
+        />
+        <span
+          to="/account"
+          class="text-secondary group-hover:text-primary transition-colors"
+          >Account</span
+        >
+      </NuxtLink>
+      <NuxtLink to="/cart" class="h-full flex items-center px-3 sm:px-5 group">
+        <IconCart
+          class="mr-3 fill-current text-secondary group-hover:text-primary"
+        />
         <div
           class="
             rounded-full
@@ -34,11 +50,12 @@
             justify-center
             bg-pink
             text-xs text-white
+            group-hover:bg-red-400
           "
         >
           2
         </div>
-      </div>
+      </NuxtLink>
     </div>
   </div>
 </template>

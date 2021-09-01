@@ -1,7 +1,9 @@
 <template>
   <div class="overflow-x-hidden">
-    <MainHeader />
-    <MainNav />
+    <header>
+      <MainHeader />
+      <MainNav />
+    </header>
     <main>
       <Nuxt />
     </main>

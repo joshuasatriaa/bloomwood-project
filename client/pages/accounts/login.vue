@@ -18,7 +18,9 @@
           label="Password"
           type="password"
         />
-        <NuxtLink to="/accounts/forgot-password" class="font-bold self-end mb-6"
+        <NuxtLink
+          to="/accounts/forgot-password"
+          class="font-bold self-end mb-6 hover:text-brown"
           >forgot password ?</NuxtLink
         >
         <button
@@ -37,7 +39,9 @@
         </button>
         <p class="font-bold text-center">
           don't have an account ?
-          <NuxtLink to="/accounts/register" class="text-pink">sign up</NuxtLink>
+          <NuxtLink to="/accounts/register" class="text-pink hover:text-red-400"
+            >sign up</NuxtLink
+          >
         </p>
       </form>
     </AccountCardContainer>
@@ -46,7 +50,7 @@
 
 <script>
 export default {
-  middleware: ['auth-ssr', 'auth'],
+  middleware: 'auth',
   auth: 'guest',
   data() {
     return {

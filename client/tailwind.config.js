@@ -33,7 +33,9 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      borderRadius: ['first', 'last'],
+    },
   },
   plugins: [require('@tailwindcss/aspect-ratio')],
   purge: {

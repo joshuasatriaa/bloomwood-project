@@ -19,12 +19,13 @@ export default {
             logout: { url: '/logout', method: 'post' },
             user: { url: '/api/user', method: 'get' },
           },
-          redirect: {
-            login: '/login',
-            logout: '/',
-            home: '/',
-          },
         },
+      },
+      redirect: {
+        login: '/accounts/login',
+        logout: '/',
+        callback: '/accounts/login',
+        home: '/',
       },
     },
     axios: {
@@ -103,12 +104,13 @@ export default {
           logout: { url: '/logout', method: 'post' },
           user: { url: '/api/user', method: 'get' },
         },
-        redirect: {
-          login: '/login',
-          logout: '/',
-          home: '/',
-        },
       },
+    },
+    redirect: {
+      login: '/accounts/login',
+      logout: '/',
+      callback: '/accounts/login',
+      home: '/',
     },
   },
 
