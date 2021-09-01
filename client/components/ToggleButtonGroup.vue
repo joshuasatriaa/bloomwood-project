@@ -1,5 +1,5 @@
 <template>
-  <div class="flex text-primary text-sm">
+  <div class="flex text-primary text-sm space-x-6">
     <button
       v-for="button in buttons"
       :key="button.id"
@@ -10,9 +10,6 @@
         py-2
         font-bold
         rounded
-        mx-4
-        first:ml-0
-        last:mr-0
         transition-transform
         hover:scale-105 hover:border-primary
       "

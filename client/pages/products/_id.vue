@@ -35,7 +35,7 @@
           {{ $currencyFormat(6750000) }}
         </h3>
 
-        <div class="flex space-x-5">
+        <div class="flex space-x-6">
           <div
             class="
               flex
@@ -88,7 +88,7 @@
               rounded
               w-full
             "
-            style="max-width: 430px"
+            style="max-width: 420px"
           >
             add to cart
           </button>

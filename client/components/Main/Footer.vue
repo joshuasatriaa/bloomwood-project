@@ -5,7 +5,7 @@
         <NuxtLink to="/">About Us</NuxtLink>
         <NuxtLink to="/contact-us">Contact Us</NuxtLink>
         <NuxtLink to="/care-instructions">Care Instruction</NuxtLink>
-        <NuxtLink to="/">Sitemap</NuxtLink>
+        <NuxtLink to="/sitemap">Sitemap</NuxtLink>
       </p>
       <div class="flex flex-col items-center mb-10">
         <IconLogo class="transform scale-150 text-center mb-10" />

@@ -44,7 +44,12 @@
     </div>
 
     <div class="grid grid-cols-5 gap-0 mb-20">
-      <img v-for="(flower, idx) in 5" :key="idx" src="/flower.jpg" />
+      <img
+        v-for="(flower, idx) in 5"
+        :key="idx"
+        src="/flower.jpg"
+        class="w-full"
+      />
     </div>
 
     <div class="container mx-auto mb-20 px-10">
