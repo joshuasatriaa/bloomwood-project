@@ -53,22 +53,57 @@
             h-full
             w-full
             text-lg text-brown
-            bg-gradient-to-br
-            group-hover:from-soft-gray
+            bg-black bg-opacity-0
+            group-hover:bg-opacity-40
+            flex
+            items-center
+            justify-center
           "
         >
-          <p style="max-width: 12.5rem">Forever and Always in Pink</p>
+          <p
+            style="max-width: 12.5rem"
+            class="font-bold text-lg text-white hidden group-hover:block"
+          >
+            Forever and Always in Pink
+          </p>
         </div>
         <ContainedImage src="/flower-5.jpg" width="480" height="578" />
       </div>
-      <ContainedImage
+      <div
         v-for="(flower, idx) in 2"
         :key="`${idx}-fdsjfklj`"
-        src="/flower-6.jpg"
-        width="960"
-        height="600"
-        class="col-span-2"
-      />
+        class="relative group col-span-2"
+      >
+        <div
+          class="
+            absolute
+            top-0
+            left-0
+            p-3
+            h-full
+            w-full
+            text-lg text-brown
+            bg-black bg-opacity-0
+            group-hover:bg-opacity-40
+            flex
+            items-center
+            justify-center
+          "
+        >
+          <p
+            style="max-width: 12.5rem"
+            class="
+              font-bold
+              text-xl text-center text-white
+              hidden
+              group-hover:block
+            "
+          >
+            Forever and Always in Pink
+          </p>
+        </div>
+        <ContainedImage src="/flower-6.jpg" width="960" height="600" />
+      </div>
     </div>
 
     <div class="container mx-auto mb-20 px-10">

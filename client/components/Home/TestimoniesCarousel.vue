@@ -68,7 +68,9 @@ export default {
 </script>
 
 <style>
-.swiper-slide-active {
-  @apply scale-125;
+@screen lg {
+  .swiper-slide-active {
+    @apply scale-125;
+  }
 }
 </style>
