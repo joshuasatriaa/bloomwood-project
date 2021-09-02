@@ -42,12 +42,32 @@
       <img src="/main-cover.jpg" class="w-full min-h-full" />
     </div>
 
-    <div class="grid grid-cols-5 gap-0 mb-20">
-      <img
-        v-for="(flower, idx) in 5"
-        :key="idx"
-        src="/flower.jpg"
-        class="w-full"
+    <div class="grid grid-cols-4 gap-0 xl:container xl:mx-auto mb-20">
+      <div v-for="(flower, idx) in 4" :key="idx" class="relative group">
+        <div
+          class="
+            absolute
+            top-0
+            left-0
+            p-3
+            h-full
+            w-full
+            text-lg text-brown
+            bg-gradient-to-br
+            group-hover:from-soft-gray
+          "
+        >
+          <p style="max-width: 12.5rem">Forever and Always in Pink</p>
+        </div>
+        <ContainedImage src="/flower-5.jpg" width="480" height="578" />
+      </div>
+      <ContainedImage
+        v-for="(flower, idx) in 2"
+        :key="`${idx}-fdsjfklj`"
+        src="/flower-6.jpg"
+        width="960"
+        height="600"
+        class="col-span-2"
       />
     </div>
 
@@ -64,7 +84,24 @@
           gap-x-10 gap-y-5
         "
       >
-        <HomeProductItem v-for="(product, idx) in 4" :key="idx" />
+        <div
+          v-for="(product, idx) in 4"
+          :key="idx"
+          class="flex flex-col items-center text-primary"
+        >
+          <img src="/temp-product.jpg" class="mb-4 w-full" />
+          <p class="mb-2">Caspea Bouquet - Natural</p>
+          <strong>{{ $currencyFormat(125000) }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold text-primary text-center mb-16">
+        What People Say
+      </h2>
+      <div class="h-96">
+        <HomeTestimoniesCarousel />
       </div>
     </div>
 

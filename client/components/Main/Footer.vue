@@ -15,9 +15,6 @@
             bloomwoodflorist@gmail.com
           </li>
           <li class="flex mb-5">
-            <IconLine class="transform scale-75 mr-5" /> @bloomwoodflorist
-          </li>
-          <li class="flex mb-5">
             <IconWhatsapp class="transform scale-75 mr-5" /> (+62) 878-8800-9807
           </li>
         </ul>

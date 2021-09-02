@@ -3,18 +3,25 @@
     <textarea
       :id="id"
       v-bind="$attrs"
-      ref="formInput"
-      placeholder=" "
+      ref="formTextArea"
       :type="type"
       :value="value"
       required
-      class="w-full bg-transparent border-primary border-2 focus:outline-none"
+      class="
+        w-full
+        bg-transparent
+        border-primary border-2
+        focus:outline-none
+        p-4
+        placeholder-secondary
+      "
       @input="onInput($event)"
     />
   </div>
 </template>
 <script>
 export default {
+  name: 'InputTextArea',
   props: {
     id: {
       type: String,

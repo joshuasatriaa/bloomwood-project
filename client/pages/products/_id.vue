@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container mx-auto pt-20">
     <div class="grid grid-cols-2 text-primary">
       <img src="/flower-3.jpg" alt="" />
       <div>
@@ -21,7 +21,12 @@
         />
 
         <h3 class="text-2xl font-bold mb-5">Gift Card Message</h3>
-        <InputTextArea class="mb-8" />
+        <InputTextArea
+          class="mb-8"
+          rows="6"
+          minlength="5"
+          placeholder="enter your gift card message (optional)"
+        />
 
         <h3 class="text-2xl font-bold mb-5">Add Bundle</h3>
         <ToggleButtonGroup

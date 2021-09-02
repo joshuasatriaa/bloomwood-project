@@ -1,11 +1,10 @@
 <template>
   <div class="input-field relative -translate-y-7">
-    <input
+    <select
       :id="id"
       v-bind="$attrs"
-      ref="formInput"
-      placeholder=" "
-      :type="type"
+      ref="formSelect"
+      placeholder="test"
       :value="value"
       required
       class="
@@ -17,7 +16,12 @@
         focus:outline-none
       "
       @input="onInput($event)"
-    />
+    >
+      <!-- <option selected value="" disabled>{{ description }}</option> -->
+      <option v-for="option in options" :key="option.id" :value="option.value">
+        {{ option.value }}
+      </option>
+    </select>
     <label
       :for="id"
       class="
@@ -33,6 +37,7 @@
         text-secondary
         font-bold
       "
+      :class="{ ' -translate-y-5': value !== '' }"
     >
       {{ label }}
     </label>
@@ -40,7 +45,7 @@
 </template>
 <script>
 export default {
-  name: 'InputText',
+  name: 'InputSelect',
   props: {
     id: {
       type: String,
@@ -54,9 +59,9 @@ export default {
       type: String,
       default: '',
     },
-    type: {
-      type: String,
-      default: 'text',
+    options: {
+      type: Array,
+      required: true,
     },
   },
   methods: {
@@ -66,12 +71,9 @@ export default {
   },
 }
 </script>
+
 <style>
 .input-field:focus-within label {
-  @apply -translate-y-5;
-}
-
-input:not(:placeholder-shown) ~ label {
   @apply -translate-y-5;
 }
 </style>

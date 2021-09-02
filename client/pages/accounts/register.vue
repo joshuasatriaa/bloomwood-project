@@ -47,10 +47,26 @@
           label="Address"
           class="mb-7"
         />
-        <InputText
+        <!-- <InputText
           id="area"
           v-model="form.area"
           type="text"
+          label="Area"
+          class="mb-7"
+        /> -->
+        <InputSelect
+          id="area"
+          v-model="form.area"
+          :options="[
+            {
+              id: 1,
+              value: 'test',
+            },
+            {
+              id: 2,
+              value: 'test-2',
+            },
+          ]"
           label="Area"
           class="mb-7"
         />
