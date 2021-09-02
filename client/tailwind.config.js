@@ -15,6 +15,8 @@ module.exports = {
         'dark-icon': '#625F60', // Dark Icon
         disabled: '#ECECEC',
         'disabled-dark': '#B2ADAF',
+        success: '#77B17D',
+        warn: '#CDCE86',
       },
     },
     fontFamily: {
@@ -28,6 +30,7 @@ module.exports = {
       },
     },
     aspectRatio: {
+      1: '1',
       27: '27',
       40: '40',
     },
@@ -37,7 +40,10 @@ module.exports = {
       borderRadius: ['first', 'last'],
     },
   },
-  plugins: [require('@tailwindcss/aspect-ratio')],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/line-clamp'),
+  ],
   purge: {
     content: [
       `components/**/*.{vue,js}`,

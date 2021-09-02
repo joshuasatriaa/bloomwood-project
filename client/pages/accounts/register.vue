@@ -41,6 +41,13 @@
           class="mb-7"
         />
         <InputText
+          id="address"
+          v-model="form.addess"
+          type="text"
+          label="Address"
+          class="mb-7"
+        />
+        <InputText
           id="area"
           v-model="form.area"
           type="text"
@@ -74,6 +81,7 @@
 
 <script>
 export default {
+  name: 'Register',
   middleware: 'auth',
   auth: 'guest',
   data() {

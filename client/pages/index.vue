@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- <button @click="payment">testtt</button> -->
-    <button @click="logMeOut">logout</button>
     <div class="border-t border-b border-secondary relative mb-24">
       <div
         class="
@@ -103,14 +102,6 @@
 
 export default {
   methods: {
-    async logMeOut() {
-      const [_, error] = await this.$async(this.$auth.logout())
-      if (error) {
-        alert(error)
-        return
-      }
-      this.$router.push('/')
-    },
     // ...mapActions({
     //   GET_NAVIGATION_GROUPS: 'GET_NAVIGATION_GROUPS',
     // }),

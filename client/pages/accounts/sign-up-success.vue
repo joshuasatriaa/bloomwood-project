@@ -25,6 +25,10 @@
   </div>
 </template>
 <script>
-export default {}
+export default {
+  name: 'SignUpSuccess',
+  middleware: 'auth',
+  auth: 'guest',
+}
 </script>
 <style></style>

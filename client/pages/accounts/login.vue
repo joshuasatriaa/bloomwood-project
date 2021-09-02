@@ -50,6 +50,7 @@
 
 <script>
 export default {
+  name: 'Login',
   middleware: 'auth',
   auth: 'guest',
   data() {

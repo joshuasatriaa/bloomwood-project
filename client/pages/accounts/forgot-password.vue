@@ -4,10 +4,10 @@
       title="Forgot Password"
       description="please enter your email"
     >
-      <form class="flex flex-col" @submit.prevent="submit()">
+      <form class="flex flex-col" @submit.prevent="forgotPassword()">
         <InputText
           id="email"
-          v-model="email"
+          v-model="form.email"
           label="Email Address"
           type="email"
           class="mb-7"
@@ -32,10 +32,21 @@
 </template>
 <script>
 export default {
+  name: 'ForgotPassword',
+  middleware: 'auth',
+  auth: 'guest',
   data() {
     return {
-      email: '',
+      form: {
+        email: '',
+      },
     }
+  },
+  methods: {
+    async forgotPassword() {
+      await this.$axios.$get('/sanctum/csrf-cookie')
+      await this.$async(this.$axios.$post('/forgot-password', this.form))
+    },
   },
 }
 </script>

@@ -20,14 +20,17 @@
             font-bold
             py-4
           "
-          @click="() => (selectedTab = tab)"
+          @click="() => changeTab(tab)"
         >
           {{ tab }}
         </button>
       </div>
     </div>
     <div class="w-full">
-      <AccountInfo />
+      <AccountInfo v-if="selectedTab === 'My Account'" />
+      <AccountOrderHistory v-else-if="selectedTab === 'Order History'" />
+      <AccountChangePassword v-else-if="selectedTab === 'Change Password'" />
+      <div v-else>Logging Out</div>
     </div>
   </div>
 </template>
@@ -40,6 +43,22 @@ export default {
       selectedTab: 'My Account',
       tabs: ['My Account', 'Order History', 'Change Password', 'Log Out'],
     }
+  },
+  methods: {
+    async logMeOut() {
+      const [_, error] = await this.$async(this.$auth.logout())
+      if (error) {
+        alert(error)
+        return
+      }
+      this.$router.push('/')
+    },
+    changeTab(clickedTab) {
+      if (clickedTab === 'Log Out') {
+        return this.logMeOut()
+      }
+      this.selectedTab = clickedTab
+    },
   },
 }
 </script>

@@ -21,8 +21,16 @@
       <InputText
         id="phone-number"
         v-model="form.phoneNumber"
-        type="number"
+        type="tel"
+        pattern="^\d{3}-\d{3}-\d{4}$"
         label="Phone Number"
+        class="mb-7"
+      />
+      <InputText
+        id="address"
+        v-model="form.addess"
+        type="text"
+        label="Address"
         class="mb-7"
       />
       <InputText
@@ -44,7 +52,7 @@
           max-w-sm
         "
       >
-        saved changes
+        save changes
       </button>
     </form>
   </div>
@@ -57,21 +65,17 @@ export default {
   //       required: true,
   //     },
   //   },
+  name: 'AccountInfo',
   data() {
     return {
       form: {
-        email: '',
-        password: '',
-        confirmPassword: '',
-        fullName: '',
-        phoneNumber: '',
-        address: '',
+        email: this.$auth.user.email,
+        fullName: this.$auth.user.name,
+        phoneNumber: this.$auth.user.phone_number,
+        address: this.$auth.user.addresses[0],
         area: '',
       },
     }
-  },
-  mounted() {
-    console.log(this.$auth.user)
   },
   methods: {
     saved() {
