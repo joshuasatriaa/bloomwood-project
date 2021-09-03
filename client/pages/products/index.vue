@@ -14,16 +14,24 @@
     <div
       class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-16 gap-y-12"
     >
-      <div v-for="(flower, idx) in 9" :key="idx">
+      <div v-for="(flower, idx) in 6" :key="idx">
         <ContainedImage
           src="/flower-3.jpg"
           width="351"
-          height="236"
+          height="499"
           alt=""
-          class="rounded-lg border-4 border-primary mb-5"
+          class="rounded-lg mb-5"
         />
         <h2
-          class="text-xl md:text-lg lg:text-base 2xl:text-xl mb-3 line-clamp-1"
+          class="
+            text-xl
+            md:text-lg
+            lg:text-base
+            2xl:text-xl
+            mb-3
+            line-clamp-1
+            font-normal
+          "
         >
           Hidden Gem in Soft Pink
         </h2>
@@ -33,6 +41,19 @@
   </div>
 </template>
 <script>
-export default {}
+export default {
+  name: 'Products',
+  data() {
+    return {
+      res: {},
+    }
+  },
+  async fetch() {
+    const res = await this.$axios.$get(
+      `/api/products?group=${this.$route.query?.group || ''}`
+    )
+    this.res = res
+  },
+}
 </script>
 <style></style>

@@ -1,5 +1,8 @@
 <template>
-  <div class="input-field relative -translate-y-7">
+  <div
+    class="input-field relative"
+    :class="{ '-translate-y-7': variant === 'underlined' }"
+  >
     <select
       :id="id"
       v-bind="$attrs"
@@ -7,14 +10,14 @@
       placeholder="test"
       :value="value"
       required
-      class="
-        mt-5
-        h-9
-        w-full
-        bg-transparent
-        border-primary border-b-4
-        focus:outline-none
-      "
+      class="w-full bg-transparent border-primary focus:outline-none"
+      :class="{
+        'mt-5 border-b-4': variant === 'underlined',
+        'border rounded-sm': variant === 'outlined',
+        'h-9': height === 'default',
+        'h-8': height === 'short',
+        'text-sm': fontSize === 'small',
+      }"
       @input="onInput($event)"
     >
       <!-- <option selected value="" disabled>{{ description }}</option> -->
@@ -37,7 +40,10 @@
         text-secondary
         font-bold
       "
-      :class="{ ' -translate-y-5': value !== '' }"
+      :class="{
+        ' -translate-y-5': value !== '',
+        hidden: variant === 'outlined',
+      }"
     >
       {{ label }}
     </label>
@@ -62,6 +68,27 @@ export default {
     options: {
       type: Array,
       required: true,
+    },
+    variant: {
+      type: String,
+      default: 'underlined',
+      validator(value) {
+        return ['underlined', 'outlined'].includes(value)
+      },
+    },
+    height: {
+      type: String,
+      default: 'default',
+      validator(value) {
+        return ['short', 'default'].includes(value)
+      },
+    },
+    fontSize: {
+      type: String,
+      default: 'default',
+      validator(value) {
+        return ['small', 'default'].includes(value)
+      },
     },
   },
   methods: {

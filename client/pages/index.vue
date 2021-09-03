@@ -12,7 +12,19 @@
           -translate-x-1/2 -translate-y-1/2
         "
       >
-        <div class="flex flex-col bg-white w-96 ml-28 pt-12 pb-14 px-14">
+        <div
+          class="
+            flex flex-col
+            bg-white
+            w-11/12
+            sm:w-96
+            mx-auto
+            md:ml-28
+            pt-12
+            pb-14
+            px-14
+          "
+        >
           <IconLogo class="self-center mb-12 scale-125" />
           <div class="text-primary text-xl mb-11">
             Exclusive Enternity Collection
@@ -39,7 +51,12 @@
           </div>
         </div>
       </div>
-      <img src="/main-cover.jpg" class="w-full min-h-full" />
+      <ContainedImage
+        src="/main-cover.jpg"
+        width="1920"
+        height="666"
+        style="min-height: 666px"
+      />
     </div>
 
     <div class="grid grid-cols-4 gap-0 xl:container xl:mx-auto mb-20">

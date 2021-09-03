@@ -14,6 +14,7 @@
         focus:outline-none
         p-4
         placeholder-secondary
+        c-input
       "
       @input="onInput($event)"
     />
@@ -24,10 +25,6 @@ export default {
   name: 'InputTextArea',
   props: {
     id: {
-      type: String,
-      required: true,
-    },
-    label: {
       type: String,
       required: true,
     },
@@ -52,7 +49,7 @@ export default {
   @apply -translate-y-5;
 }
 
-input:not(:placeholder-shown) ~ label {
+.c-input:not(:placeholder-shown) ~ label {
   @apply -translate-y-5;
 }
 </style>

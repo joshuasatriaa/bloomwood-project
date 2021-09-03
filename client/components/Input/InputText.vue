@@ -15,6 +15,7 @@
         bg-transparent
         border-primary border-b-4
         focus:outline-none
+        input-text
       "
       @input="onInput($event)"
     />
@@ -71,7 +72,7 @@ export default {
   @apply -translate-y-5;
 }
 
-input:not(:placeholder-shown) ~ label {
+.c-input:not(:placeholder-shown) ~ label {
   @apply -translate-y-5;
 }
 </style>

@@ -2,10 +2,10 @@
   <img
     :src="getImgUrl()"
     :class="{ 'w-full h-auto': isFluid }"
-    style="object-fit: cover"
     :style="{
       aspectRatio: `${width}/${height}`,
     }"
+    class="object-cover object-center"
     :width="width"
     :height="height"
     v-bind="$attrs"

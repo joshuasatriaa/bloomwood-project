@@ -18,7 +18,7 @@
         <NuxtLink
           v-for="nav in navigationGroups.data"
           :key="nav.id"
-          :to="`/products?category=${nav.slug}`"
+          :to="`/products?group=${nav.slug}`"
           >{{ nav.name }}</NuxtLink
         >
         <NuxtLink to="/fresh-blooms">About Us</NuxtLink>

@@ -3,7 +3,7 @@
     <header>
       <MainHeader />
       <MainNav />
-      <MainNavTemp />
+      <!-- <MainNavTemp /> -->
     </header>
     <main>
       <Nuxt />
