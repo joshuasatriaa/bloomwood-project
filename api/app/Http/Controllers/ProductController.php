@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Filters\ProductNameFilter;
+use App\Filters\ProductGroupFilter;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
@@ -34,14 +35,15 @@ class ProductController extends Controller
      */
     public function index()
     {
-        if (!request('search')) {
-            return Cache::tags(['products-index'])->remember('products-' . request('page', 1), 600, function () {
-                return ProductResource::collection(Product::latest()->paginate(30));
-            });
-        }
+        // if (!request('search')) {
+        //     return Cache::tags(['products-index'])->remember('products-' . request('page', 1), 600, function () {
+        //         return ProductResource::collection(Product::latest()->paginate(30));
+        //     });
+        // }
 
         $products = Product::query()->filter([
             ProductNameFilter::class,
+            ProductGroupFilter::class,
         ])->paginate(request('per_page', 30));
 
         return ProductResource::collection($products);
