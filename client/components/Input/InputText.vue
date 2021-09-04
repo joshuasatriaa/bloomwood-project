@@ -16,6 +16,7 @@
         border-primary border-b-4
         focus:outline-none
         input-text
+        c-input
       "
       @input="onInput($event)"
     />

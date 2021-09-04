@@ -89,14 +89,20 @@
           <button
             class="
               bg-primary
-              text-white text-lg text-center
+              text-white text-xl text-center
               font-bold
               rounded
               w-full
+              h-12
+              flex
+              justify-center
+              items-center
+              relative
             "
             style="max-width: 420px"
           >
-            add to cart
+            <p>add to cart</p>
+            <IconCart class="absolute fill-current text-white right-5" />
           </button>
         </div>
 
@@ -121,7 +127,7 @@
           <span class="line-through">3.500.000</span>
         </p>
 
-        <div>
+        <div class="mb-10">
           <div
             v-for="item in ['Flower Bundle', 'Chocolate Cake', 'Premium Wine']"
             :key="item"
@@ -146,9 +152,9 @@
                 focus-within:border-blue-500 focus-within:bg-primary
               "
             >
-              <div class="h-3 w-3 bg-pink hidden"></div>
+              <div class="h-3 w-3 bg-pink hidden rounded-sm"></div>
             </div>
-            <label :for="item" class="text-lg font-bold select-none ml-4">
+            <label :for="item" class="text-lg font-bold select-none ml-5">
               <div class="flex items-center">
                 <p>{{ item }}</p>
                 <InputSelect
@@ -178,6 +184,27 @@
             </label>
           </div>
         </div>
+
+        <button
+          class="
+            bg-primary
+            text-white text-xl text-center
+            font-bold
+            rounded
+            w-full
+            h-12
+            flex
+            justify-center
+            items-center
+            relative
+          "
+          style="max-width: 420px"
+        >
+          <p>save to cart</p>
+          <IconCart class="absolute fill-current text-white right-5" />
+        </button>
+
+        <Accordion class="mt-10" />
       </div>
     </div>
   </div>
