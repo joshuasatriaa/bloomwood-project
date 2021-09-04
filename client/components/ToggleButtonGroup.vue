@@ -1,11 +1,13 @@
 <template>
-  <div class="flex text-primary text-sm space-x-6">
+  <div class="flex flex-col md:flex-row text-primary text-sm flex-wrap gap-4">
     <button
       v-for="button in buttons"
       :key="button.id"
       type="button"
       class="
         border-2
+        mx-4
+        md:mx-0
         px-3
         py-2
         font-bold

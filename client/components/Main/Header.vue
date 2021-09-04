@@ -1,5 +1,7 @@
 <template>
-  <div class="container mx-auto flex h-10 items-center justify-between">
+  <div
+    class="container mx-auto flex h-10 items-center justify-between font-serif"
+  >
     <div class="flex items-center">
       <span class="font-bold text-secondary mr-5 hidden sm:block"
         >Connect with us</span

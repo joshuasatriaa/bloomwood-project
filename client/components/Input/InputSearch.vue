@@ -14,7 +14,7 @@
         focus:ring-primary
         focus:border-transparent
       "
-      placeholder="search..."
+      placeholder="Search Product"
       value=""
     />
     <svg

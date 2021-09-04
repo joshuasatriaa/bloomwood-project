@@ -1,5 +1,5 @@
 <template>
-  <div class="border-t border-b border-soft-gray">
+  <div class="border-t border-b border-soft-gray font-serif">
     <div class="container mx-auto flex justify-between">
       <NuxtLink to="/">
         <IconLogo class="transform scale-90" />

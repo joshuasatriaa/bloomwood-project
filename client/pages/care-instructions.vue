@@ -1,7 +1,9 @@
 <template>
-  <div class="container mx-auto text-primary pt-20">
+  <div class="container mx-auto text-primary pt-20 font-sans">
     <div class="md:ml-14">
-      <h1 class="text-5xl sm:text-6xl md:text-7xl text-primary mb-20">
+      <h1
+        class="text-5xl sm:text-6xl md:text-7xl text-primary mb-20 font-serif"
+      >
         Care Instructions
       </h1>
       <div class="md:ml-20 lg:ml-28 mb-20">
@@ -17,6 +19,7 @@
             text-base
             md:text-lg
             border-primary
+            font-medium
           "
         >
           To promote the longevity of your flowers, keep them in a cool place
@@ -41,6 +44,7 @@
             text-base
             md:text-lg
             border-primary
+            font-medium
           "
         >
           Carefully top up the oasis (flower foam) with water everyday. Try to

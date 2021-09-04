@@ -3,7 +3,9 @@
     <div class="flex flex-col justify-center items-center">
       <div>
         <span>say hi to our team</span>
-        <h1 class="text-5xl sm:text-6xl md:text-8xl mb-10">Contact Us</h1>
+        <h1 class="text-5xl sm:text-6xl md:text-8xl mb-10 font-serif">
+          Contact Us
+        </h1>
         <p class="text-xl mx-auto mb-16" style="max-width: 22ch">
           reach us for any questions you might have
         </p>
@@ -66,7 +68,17 @@
     </div>
 
     <div class="md:ml-14 mt-24">
-      <h1 class="text-6xl sm:text-6xl md:text-7xl text-primary mb-10 md:mb-20">
+      <h1
+        class="
+          text-6xl
+          sm:text-6xl
+          md:text-7xl
+          text-primary
+          mb-10
+          md:mb-20
+          font-serif
+        "
+      >
         Find Us
       </h1>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-16">

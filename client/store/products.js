@@ -1,7 +1,7 @@
 export const state = () => ({
   products: {},
   product: {},
-  // qs: '',
+  qs: '',
 })
 
 export const getters = {
@@ -11,9 +11,9 @@ export const getters = {
   PRODUCT(state) {
     return state.product
   },
-  // QUERY(state) {
-  //   return state.qs
-  // },
+  QUERY(state) {
+    return state.qs
+  },
 }
 
 export const mutations = {
@@ -23,18 +23,18 @@ export const mutations = {
   SET_PRODUCT(state, payload) {
     state.product = payload
   },
-  // SET_QUERY(state, payload) {
-  //   state.qs = payload
-  // },
+  SET_QUERY(state, payload) {
+    state.qs = payload
+  },
 }
 
 export const actions = {
   async GET_PRODUCTS({ commit, state }, { page = 1 }) {
-    //   let query = ''
-    //   if (state.qs) {
-    //     query = state.qs
-    //   }
-    const res = await this.$axios.$get(`/api/products?page=${page}`)
+    let query = ''
+    if (state.qs) {
+      query = state.qs
+    }
+    const res = await this.$axios.$get(`/api/products?page=${page}${query}`)
     commit('SET_PRODUCTS', res)
     return res
   },

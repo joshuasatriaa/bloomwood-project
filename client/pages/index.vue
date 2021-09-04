@@ -26,7 +26,7 @@
           "
         >
           <IconLogo class="self-center mb-12 scale-125" />
-          <div class="text-primary text-xl mb-11">
+          <div class="text-primary text-xl mb-11 font-serif">
             Exclusive Enternity Collection
           </div>
           <div>
@@ -79,7 +79,13 @@
         >
           <p
             style="max-width: 12.5rem"
-            class="font-bold text-lg text-white hidden group-hover:block"
+            class="
+              font-bold
+              text-lg text-white
+              hidden
+              group-hover:block
+              font-serif
+            "
           >
             Forever and Always in Pink
           </p>
@@ -114,6 +120,7 @@
               text-xl text-center text-white
               hidden
               group-hover:block
+              font-serif
             "
           >
             Forever and Always in Pink
@@ -124,7 +131,7 @@
     </div>
 
     <div class="container mx-auto mb-20 px-10">
-      <h2 class="text-3xl font-bold text-primary text-center mb-16">
+      <h2 class="text-3xl font-bold text-primary text-center mb-16 font-serif">
         Most Gifted
       </h2>
       <div
@@ -141,7 +148,7 @@
           :key="idx"
           class="flex flex-col items-center text-primary"
         >
-          <img src="/temp-product.jpg" class="mb-4 w-full" />
+          <img src="/temp-product.jpg" class="mb-4 w-full font-serif" />
           <p class="mb-2">Caspea Bouquet - Natural</p>
           <strong>{{ $currencyFormat(125000) }}</strong>
         </div>
@@ -149,7 +156,7 @@
     </div>
 
     <div class="container mx-auto">
-      <h2 class="text-3xl font-bold text-primary text-center mb-16">
+      <h2 class="text-3xl font-bold text-primary text-center mb-16 font-serif">
         What People Say
       </h2>
       <div class="h-96">

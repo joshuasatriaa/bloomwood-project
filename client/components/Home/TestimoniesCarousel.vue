@@ -18,7 +18,7 @@
             pb-10
           "
         >
-          <p class="mb-7">
+          <p class="mb-7 font-bold">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
             quis felis vitae odio dignissim placerat eu faucibus dolor. Quisque
             et enim massa.

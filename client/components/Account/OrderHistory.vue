@@ -32,7 +32,7 @@
                 class="rounded-md border-2 border-primary mr-4"
               />
               <div class="flex flex-col">
-                <h3 class="text-lg line-clamp-2">
+                <h3 class="text-lg line-clamp-2 font-serif">
                   Cloud Catcher CAtcher cloud catch catch catch cloud catch
                   catch
                 </h3>

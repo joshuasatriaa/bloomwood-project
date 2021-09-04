@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Gotham';
+  font-weight: 400;
+  src: url('~assets/fonts/GothamLight.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Gotham';
+  font-weight: 500;
+  src: url('~assets/fonts/GothamMedium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Gotham';
+  font-weight: 700;
+  src: url('~assets/fonts/GothamBold.ttf') format('truetype');
+}

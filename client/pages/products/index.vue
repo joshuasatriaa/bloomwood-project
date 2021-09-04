@@ -3,7 +3,9 @@
     class="container mx-auto pt-20 lg:px-32 text-center font-bold text-primary"
   >
     <div class="mb-8">
-      <h1 class="text-3xl md:text-4xl font-normal mb-5">Bloom Bouquet</h1>
+      <h1 class="text-3xl md:text-4xl font-normal mb-5 font-serif">
+        Bloom Bouquet
+      </h1>
       <div class="border-b-2 border-pink w-20 mx-auto flex-shrink"></div>
     </div>
     <p class="text-lg md:text-xl mb-20">
@@ -14,9 +16,13 @@
     <div
       class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-16 gap-y-12"
     >
-      <div v-for="(flower, idx) in 6" :key="idx">
+      <NuxtLink
+        v-for="{ id, images, name, price, slug } in products.data"
+        :key="id"
+        :to="`/products/${slug}/${id}`"
+      >
         <ContainedImage
-          src="/flower-3.jpg"
+          :src="images[0].original_image"
           width="351"
           height="499"
           alt=""
@@ -30,29 +36,36 @@
             2xl:text-xl
             mb-3
             line-clamp-1
-            font-normal
+            font-normal font-serif
           "
         >
-          Hidden Gem in Soft Pink
+          {{ name }}
         </h2>
-        <p class="text-lg">{{ $currencyFormat(1950000) }}</p>
-      </div>
+        <p class="text-lg">{{ $currencyFormat(price) }}</p>
+      </NuxtLink>
     </div>
   </div>
 </template>
+
 <script>
+import { useRoute, computed, watch } from '@nuxtjs/composition-api'
+import { useGetProducts } from '@/composables/useProduct'
+
 export default {
   name: 'Products',
-  data() {
-    return {
-      res: {},
-    }
-  },
-  async fetch() {
-    const res = await this.$axios.$get(
-      `/api/products?group=${this.$route.query?.group || ''}`
+  setup() {
+    const route = useRoute()
+
+    const group = computed(() => route.value.query.group)
+
+    const { products, getProducts } = useGetProducts('', group.value)
+
+    watch(
+      () => route.value.query.group,
+      () => getProducts('', group.value)
     )
-    this.res = res
+
+    return { products, getProducts }
   },
 }
 </script>

@@ -20,7 +20,15 @@ module.exports = {
       },
     },
     fontFamily: {
-      sans: ['Libre Baskerville', 'ui-sans-serif', 'system-ui'],
+      serif: [
+        'Libre Baskerville',
+        'Georgia',
+        'Cambria',
+        'Times New Roman',
+        'Times',
+        'serif',
+      ],
+      sans: ['Gotham', 'ui-sans-serif', 'system-ui'],
     },
     container: {
       padding: {

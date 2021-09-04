@@ -14,7 +14,7 @@
         px-5
       "
     >
-      <h1 class="text-3xl text-center mb-4">{{ title }}</h1>
+      <h1 class="text-3xl text-center mb-4 font-serif">{{ title }}</h1>
       <p class="font-bold text-center mb-16">{{ description }}</p>
       <slot />
     </div>
