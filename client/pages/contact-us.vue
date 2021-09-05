@@ -139,13 +139,13 @@
         </div>
       </div>
     </div>
-    <modal name="modal-contact-us">
-      <ModalContainer
-        title="Thank you"
-        desc="our team will contact you soon"
-        btn-title="back to home"
-      />
-    </modal>
+    <ModalContainer
+      id="modal-contact-us"
+      title="Thank you"
+      desc="our team will contact you soon"
+      btn-proceed-title="back to home"
+      :btn-proceed-callback="() => $router.push('/')"
+    />
   </div>
 </template>
 <script>

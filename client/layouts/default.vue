@@ -1,11 +1,11 @@
 <template>
   <div class="overflow-x-hidden">
-    <header>
+    <header class="fixed z-10 w-full bg-white mb-20">
       <MainHeader />
       <MainNav />
       <!-- <MainNavTemp /> -->
     </header>
-    <main>
+    <main class="pt-36">
       <Nuxt />
     </main>
     <MainFooter class="mt-20" />

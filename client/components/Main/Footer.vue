@@ -1,13 +1,22 @@
 <template>
   <footer class="bg-brown pt-10 pb-7 font-serif">
     <div class="container mx-auto text-white">
-      <p class="flex justify-evenly mb-10">
+      <p
+        class="
+          flex flex-col
+          items-center
+          sm:flex-row sm:justify-evenly
+          mb-5
+          sm:mb-10
+          gap-y-2
+        "
+      >
         <NuxtLink to="/">About Us</NuxtLink>
         <NuxtLink to="/contact-us">Contact Us</NuxtLink>
         <NuxtLink to="/care-instructions">Care Instruction</NuxtLink>
       </p>
       <div class="flex flex-col items-center mb-10">
-        <IconLogo class="transform scale-150 text-center mb-10" />
+        <IconLogo class="transform sm:scale-150 text-center mb-10" />
         <ul class="font-sans font-normal">
           <li class="flex mb-5">
             <IconEmail class="transform scale-75 mr-5" />
@@ -18,11 +27,21 @@
           </li>
         </ul>
       </div>
-      <div class="block text-center md:flex justify-between">
+      <div class="block text-center lg:flex justify-between">
         <span class="font-normal"
           >Copyrights @ 2017 BLOOMWOOD. All Rights Reserved.</span
         >
-        <div class="flex justify-center items-center">
+        <div
+          class="
+            flex flex-col
+            gap-y-3
+            sm:flex-row
+            justify-center
+            items-center
+            mt-4
+            lg:mt-0
+          "
+        >
           <div class="flex mr-6">
             <span class="mr-4">Follow Us</span>
             <IconInstagram class="fill-current text-white" />

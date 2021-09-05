@@ -10,7 +10,7 @@
       <IconFacebook class="fill-current text-dark-icon mr-5" />
       <IconBrideStory class="fill-current text-primary mr-5" />
     </div>
-    <div class="h-full flex">
+    <div class="h-full flex divide-x">
       <template v-if="!$auth.user">
         <div class="flex h-full items-center space-x-8">
           <NuxtLink
@@ -35,7 +35,7 @@
             items-center
             px-3
             sm:px-5
-            border-soft-gray border-l border-r
+            border-soft-gray border-l
           "
         >
           <IconAccount
