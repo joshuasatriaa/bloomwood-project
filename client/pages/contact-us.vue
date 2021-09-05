@@ -139,6 +139,13 @@
         </div>
       </div>
     </div>
+    <modal name="modal-contact-us">
+      <ModalContainer
+        title="Thank you"
+        desc="our team will contact you soon"
+        btn-title="back to home"
+      />
+    </modal>
   </div>
 </template>
 <script>
@@ -156,6 +163,7 @@ export default {
   },
   methods: {
     submit() {
+      this.$modal.show('modal-contact-us')
       console.log('submit')
     },
   },
