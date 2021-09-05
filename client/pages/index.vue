@@ -201,25 +201,6 @@ export default {
     // ...mapActions({
     //   GET_NAVIGATION_GROUPS: 'GET_NAVIGATION_GROUPS',
     // }),
-    // async payment() {
-    //   const res = await this.$axios.$post('/api/invoices', {
-    //     notes: 'hello',
-    //     address: 'Jln. test',
-    //     address_area_id: '6128c8c22799b71e1a7e90f6',
-    //     pick_up: false,
-    //     products: [
-    //       {
-    //         id: '6128c8c72799b71e1a7e932f',
-    //         variant_id: '6128c8c72799b71e1a7e9330',
-    //         add_ons: [
-    //           {
-    //             id: '6128c8c82799b71e1a7e9331',
-    //           },
-    //         ],
-    //       },
-    //     ],
-    //   })
-    // },
   },
 }
 </script>
