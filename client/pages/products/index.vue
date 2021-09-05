@@ -3,8 +3,8 @@
     class="container mx-auto pt-20 lg:px-32 text-center font-bold text-primary"
   >
     <div class="mb-8">
-      <h1 class="text-3xl md:text-4xl font-normal mb-5 font-serif">
-        Bloom Bouquet
+      <h1 class="text-3xl md:text-4xl font-normal mb-5 font-serif capitalize">
+        {{ $route.query.group.replace('-', ' ') }}
       </h1>
       <div class="border-b-2 border-pink w-20 mx-auto flex-shrink"></div>
     </div>

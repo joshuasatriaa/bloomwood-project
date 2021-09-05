@@ -20,19 +20,24 @@
           :key="id"
           class="group relative"
         >
-          <NuxtLink :to="`/products?group=${slug}`">{{ name }}</NuxtLink>
+          <NuxtLink
+            :to="`/products?group=${slug}`"
+            :class="{ 'cursor-default': $route.query.group === slug }"
+            >{{ name }}</NuxtLink
+          >
           <div
             class="
               cursor-pointer
-              w-0
               h-0.5
               transition-all
               duration-300
-              group-hover:w-full
               absolute
               top-8
               bg-primary
             "
+            :class="[
+              $route.query.group !== slug ? 'w-0 group-hover:w-full' : 'w-full',
+            ]"
           ></div>
           <!-- <div> -->
           <div
@@ -44,16 +49,14 @@
               overflow-hidden
               transition-all
               duration-300
-              group-hover:bg-transparent
-              group-hover:h-auto
-              group-hover:overflow-visible
-              group-hover:opacity-100
-              group-hover:top-24
-              group-hover:pt-12
               z-10
               w-full
               left-0
             "
+            :class="{
+              'group-hover:bg-transparent group-hover:h-auto group-hover:overflow-visible group-hover:opacity-100 group-hover:top-24 group-hover:pt-12':
+                $route.query.group !== slug,
+            }"
           >
             <div class="bg-white py-4">
               <div class="container mx-auto">
