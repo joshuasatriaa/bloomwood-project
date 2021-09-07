@@ -150,7 +150,6 @@
               class="opacity-0 absolute h-5 w-5"
               :name="id"
             />
-            <pre>{{ form[id] }}</pre>
             <div
               class="
                 bg-white

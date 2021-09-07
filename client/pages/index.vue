@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <button @click="payment">testtt</button> -->
-    <div class="border-t border-b border-secondary relative mb-24">
+    <div class="border-b border-secondary relative mb-24">
       <div
         class="
           container

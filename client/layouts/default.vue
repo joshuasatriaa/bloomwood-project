@@ -5,7 +5,7 @@
       <MainNav />
       <!-- <MainNavTemp /> -->
     </header>
-    <main class="pt-36">
+    <main class="pt-[8.7rem]">
       <Nuxt />
     </main>
     <MainFooter class="mt-20" />
