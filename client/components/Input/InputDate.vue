@@ -1,17 +1,19 @@
 <template>
   <div class="input-field relative">
-    <textarea
+    <input
       :id="id"
+      ref="formDate"
+      type="date"
       v-bind="$attrs"
-      ref="formTextArea"
-      :type="type"
       :value="value"
       required
+      :placeholder="placeholder"
       class="
         w-full
         border-primary border-2
         focus:outline-none
-        p-4
+        px-4
+        py-2
         placeholder-secondary
         c-input
       "
@@ -32,14 +34,14 @@ export default {
       type: String,
       default: '',
     },
-    type: {
-      type: String,
-      default: 'text',
-    },
     classes: {
       type: String,
       default: '',
       required: false,
+    },
+    placeholder: {
+      type: String,
+      required: true,
     },
   },
   methods: {

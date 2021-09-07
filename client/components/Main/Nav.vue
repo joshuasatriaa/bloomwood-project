@@ -116,7 +116,7 @@
           ></div>
         </NuxtLink>
       </div>
-      <InputSearch class="hidden sm:block" />
+      <InputSearch class="hidden sm:block max-w-[300px] mx-5" />
       <div class="relative block xl:hidden">
         <button
           class="text-gray-500 w-10 h-10 relative focus:outline-none bg-white"
@@ -272,7 +272,7 @@
         </button>
       </div>
       <div class="flex justify-center mt-10">
-        <InputSearch />
+        <InputSearch class="max-w-[250px]" />
       </div>
       <div class="flex flex-col pt-12 items-center gap-y-6">
         <button

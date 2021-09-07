@@ -1,11 +1,12 @@
 <template>
-  <div class="relative">
+  <div class="relative w-full">
     <input
       type="text"
       class="
         p-2
         pl-8
         rounded
+        w-full
         border border-soft-gray
         bg-white
         focus:bg-white

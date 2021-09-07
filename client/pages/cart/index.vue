@@ -33,7 +33,7 @@
             src="/flower-2.jpg"
             width="148"
             height="148"
-            class="rounded-lg border-4 bg-primary max-w-[140px] mr-4"
+            class="rounded-lg border-4 border-primary max-w-[140px] mr-4"
           />
           <div class="flex flex-col">
             <h2 class="font-bold font-serif text-lg mb-2">Cloud Catcher</h2>
@@ -116,6 +116,7 @@
             w-full
             mt-5
           "
+          @click="$router.push(`${$route.path}/shipment`)"
         >
           checkout
         </button>
