@@ -41,7 +41,6 @@ class FakeInvoiceSeeder extends Seeder
             $productDetails = $this->generateProductsDetail($purchaseProducts);
 
             $invoice = new Invoice;
-            $invoice->user_id = $user->id;
             $invoice->invoice_number = $invoice->generateInvoiceNumber();
             $invoice->notes = $this->faker->paragraph(5);
             $invoice->status = $this->faker->randomElement(['pending', 'paid', 'processed', 'delivered']);
@@ -53,6 +52,9 @@ class FakeInvoiceSeeder extends Seeder
             $invoice->delivery_fee =  $deliveryFee;
             $invoice->grand_total = $this->calculateGrandTotal($productDetails, $deliveryFee);
 
+            $invoice->save();
+
+            $invoice->user_id = $user->id;
             $invoice->save();
 
             $i++;

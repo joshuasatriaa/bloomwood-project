@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class InvoiceResource extends JsonResource
@@ -24,10 +25,13 @@ class InvoiceResource extends JsonResource
             'pick_up' => $this->pick_up,
             'products_detail' => $this->products_detail,
             'delivery_fee' => $this->delivery_fee,
+            'status' => $this->status,
             'grand_total' => $this->grand_total,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
-            'payment_token' => $this->token
+            'created_at_format' => Carbon::parse($this->created_at)->toDayDateTimeString(),
+            'payment_token' => $this->token,
+            'user' => new UserResource($this->user)
         ];
     }
 }
