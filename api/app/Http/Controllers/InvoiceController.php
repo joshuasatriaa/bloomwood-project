@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewInvoiceEvent;
 use App\Facades\InvoiceFacade;
 use App\Http\Requests\InvoiceRequest;
 use App\Http\Resources\InvoiceResource;
@@ -11,6 +12,7 @@ use App\Services\Contracts\PaymentGatewayContract;
 use App\Services\InvoiceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 
 class InvoiceController extends Controller
 {
@@ -45,17 +47,11 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceRequest $request)
     {
-        $user = auth()->user();
-        $invoiceFacade = new InvoiceFacade(new InvoiceService(), $request->validated());
-        $invoice = $invoiceFacade->generate();
-
-        $token = $this->paymentGateway
-            ->setInvoiceId($invoice->id)
-            ->setGrossAmount($invoice->grand_total)
-            ->setCustomerDetail($user->name, $user->email, $user->phone_number)
-            ->getToken();
-
+        $invoice = $this->generateInvoice($request);
+        $token = $this->generateToken($invoice);
         $invoice->token = $token;
+
+        NewInvoiceEvent::dispatch();
 
         return (new InvoiceResource($invoice))
             ->response()
@@ -96,5 +92,26 @@ class InvoiceController extends Controller
     public function destroy(Invoice $invoice)
     {
         //
+    }
+
+    private function generateInvoice(InvoiceRequest $request): Invoice
+    {
+        $invoiceFacade = new InvoiceFacade(new InvoiceService(), $request->validated());
+        $invoice = $invoiceFacade->generate();
+
+        return $invoice;
+    }
+
+    private function generateToken(Invoice $invoice): string
+    {
+        $user = auth()->user();
+
+        $token = $this->paymentGateway
+            ->setInvoiceId($invoice->id)
+            ->setGrossAmount($invoice->grand_total)
+            ->setCustomerDetail($user->name, $user->email, $user->phone_number)
+            ->getToken();
+
+        return $token;
     }
 }

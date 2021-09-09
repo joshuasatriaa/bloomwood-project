@@ -35,12 +35,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // if (!request('search')) {
-        //     return Cache::tags(['products-index'])->remember('products-' . request('page', 1), 600, function () {
-        //         return ProductResource::collection(Product::latest()->paginate(30));
-        //     });
-        // }
-
         $products = Product::query()->filter([
             ProductNameFilter::class,
             ProductGroupFilter::class,
