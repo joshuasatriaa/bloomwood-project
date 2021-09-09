@@ -22,6 +22,10 @@ export const mutations = {
   SET_LOADING(state, bool) {
     state.loading = bool
   },
+  LOG_OUT_USER(state) {
+    state.auth.loggedIn = false
+    state.auth = null
+  },
 }
 
 export const actions = {

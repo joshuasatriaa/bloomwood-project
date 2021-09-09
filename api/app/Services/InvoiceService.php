@@ -30,13 +30,15 @@ class InvoiceService
         $detail = [];
         foreach ($productsInRequest as $p) {
             $product = Product::findOrFail($p['id']);
-
+            $thumbnail = $product->productImages()->first();
             $total_price = 0;
 
             $item = [
                 'id' => $product->id,
                 'name' => $product->name,
                 'size' => $product->size,
+                'thumbnail_image' => $thumbnail->thumbnail_image,
+                'price' => $product->price,
                 'variant' => [],
                 'add_ons' => [],
                 'total_price'  => 0,
@@ -49,6 +51,7 @@ class InvoiceService
                     'id' => $variant->id,
                     'name' => $variant->name,
                     'price' => $variant->price,
+                    'thumbnail_image' => $variant->thumbnail_image
                 ];
 
                 $total_price += $variant->price;
@@ -68,6 +71,7 @@ class InvoiceService
                                 'id' => $addOn['id'],
                                 'name' => $addOn['name'],
                                 'price' => $addOn['price'],
+                                'thumbnail_image' => $variant->thumbnail_image
                             ]
                         );
 

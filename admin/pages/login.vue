@@ -10,7 +10,9 @@
     "
   >
     <div class="row w-100">
-      <div class="col-12 col-lg-6 d-flex justify-content-center mx-auto">
+      <div
+        class="col-12 col-lg-8 col-xl-6 d-flex justify-content-center mx-auto"
+      >
         <div class="card w-100 border-0 shadow rounded-5 py-5">
           <div class="card-body d-flex flex-column align-items-center">
             <NuxtLink to="/" class="text-decoration-none">
@@ -38,7 +40,10 @@
                 />
                 <NuxtLink to="/forgot-password">Forget Password?</NuxtLink>
 
-                <button type="submit" class="btn btn-primary w-100 mt-3 text-white">
+                <button
+                  type="submit"
+                  class="btn btn-primary w-100 mt-3 text-white"
+                >
                   LOGIN
                 </button>
               </form>

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceResource extends JsonResource
 {
@@ -15,6 +16,7 @@ class InvoiceResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
@@ -31,7 +33,7 @@ class InvoiceResource extends JsonResource
             'created_at' => $this->created_at,
             'created_at_format' => Carbon::parse($this->created_at)->toDayDateTimeString(),
             'payment_token' => $this->token,
-            'user' => new UserResource($this->user)
+            'user' => new UserResource($this->user),
         ];
     }
 }

@@ -94,7 +94,7 @@ class FakeProductSeeder extends Seeder
                 $data =
                     [
                         'name' => $randomVar['name'],
-                        'price' => 50000,
+                        'price' => $p->price + 5000,
                         'thumbnail_image' => $this->saveThumbImages($randomVar['image'], $this->IMAGE_FOLDER)
                     ];
 

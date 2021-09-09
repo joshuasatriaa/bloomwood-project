@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { useGetInvoices } from '@/composables/useInvoices'
+import { useGetInvoices } from '~/composables/useInvoice'
 export default {
   middleware: 'auth',
   setup() {

@@ -113,11 +113,14 @@ class FakeInvoiceSeeder extends Seeder
 
             $randomVar = $p->productVariants()->get()->random(1)->first();
             $randomAddOns = $p->productAddOns()->get()->random(random_int(0, $countAddOns))->all();
+            $thumbnail = $p->productImages()->first();
 
             $item =  [
                 'id' => $p['id'],
                 'name' => $p['name'],
                 'size' => $p['size'],
+                'price' => $p['price'],
+                'thumbnail_image' => $thumbnail->thumbnail_image,
                 'variant' => [],
                 'add_ons' => [],
                 'total_price'  => 0,
@@ -128,6 +131,7 @@ class FakeInvoiceSeeder extends Seeder
                     'id' => $randomVar->id,
                     'name' => $randomVar->name,
                     'price' => $randomVar->price,
+                    'thumbnail_image' => $randomVar->thumbnail_image
                 ];
 
                 $total_price += $randomVar->price;
@@ -143,6 +147,7 @@ class FakeInvoiceSeeder extends Seeder
                             'id' => $ao['id'],
                             'name' => $ao['name'],
                             'price' => $ao['price'],
+                            'thumbnail_image' => $ao['thumbnail_image']
                         ]
                     );
                     $total_price += $ao['price'];
