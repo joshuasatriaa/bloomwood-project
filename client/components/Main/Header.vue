@@ -11,21 +11,6 @@
       <IconBrideStory class="fill-current text-primary mr-5" />
     </div>
     <div class="h-full flex divide-x">
-      <!-- <template v-if="!$auth.user">
-        <div class="flex h-full items-center space-x-8">
-          <NuxtLink
-            class="text-secondary hover:text-primary transition-colors"
-            to="/accounts/login"
-            >Login</NuxtLink
-          >
-          <NuxtLink
-            class="text-secondary hover:text-primary transition-colors"
-            to="/accounts/register"
-            >Sign Up</NuxtLink
-          >
-        </div>
-      </template>
-      <template v-else> -->
       <NuxtLink
         to="/account"
         class="
@@ -97,10 +82,11 @@
           2
         </div>
       </NuxtLink>
-      <!-- </template> -->
     </div>
   </div>
 </template>
 <script>
-export default {}
+export default {
+  name: 'NavHeader',
+}
 </script>

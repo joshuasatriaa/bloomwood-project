@@ -1,8 +1,9 @@
 <template>
-  <div class="container mx-auto pt-20 flex">
-    <div class="ml-10">
-      <div class="font-bold bg-tertiary rounded-md w-10/12">
-        <!--  -->
+  <div
+    class="container mx-auto pt-20 flex flex-col lg:flex-row gap-y-5 gap-x-10"
+  >
+    <div class="xl:ml-10 w-full lg:w-9/12 xl:w-6/12 2xl:w-5/12">
+      <div class="font-bold bg-tertiary rounded-md">
         <button
           v-for="tab in tabs"
           :key="tab"
@@ -15,7 +16,8 @@
             border border-transparent
             w-full
             text-left
-            pl-14
+            pl-5
+            sm:pl-14
             text-xl
             font-bold
             py-4

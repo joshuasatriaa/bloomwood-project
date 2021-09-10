@@ -1,5 +1,15 @@
 <template>
-  <div class="bg-tertiary rounded-xl py-14 pl-14 pr-28 w-9/12">
+  <div
+    class="
+      bg-tertiary
+      rounded-xl
+      px-5
+      py-10
+      sm:py-14 sm:pl-14 sm:pr-28
+      w-full
+      xl:w-9/12
+    "
+  >
     <h2 class="text-3xl mb-14 text-primary font-bold">Change Password</h2>
     <form @submit.prevent="save()">
       <InputText
