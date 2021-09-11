@@ -201,7 +201,18 @@
 <script>
 export default {
   name: 'Shipment',
+  beforeRouteLeave(to, from, next) {
+    const answer = window.confirm(
+      "Leave page? You'll have to reselect from your cart."
+    )
+    answer ? next() : next(false)
+  },
   middleware: 'auth',
+  data() {
+    return {
+      shipmentType: '',
+    }
+  },
 }
 </script>
 <style></style>
