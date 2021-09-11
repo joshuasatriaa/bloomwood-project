@@ -52,7 +52,6 @@
           <div
             class="
               fixed
-              h-0
               w-full
               z-10
               left-0
@@ -62,9 +61,11 @@
               opacity-0
               duration-300
               top-36
+              border-b
+              pt-[2.6rem]
             "
             :class="{
-              'group-hover:w-full group-hover:scale-y-100  group-hover:opacity-100 group-hover:h-auto group-hover:top-24 group-hover:pt-[2.6rem]':
+              'group-hover:scale-y-100 group-hover:top-24 group-hover:opacity-100':
                 $route.query.group !== slug,
             }"
           >
@@ -85,7 +86,9 @@
                       width="150"
                       height="150"
                     />
-                    <p class="font-bold text-primary mb-3">{{ category.label }}</p>
+                    <p class="font-bold text-primary mb-3">
+                      {{ category.label }}
+                    </p>
                     <ul class="text-secondary font-medium font-sans">
                       <li v-for="child in category.children" :key="child.id">
                         {{ child.label }}
