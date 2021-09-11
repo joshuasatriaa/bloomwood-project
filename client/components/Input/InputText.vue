@@ -20,7 +20,7 @@
       :class="[
         {
           'mt-5 border-b-4': variant === 'underlined',
-          'border-2 rounded-sm ': variant === 'outlined',
+          'border-2 rounded-sm pl-3': variant === 'outlined',
           'h-10': height === 'default',
           'h-8': height === 'short',
           'text-sm': fontSize === 'small',
@@ -46,8 +46,8 @@
       :class="[
         {
           '-translate-y-5': value !== '' && variant === 'underlined',
-          '-translate-y-8': value !== '' && variant === 'outlined',
-          'translate-x-5': variant === 'outlined' && value === '',
+          '-translate-y-8 translate-x-0':
+            value !== '' && variant === 'outlined',
         },
         variant !== 'outlined' ? 'bottom-3' : 'bottom-2',
       ]"
@@ -114,7 +114,11 @@ export default {
 
 .input-field-outlined:focus-within label {
   @apply -translate-y-8;
-  @apply -translate-x-0;
+  @apply translate-x-0;
+}
+
+.input-field-outlined:not(:focus-within) label {
+  @apply translate-x-5;
 }
 
 .c-input:not(:placeholder-shown) ~ label {

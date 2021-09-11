@@ -1,5 +1,21 @@
 <template>
-  <div class="input-field relative">
+  <div class="relative">
+    <label
+      v-if="label"
+      :for="id"
+      class="
+        transition
+        transform
+        duration-800
+        cursor-text
+        ease-in-out
+        bg-transparent
+        text-secondary
+        font-bold
+      "
+    >
+      {{ label }}
+    </label>
     <input
       :id="id"
       ref="formDate"
@@ -12,9 +28,11 @@
         w-full
         border-primary border-2
         focus:outline-none
-        px-4
+        px-3
         py-2
         placeholder-secondary
+        font-bold
+        text-secondary
       "
       :class="classes"
       @input="onInput($event)"
@@ -42,6 +60,11 @@ export default {
       type: String,
       required: true,
     },
+    label: {
+      type: [String, Boolean],
+      required: false,
+      default: false,
+    },
   },
   methods: {
     onInput(event) {
@@ -50,12 +73,4 @@ export default {
   },
 }
 </script>
-<style>
-.input-field:focus-within label {
-  @apply -translate-y-5;
-}
-
-.c-input:not(:placeholder-shown) ~ label {
-  @apply -translate-y-5;
-}
-</style>
+<style></style>

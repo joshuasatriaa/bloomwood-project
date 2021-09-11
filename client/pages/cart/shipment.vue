@@ -102,7 +102,7 @@
                 value="currentAddress"
                 name="address"
                 type="radio"
-                class="opacity-0 absolute h-5 w-5"
+                class="opacity-0 absolute h-5 w-5 cursor-pointer"
               />
               <div
                 class="
@@ -115,6 +115,7 @@
                   flex flex-shrink-0
                   justify-center
                   items-center
+                  cursor-pointer
                   focus-within:border-blue-500 focus-within:bg-primary
                 "
               >
@@ -125,7 +126,10 @@
                   ]"
                 ></div>
               </div>
-              <label class="font-bold select-none pl-5" for="currentAddress">
+              <label
+                class="font-bold select-none pl-5 cursor cursor-pointer"
+                for="currentAddress"
+              >
                 <div class="flex flex-col">
                   <p class="mr-2 font-normal">My Current Address</p>
                   <span class="font-bold font-sans text-sm"
@@ -144,7 +148,7 @@
                 name="address"
                 value="customAddress"
                 type="radio"
-                class="opacity-0 absolute h-5 w-5"
+                class="opacity-0 absolute h-5 w-5 cursor-pointer"
               />
               <div
                 class="
@@ -156,6 +160,7 @@
                   h-5
                   flex flex-shrink-0
                   justify-center
+                  cursor-pointer
                   items-center
                   focus-within:border-blue-500 focus-within:bg-primary
                 "
@@ -167,7 +172,10 @@
                   ]"
                 ></div>
               </div>
-              <label class="font-bold select-none pl-5" for="customAddress">
+              <label
+                class="font-bold select-none pl-5 cursor-pointer"
+                for="customAddress"
+              >
                 <div class="flex flex-col">
                   <p class="mr-2 font-normal">Custom Address</p>
                 </div>
@@ -229,6 +237,7 @@
             v-model="form.time"
             placeholder="select delivery time"
             class="mb-8"
+            label="select delivery time"
           />
 
           <div class="mb-10 border-b-2 border-secondary">

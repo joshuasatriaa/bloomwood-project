@@ -147,7 +147,7 @@
               :id="id"
               v-model="form.addOns[id]"
               type="checkbox"
-              class="opacity-0 absolute h-5 w-5"
+              class="opacity-0 absolute h-5 w-5 cursor-pointer"
               :name="id"
             />
             <div
@@ -161,6 +161,7 @@
                 flex flex-shrink-0
                 justify-center
                 items-center
+                cursor-pointer
                 focus-within:border-blue-500 focus-within:bg-primary
               "
             >
@@ -169,7 +170,10 @@
                 :class="[form.addOns[id] ? 'block' : 'hidden']"
               ></div>
             </div>
-            <label :for="id" class="text-lg font-bold select-none ml-5">
+            <label
+              :for="id"
+              class="text-lg font-bold select-none ml-5 cursor-pointer"
+            >
               <div class="flex flex-col md:flex-row md:items-center">
                 <p class="mr-2">{{ name }}</p>
                 <!-- <InputSelect
