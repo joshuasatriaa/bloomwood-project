@@ -219,7 +219,6 @@ export default {
   middleware: 'auth',
   data() {
     return {
-<<<<<<< HEAD
       deliveryMethod: 'delivery',
     }
   },
@@ -229,11 +228,6 @@ export default {
       this.deliveryMethod = method
     },
   },
-=======
-      shipmentType: '',
-    }
-  },
->>>>>>> d927aa44ed2a3ecaa913620de05b6b7e6572cb9b
 }
 </script>
 <style></style>
