@@ -34,14 +34,19 @@ const useGetCategory = () => {
   return { category, getCategory }
 }
 
-const useGetCategories = () => {
+const useGetCategories = (onlyParents = false) => {
   const { app } = useContext()
   const store = useStore()
   const route = useRoute()
 
-  const getCategories = async (search = '') => {
+  const getCategories = async (search = '', onlyParents = false) => {
     const qs = app.$qsHandler('search', search)
     store.commit('categories/SET_QUERY', qs)
+
+    if (onlyParents) {
+      store.commit('categories/SET_ONLY_PARENTS', true)
+    }
+
     const [_, err] = await app.$async(
       store.dispatch('categories/GET_CATEGORIES', {})
     )
@@ -54,7 +59,7 @@ const useGetCategories = () => {
   }
 
   onMounted(async () => {
-    await getCategories()
+    await getCategories('', onlyParents)
   })
 
   const categories = computed(() => {

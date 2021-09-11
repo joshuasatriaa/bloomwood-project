@@ -26,16 +26,21 @@ class Invoice extends Model
          *          'variant' => [
          *              'id',
          *              'name',
-         *              'price'
+         *              'price',
+         *              'thumbnail_image
          *          ]
          *          'add_ons' => [
          *              [
          *                  'id',
          *                  'name',
          *                  'price',
+         *                  'thumbnail_image
          *              ]   
          *          ],
+         *          'message',
+         *          'price',
          *          'total_price',
+         *          'thumbnail_image
          *      ]
          * ]
          */

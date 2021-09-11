@@ -4,6 +4,7 @@
       <thead class="">
         <tr>
           <th scope="col">#</th>
+          <th scope="col"></th>
           <th scope="col">Name</th>
           <th scope="col" class="text-end">Action</th>
         </tr>
@@ -13,7 +14,16 @@
           <td>
             {{ index + 1 }}
           </td>
-          <td class="text-nowrap">{{ category.name }}</td>
+          <td>
+            <img :src="category.thumbnail_image" width="100" alt="" />
+          </td>
+          <td class="text-nowrap">
+            {{ category.name }}
+            <span v-if="!category.parent_id" class="badge bg-warning ms-3"
+              >Parent</span
+            >
+            <span v-else class="badge bg-success ms-3"> Child </span>
+          </td>
           <td class="text-end text-nowrap">
             <NuxtLink
               :to="`/categories/${category.id}/edit`"

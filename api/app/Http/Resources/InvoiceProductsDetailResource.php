@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
-class CategoryResource extends JsonResource
+class InvoiceProductsDetailResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,16 +15,16 @@ class CategoryResource extends JsonResource
      */
     public function toArray($request)
     {
+        $storage = Storage::disk('public');
+
+
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'label' => $this->name,
-            'slug' => $this->slug,
-            'parent_id' => $this->parent_id,
-            'children' => CategoryResource::collection(
-                $this->whenLoaded('allSubCategories')
-            ),
-            'thumbnail_image' => $this->thumbnail_image ? Storage::disk('public')->url($this->thumbnail_image) : null,
+            'size' => $this->size,
+            'total_price' => $this->total_price,
+            'thumbnail_image' => $storage->url($this->thumbnail_image)
+
         ];
     }
 }

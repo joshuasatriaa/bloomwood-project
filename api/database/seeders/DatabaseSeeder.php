@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             FakeCategorySeeder::class,
             FakeProductSeeder::class,
             FakeNavigationGroupSeeder::class,
-            FakeInvoiceSeeder::class
+            FakeInvoiceSeeder::class,
         ]);
     }
 }

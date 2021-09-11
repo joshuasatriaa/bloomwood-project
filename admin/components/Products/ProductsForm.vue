@@ -45,7 +45,8 @@
                 <TreeSelect
                   v-if="categories.data"
                   v-model="form.category_ids"
-                  :disable-branch-nodes="true"
+                  :disable-branch-nodes="false"
+                  :value-consists-of="'LEAF_PRIORITY'"
                   :multiple="true"
                   :options="categories.data"
                   placeholder="Select option..."

@@ -59,7 +59,7 @@ export default {
       this.$emit('newImage', this.images)
     },
     fileExceeded(file) {
-      this.$toast.error('Only five images allowed')
+      this.$toast.error(`Only ${this.maxImages} images allowed`)
       this.$refs.myVueDropzone.removeFile(file)
     },
   },

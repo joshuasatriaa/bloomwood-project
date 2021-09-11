@@ -41,6 +41,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/axios.js',
     '@/plugins/bootstrap.js',
     '@/plugins/global.js',
     { src: '@/plugins/treeSelect.js', mode: 'client' },
@@ -89,7 +90,7 @@ export default {
         },
         redirect: {
           login: '/login',
-          logout: '/',
+          logout: '/login',
           home: '/home',
         },
       },
