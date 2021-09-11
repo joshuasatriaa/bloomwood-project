@@ -52,18 +52,19 @@
           <div
             class="
               fixed
-              opacity-0
               h-0
-              shadow-sm
-              overflow-hidden
-              transition-all
-              duration-300
-              z-10
               w-full
+              z-10
               left-0
+              transition-all
+              scale-y-0
+              origin-top
+              opacity-0
+              duration-300
+              top-36
             "
             :class="{
-              'group-hover:bg-transparent group-hover:h-auto group-hover:overflow-visible group-hover:opacity-100 group-hover:top-24 group-hover:pt-[2.6rem]':
+              'group-hover:w-full group-hover:scale-y-100  group-hover:opacity-100 group-hover:h-auto group-hover:top-24 group-hover:pt-[2.6rem]':
                 $route.query.group !== slug,
             }"
           >
