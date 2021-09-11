@@ -11,12 +11,18 @@
           </h5>
           <div class="row mt-5">
             <div class="col-10 mx-auto">
-              <div class="mb-3">
+              <div v-if="!isUpdate" class="mb-3">
                 <BaseCheckbox
                   v-model="form.isParent"
+                  :class="{ disabled: isUpdate }"
                   label="Is Parent"
                   form-for="formIsParent"
+                  :disabled="isUpdate"
                 />
+              </div>
+
+              <div v-if="isUpdate && form.isParent">
+                <h5 class="badge bg-primary">Parent Category</h5>
               </div>
 
               <BaseInput
@@ -28,6 +34,10 @@
                 required
               />
 
+              <div v-if="isUpdate && form.isParent" class="my-3">
+                <p>Current Image</p>
+                <img :src="category.data.thumbnail_image" alt="" srcset="" />
+              </div>
               <div v-if="form.isParent">
                 <BaseDropzone
                   label="Parent Category Image"
@@ -36,7 +46,7 @@
                 />
               </div>
 
-              <div class="mb-3">
+              <div v-if="!form.isParent" class="mb-3">
                 <label for="formCategories" class="form-label"
                   >Parent Category</label
                 >
@@ -91,6 +101,11 @@ export default {
     const initData = (data) => {
       form.name = data.name
       form.parent_id = data.parent_id
+      if (data.parent_id) {
+        form.isParent = false
+      } else {
+        form.isParent = true
+      }
     }
 
     if (props.isUpdate) {

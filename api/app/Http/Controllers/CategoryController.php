@@ -86,7 +86,11 @@ class CategoryController extends Controller
     {
         $validated = $request->validated();
 
-        $category->update($validated);
+        if ($validated['thumbnail_image']) {
+            $validated['thumbnail_image'] = $this->saveThumbnailCategory($request, $validated);
+        }
+
+        $category->update(array_filter($validated));
 
         Cache::tags(['category-index'])->flush();
 

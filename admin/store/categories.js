@@ -27,6 +27,9 @@ export const mutations = {
   SET_QUERY(state, payload) {
     state.qs = payload
   },
+  RESET_STATE(state) {
+    state.category = {}
+  },
   SET_ONLY_PARENTS(state, payload) {
     state.onlyParents = payload
   },
