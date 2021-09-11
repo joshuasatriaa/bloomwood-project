@@ -34,6 +34,13 @@
       <AccountChangePassword v-else-if="selectedTab === 'Change Password'" />
       <div v-else>Logging Out</div>
     </div>
+    <ModalContainer
+      id="modal-logout"
+      title="Logout"
+      desc="are you sure you want to logout?"
+      btn-proceed-title="yes"
+      :btn-proceed-callback="() => logMeOut()"
+    />
   </div>
 </template>
 <script>
@@ -57,7 +64,8 @@ export default {
     },
     changeTab(clickedTab) {
       if (clickedTab === 'Log Out') {
-        return this.logMeOut()
+        return this.$modal.show('modal-logout')
+        // return this.logMeOut()
       }
       this.selectedTab = clickedTab
     },
