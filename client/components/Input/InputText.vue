@@ -1,5 +1,13 @@
 <template>
-  <div class="input-field relative -translate-y-7">
+  <div
+    class="relative"
+    :class="[
+      { '-translate-y-7': variant === 'underlined' },
+      variant === 'outlined'
+        ? 'input-field-outlined'
+        : 'input-field-underlined',
+    ]"
+  >
     <input
       :id="id"
       v-bind="$attrs"
@@ -8,16 +16,17 @@
       :type="type"
       :value="value"
       required
-      class="
-        mt-5
-        h-9
-        w-full
-        bg-transparent
-        border-primary border-b-4
-        focus:outline-none
-        input-text
-        c-input
-      "
+      class="w-full bg-transparent border-primary focus:outline-none c-input"
+      :class="[
+        {
+          'mt-5 border-b-4': variant === 'underlined',
+          'border-2 rounded-sm ': variant === 'outlined',
+          'h-10': height === 'default',
+          'h-8': height === 'short',
+          'text-sm': fontSize === 'small',
+        },
+        getBackgroundColor,
+      ]"
       @input="onInput($event)"
     />
     <label
@@ -29,12 +38,19 @@
         cursor-text
         ease-in-out
         left-0
-        bottom-3
         absolute
         bg-transparent
         text-secondary
         font-bold
       "
+      :class="[
+        {
+          '-translate-y-5': value !== '' && variant === 'underlined',
+          '-translate-y-8': value !== '' && variant === 'outlined',
+          'translate-x-5': variant === 'outlined' && value === '',
+        },
+        variant !== 'outlined' ? 'bottom-3' : 'bottom-2',
+      ]"
     >
       {{ label }}
     </label>
@@ -60,6 +76,29 @@ export default {
       type: String,
       default: 'text',
     },
+    height: {
+      type: String,
+      default: 'default',
+      validator(value) {
+        return ['short', 'default'].includes(value)
+      },
+    },
+    variant: {
+      type: String,
+      default: 'underlined',
+      validator(value) {
+        return ['underlined', 'outlined'].includes(value)
+      },
+    },
+    backgroundColor: {
+      type: String,
+      default: 'transparent',
+    },
+  },
+  computed: {
+    getBackgroundColor() {
+      return `bg-${this.backgroundColor}`
+    },
   },
   methods: {
     onInput(event) {
@@ -69,8 +108,13 @@ export default {
 }
 </script>
 <style>
-.input-field:focus-within label {
+.input-field-underlined:focus-within label {
   @apply -translate-y-5;
+}
+
+.input-field-outlined:focus-within label {
+  @apply -translate-y-8;
+  @apply -translate-x-0;
 }
 
 .c-input:not(:placeholder-shown) ~ label {

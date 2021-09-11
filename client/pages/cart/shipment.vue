@@ -69,7 +69,7 @@
             :class="[
               deliveryMethod === 'delivery' ? 'bg-white' : 'bg-[#D9D5D2]',
             ]"
-            @click="() => handleMethod('delivery')"
+            @click="handleMethod('delivery')"
           >
             <IconTruck class="mb-2" />
             <p class="font-bold text-sm">Delivery</p>
@@ -86,89 +86,166 @@
               sm:min-w-[10rem]
             "
             :class="[deliveryMethod === 'pickup' ? 'bg-white' : 'bg-[#D9D5D2]']"
-            @click="() => handleMethod('pickup')"
+            @click="handleMethod('pickup')"
           >
             <IconBag class="mb-2" />
             <span class="font-bold text-sm">Self Pick Up</span>
           </button>
         </div>
 
-        <div class="mb-10 font-serif">
-          <div class="flex relative my-4">
-            <input type="checkbox" class="opacity-0 absolute h-5 w-5" />
-            <div
-              class="
-                bg-white
-                border-2
-                rounded-sm
-                border-primary
-                w-5
-                h-5
-                flex flex-shrink-0
-                justify-center
-                items-center
-                focus-within:border-blue-500 focus-within:bg-primary
-              "
-            >
-              <div class="h-3 w-3 bg-pink rounded-sm"></div>
-            </div>
-            <label class="font-bold select-none ml-5">
-              <div class="flex flex-col">
-                <p class="mr-2 font-normal">My Current Address</p>
-                <span class="font-bold font-sans text-sm"
-                  >Jalan Sudirman (Perumahan Mahkota) Nomor 12, 14410</span
-                >
+        <template v-if="deliveryMethod === 'delivery'">
+          <div class="mb-10 font-serif">
+            <div class="flex relative my-4">
+              <input
+                id="currentAddress"
+                v-model="addressType"
+                value="currentAddress"
+                name="address"
+                type="radio"
+                class="opacity-0 absolute h-5 w-5"
+              />
+              <div
+                class="
+                  bg-white
+                  border-2
+                  rounded-sm
+                  border-primary
+                  w-5
+                  h-5
+                  flex flex-shrink-0
+                  justify-center
+                  items-center
+                  focus-within:border-blue-500 focus-within:bg-primary
+                "
+              >
+                <div
+                  class="h-3 w-3 bg-pink rounded-sm"
+                  :class="[
+                    addressType === 'currentAddress' ? 'block' : 'hidden',
+                  ]"
+                ></div>
               </div>
-            </label>
-          </div>
-        </div>
-
-        <div class="mb-8 font-serif">
-          <div class="flex relative my-4">
-            <input type="checkbox" class="opacity-0 absolute h-5 w-5" />
-            <div
-              class="
-                bg-white
-                border-2
-                rounded-sm
-                border-primary
-                w-5
-                h-5
-                flex flex-shrink-0
-                justify-center
-                items-center
-                focus-within:border-blue-500 focus-within:bg-primary
-              "
-            >
-              <div class="h-3 w-3 bg-pink rounded-sm"></div>
+              <label class="font-bold select-none pl-5" for="currentAddress">
+                <div class="flex flex-col">
+                  <p class="mr-2 font-normal">My Current Address</p>
+                  <span class="font-bold font-sans text-sm"
+                    >Jalan Sudirman (Perumahan Mahkota) Nomor 12, 14410</span
+                  >
+                </div>
+              </label>
             </div>
-            <label class="font-bold select-none ml-5">
-              <div class="flex flex-col">
-                <p class="mr-2 font-normal">Custom Address</p>
-              </div>
-            </label>
           </div>
-        </div>
 
-        <InputDate
-          id="delivery-date"
-          placeholder="select delivery time"
-          class="mb-8"
-        />
+          <div class="mb-10 font-serif">
+            <div class="flex relative my-4">
+              <input
+                id="customAddress"
+                v-model="addressType"
+                name="address"
+                value="customAddress"
+                type="radio"
+                class="opacity-0 absolute h-5 w-5"
+              />
+              <div
+                class="
+                  bg-white
+                  border-2
+                  rounded-sm
+                  border-primary
+                  w-5
+                  h-5
+                  flex flex-shrink-0
+                  justify-center
+                  items-center
+                  focus-within:border-blue-500 focus-within:bg-primary
+                "
+              >
+                <div
+                  class="h-3 w-3 bg-pink rounded-sm"
+                  :class="[
+                    addressType === 'customAddress' ? 'block' : 'hidden',
+                  ]"
+                ></div>
+              </div>
+              <label class="font-bold select-none pl-5" for="customAddress">
+                <div class="flex flex-col">
+                  <p class="mr-2 font-normal">Custom Address</p>
+                </div>
+              </label>
+            </div>
+          </div>
 
-        <div class="mb-10 border-b-2 border-secondary">
-          <label for="request" class="font-bold text-lg font-serif"
-            >Any Delivery Request?</label
-          >
-          <InputTextArea
-            id="request"
-            class="my-5"
-            rows="6"
-            minlength="5"
-            classes="bg-white"
-            placeholder="ex: leave it in front of the gate"
+          <div v-if="addressType === 'customAddress'">
+            <InputText
+              id="name"
+              v-model="form.name"
+              type="text"
+              label="recipient's name"
+              class="mt-14 mb-10"
+              background-color="white"
+              variant="outlined"
+            />
+            <InputText
+              id="phone-number"
+              v-model="form.phoneNumber"
+              type="text"
+              class="mb-10"
+              label="recipient's phone number"
+              background-color="white"
+              variant="outlined"
+            />
+            <InputSelect
+              id="area"
+              v-model="form.area"
+              variant="outlined"
+              background-color="white"
+              placeholder="Area"
+              :options="[
+                {
+                  id: 1,
+                  value: 'test',
+                },
+                {
+                  id: 2,
+                  value: 'test-2',
+                },
+              ]"
+              label="Area"
+              class="mb-10"
+            />
+            <InputText
+              id="address"
+              v-model="form.address"
+              type="text"
+              label="receipient's address"
+              class="mb-7"
+              background-color="white"
+              variant="outlined"
+            />
+          </div>
+
+          <InputDate
+            id="delivery-date"
+            v-model="form.time"
+            placeholder="select delivery time"
+            class="mb-8"
           />
-        </div>
+
+          <div class="mb-10 border-b-2 border-secondary">
+            <label for="request" class="font-bold text-lg font-serif"
+              >Any Delivery Request?</label
+            >
+            <InputTextArea
+              id="request"
+              v-model="form.request"
+              class="my-5"
+              rows="6"
+              minlength="5"
+              classes="bg-white"
+              placeholder="ex: leave it in front of the gate"
+            />
+          </div>
+        </template>
 
         <div class="flex justify-between w-full items-end">
           <p class="font-serif line-clamp-1">Red and Everything Nice</p>
@@ -220,11 +297,19 @@ export default {
   data() {
     return {
       deliveryMethod: 'delivery',
+      addressType: 'currentAddress',
+      form: {
+        name: '',
+        phoneNumber: '',
+        area: '',
+        address: '',
+        time: '',
+        request: '',
+      },
     }
   },
   methods: {
     handleMethod(method) {
-      console.log(method)
       this.deliveryMethod = method
     },
   },

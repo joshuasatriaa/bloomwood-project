@@ -42,7 +42,7 @@
         />
         <InputText
           id="address"
-          v-model="form.addess"
+          v-model="form.address"
           type="text"
           label="Address"
           class="mb-7"

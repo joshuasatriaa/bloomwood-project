@@ -15,7 +15,6 @@
         px-4
         py-2
         placeholder-secondary
-        c-input
       "
       :class="classes"
       @input="onInput($event)"
