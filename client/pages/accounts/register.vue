@@ -96,10 +96,15 @@
 </template>
 
 <script>
+import { useGetAddressAreas } from '@/composables/useAddressArea'
 export default {
   name: 'Register',
   middleware: 'auth',
   auth: 'guest',
+  setup() {
+    const { addressAreas, getAddressAreas } = useGetAddressAreas()
+    return { addressAreas, getAddressAreas }
+  },
   data() {
     return {
       form: {

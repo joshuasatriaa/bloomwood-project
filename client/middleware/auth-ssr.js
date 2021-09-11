@@ -10,6 +10,7 @@ export default async function (context) {
       }
       context.$axios.setHeader('Referer', process.env.BROWSER_URL)
       const res = await context.$axios.$get(`/api/user`)
+      console.log(res)
       await context.$auth.strategy.token.set('XSRF-TOKEN', xsrf)
       await context.$auth.setUser(res.data)
       context.$auth.$state.loggedIn = true

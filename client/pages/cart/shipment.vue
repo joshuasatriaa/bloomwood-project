@@ -54,8 +54,10 @@
       <div class="bg-tertiary rounded-xl p-5">
         <h2 class="mb-5 font-bold font-serif text-lg">Select Method</h2>
         <div class="flex min-h-[6rem] gap-x-3 sm:gap-x-6 mb-8">
-          <div
+          <button
+            type="button"
             class="
+              appearance-none
               flex flex-col
               rounded-lg
               justify-center
@@ -64,11 +66,16 @@
               min-w-[7rem]
               sm:min-w-[10rem]
             "
+            :class="[
+              deliveryMethod === 'delivery' ? 'bg-white' : 'bg-[#D9D5D2]',
+            ]"
+            @click="() => handleMethod('delivery')"
           >
             <IconTruck class="mb-2" />
             <p class="font-bold text-sm">Delivery</p>
-          </div>
-          <div
+          </button>
+          <button
+            type="button"
             class="
               flex flex-col
               rounded-lg
@@ -78,10 +85,12 @@
               min-w-[7rem]
               sm:min-w-[10rem]
             "
+            :class="[deliveryMethod === 'pickup' ? 'bg-white' : 'bg-[#D9D5D2]']"
+            @click="() => handleMethod('pickup')"
           >
             <IconBag class="mb-2" />
             <span class="font-bold text-sm">Self Pick Up</span>
-          </div>
+          </button>
         </div>
 
         <div class="mb-10 font-serif">
@@ -202,6 +211,17 @@
 export default {
   name: 'Shipment',
   middleware: 'auth',
+  data() {
+    return {
+      deliveryMethod: 'delivery',
+    }
+  },
+  methods: {
+    handleMethod(method) {
+      console.log(method)
+      this.deliveryMethod = method
+    },
+  },
 }
 </script>
 <style></style>
