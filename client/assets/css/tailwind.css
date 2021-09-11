@@ -19,3 +19,8 @@
   font-weight: 700;
   src: url('~assets/fonts/GothamBold.ttf') format('truetype');
 }
+
+.vm--container {
+  @apply overflow-x-hidden;
+  @apply overflow-y-auto;
+}

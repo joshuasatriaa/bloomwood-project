@@ -2,7 +2,7 @@
   <div class="container mx-auto pt-20">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 text-primary">
       <ContainedImage
-        :src="product.data.images[0].original_image"
+        :src="product.data.images[0].original_image || '/'"
         alt=""
         width="650"
         height="650"
@@ -145,7 +145,7 @@
           >
             <input
               :id="id"
-              v-model="form.addOns[id].checked"
+              v-model="form.addOns[id]"
               type="checkbox"
               class="opacity-0 absolute h-5 w-5"
               :name="id"
@@ -166,7 +166,7 @@
             >
               <div
                 class="h-3 w-3 bg-pink rounded-sm"
-                :class="[form.addOns[id].checked ? 'block' : 'hidden']"
+                :class="[form.addOns[id] ? 'block' : 'hidden']"
               ></div>
             </div>
             <label :for="id" class="text-lg font-bold select-none ml-5">
@@ -212,6 +212,7 @@
             relative
           "
           style="max-width: 420px"
+          @click="addToCart"
         >
           <p>save to cart</p>
           <IconCart class="absolute fill-current text-white right-5" />
@@ -262,6 +263,12 @@
         </Accordion>
       </div>
     </div>
+    <ModalContainer
+      id="modal-add-cart"
+      title="Added to Cart"
+      desc="item successfully added to cart"
+      btn-close-title="okay"
+    />
   </div>
 </template>
 <script>
@@ -271,16 +278,18 @@ import {
   watch,
   ref,
   onMounted,
+  useFetch,
+  useContext,
 } from '@nuxtjs/composition-api'
 import { useGetProduct } from '@/composables/useProduct'
 
 export default {
+  name: 'Product',
   setup() {
     const route = useRoute()
+    const context = useContext()
 
     const { product, getProduct } = useGetProduct()
-
-    // console.log(product.value.data.name)
 
     const sizes = ref([
       {
@@ -305,81 +314,17 @@ export default {
     const form = ref({
       total: 1,
       size: '',
-      addOns: computed(() => {
-        return product.value.data.add_ons.reduce((acc, curr) => {
-          return {
-            ...acc,
-            [curr.id]: {
-              id: curr.id,
-              price: curr.price,
-              name: curr.name,
-              checked: false,
-            },
-          }
-        }, {})
-      }),
+      addOns: {},
     })
 
-    // onMounted(() => {
-    //   form.value.addOns =
-    // })
-
-    const handleCheckbox = (e) => {
-      console.log(e.target.checked)
-      console.log(e.target.name)
-    }
-
-    // return { ...product.value.data, getProduct }
-    return { product, getProduct, handleCheckbox, form, sizes, currentSize }
+    return { product, getProduct, form, sizes, currentSize }
   },
-  // data() {
-  //   return {
-  //     currentSize: '',
-  //     currentBundle: '',
-  //     form: {
-  //       test: '',
-  //     },
-  //     total: 1,
-  //     sizes: [
-  //       {
-  //         id: 'Small-123',
-  //         value: 'Small',
-  //         label: 'Small',
-  //       },
-  //       {
-  //         id: 'Medium-123',
-  //         value: 'Medium',
-  //         label: 'Medium',
-  //       },
-  //       {
-  //         id: 'Large-123',
-  //         value: 'Large',
-  //         label: 'Large',
-  //       },
-  //     ],
-  //     bundles: [
-  //       {
-  //         id: 'Cake-123',
-  //         value: 'Cake',
-  //         label: 'Cake',
-  //       },
-  //       {
-  //         id: 'Wine-123',
-  //         value: 'Wine',
-  //         label: 'Wine',
-  //       },
-  //       {
-  //         id: 'Chocolate-123',
-  //         value: 'Chocolate',
-  //         label: 'Chocolate',
-  //       },
-  //     ],
-  //   }
-  // },
-  // async mounted() {
-  //   const res = await this.$axios.$get('/api/products/6128c8c72799b71e1a7e932f')
-  //   console.log(res)
-  // },
+  methods: {
+    addToCart() {
+      localStorage.test = JSON.stringify(this.form)
+      this.$modal.show('modal-add-cart')
+    },
+  },
 }
 </script>
 <style>

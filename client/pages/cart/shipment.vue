@@ -3,38 +3,57 @@
     <h1 class="text-3xl font-normal mb-14 font-serif text-primary">
       Select Delivery Address & Time
     </h1>
-    <div class="grid grid-cols-2 gap-x-8 text-primary">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4 text-primary">
       <div>
-        <div class="flex gap-x-10 text-sm bg-tertiary rounded-xl">
-          <div class="flex justify-between p-10">
-            <ContainedImage
-              src="/flower-2.jpg"
-              width="148"
-              height="148"
-              class="rounded-lg border-4 border-primary max-w-[120px] mr-4"
-            />
-            <div class="flex flex-col">
-              <h2
-                class="
-                  font-bold font-serif
-                  text-lg
-                  mb-2
-                  max-w-[17ch]
-                  line-clamp-2
-                "
-              >
-                Red and Everything Nice
-              </h2>
-              <span>Size: Medium</span>
-              <span>Bundle: None</span>
+        <template v-for="(product, idx) in 3">
+          <div
+            :key="idx"
+            class="flex gap-x-10 text-sm bg-tertiary rounded-xl mb-3"
+          >
+            <div
+              class="
+                flex flex-col
+                xl:flex-row
+                justify-between
+                gap-y-3
+                p-3
+                lg:p-10
+                w-full
+              "
+            >
+              <div class="flex">
+                <ContainedImage
+                  src="/flower-2.jpg"
+                  width="148"
+                  height="148"
+                  class="rounded-lg border-4 border-primary max-w-[120px] mr-4"
+                />
+                <div class="flex flex-col">
+                  <h2
+                    class="
+                      font-bold font-serif
+                      text-lg
+                      mb-2
+                      max-w-[17ch]
+                      line-clamp-2
+                    "
+                  >
+                    Red and Everything Nice
+                  </h2>
+                  <span>Size: Medium</span>
+                  <span>Bundle: None</span>
+                </div>
+              </div>
+              <div class="font-bold text-right text-lg">
+                {{ $currencyFormat(7500000) }}
+              </div>
             </div>
-            <div class="font-bold text-lg">{{ $currencyFormat(7500000) }}</div>
           </div>
-        </div>
+        </template>
       </div>
       <div class="bg-tertiary rounded-xl p-5">
         <h2 class="mb-5 font-bold font-serif text-lg">Select Method</h2>
-        <div class="flex min-h-[6rem] gap-x-6 mb-8">
+        <div class="flex min-h-[6rem] gap-x-3 sm:gap-x-6 mb-8">
           <div
             class="
               flex flex-col
@@ -42,7 +61,8 @@
               justify-center
               items-center
               border-2 border-primary
-              min-w-[10rem]
+              min-w-[7rem]
+              sm:min-w-[10rem]
             "
           >
             <IconTruck class="mb-2" />
@@ -55,16 +75,17 @@
               justify-center
               items-center
               border-2 border-primary
-              min-w-[10rem]
+              min-w-[7rem]
+              sm:min-w-[10rem]
             "
           >
             <IconBag class="mb-2" />
-            <span class="font-bold text-sm">Delivery</span>
+            <span class="font-bold text-sm">Self Pick Up</span>
           </div>
         </div>
 
         <div class="mb-10 font-serif">
-          <div class="flex relative my-4 flex-wrap">
+          <div class="flex relative my-4">
             <input type="checkbox" class="opacity-0 absolute h-5 w-5" />
             <div
               class="
@@ -94,7 +115,7 @@
         </div>
 
         <div class="mb-8 font-serif">
-          <div class="flex relative my-4 flex-wrap">
+          <div class="flex relative my-4">
             <input type="checkbox" class="opacity-0 absolute h-5 w-5" />
             <div
               class="
@@ -141,7 +162,7 @@
         </div>
 
         <div class="flex justify-between w-full items-end">
-          <p class="font-serif">Red and Everything Nice</p>
+          <p class="font-serif line-clamp-1">Red and Everything Nice</p>
           <p class="font-bold">{{ $currencyFormat(7500000) }}</p>
         </div>
         <div class="flex justify-between w-full items-end">

@@ -85,11 +85,39 @@ export default (context, inject) => {
     return formData
   }
 
+  const setStorage = (key, value, ttl) => {
+    const now = new Date()
+
+    const item = {
+      value,
+      expiry: now.getTime() + ttl,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  }
+
+  const getStorage = (key) => {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) return null
+
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return null
+    }
+
+    return item.value
+  }
+
   inject('async', async)
   inject('qsHandler', qsHandler)
   inject('getFullImageUrl', getFullImageUrl)
   inject('currencyFormat', currencyFormat)
   inject('jsonToFormData', jsonToFormData)
+  inject('setStorage', setStorage)
+  inject('getStorage', getStorage)
   //   inject('errorHandler', errorHandler)
   //   inject('successHandler', successHandler)
   //   inject('inputWarning', inputWarning)

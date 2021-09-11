@@ -11,75 +11,82 @@
       <IconBrideStory class="fill-current text-primary mr-5" />
     </div>
     <div class="h-full flex divide-x">
-      <template v-if="!$auth.user">
-        <div class="flex h-full items-center space-x-8">
-          <NuxtLink
-            class="text-secondary hover:text-primary transition-colors"
-            to="/accounts/login"
-            >Login</NuxtLink
-          >
-          <NuxtLink
-            class="text-secondary hover:text-primary transition-colors"
-            to="/accounts/register"
-            >Sign Up</NuxtLink
-          >
-        </div>
-      </template>
-      <template v-else>
-        <NuxtLink
-          to="/account"
+      <NuxtLink
+        to="/account"
+        class="
+          group
+          h-full
+          flex
+          items-center
+          px-3
+          sm:px-5
+          border-soft-gray border-l
+          relative
+        "
+        tag="button"
+        :disabled="!$auth.user"
+      >
+        <IconAccount
           class="
-            group
-            h-full
-            flex
-            items-center
-            px-3
-            sm:px-5
-            border-soft-gray border-l
+            mr-3
+            fill-current
+            text-secondary
+            group-hover:text-primary
+            transition-colors
+          "
+        />
+        <span
+          to="/account"
+          class="text-secondary group-hover:text-primary transition-colors"
+          >Account</span
+        >
+        <div
+          v-if="!$auth.user"
+          class="
+            hidden
+            group-hover:flex
+            flex-col
+            absolute
+            min-w-full
+            bg-white
+            border
+            inset-x-0
+            top-full
+            z-20
+            min-h-full
+            py-2
+            text-primary
           "
         >
-          <IconAccount
-            class="
-              mr-3
-              fill-current
-              text-secondary
-              group-hover:text-primary
-              transition-colors
-            "
-          />
-          <span
-            to="/account"
-            class="text-secondary group-hover:text-primary transition-colors"
-            >Account</span
-          >
-        </NuxtLink>
-        <NuxtLink
-          to="/cart"
-          class="h-full flex items-center px-3 sm:px-5 group"
+          <NuxtLink to="/accounts/login" class="mb-3">Login</NuxtLink>
+          <NuxtLink to="/accounts/register">Sign Up</NuxtLink>
+        </div>
+      </NuxtLink>
+      <NuxtLink to="/cart" class="h-full flex items-center px-3 sm:px-5 group">
+        <IconCart
+          class="mr-3 fill-current text-secondary group-hover:text-primary"
+        />
+        <div
+          class="
+            rounded-full
+            h-5
+            w-5
+            flex
+            items-center
+            justify-center
+            bg-pink
+            text-xs text-white
+            group-hover:bg-red-400
+          "
         >
-          <IconCart
-            class="mr-3 fill-current text-secondary group-hover:text-primary"
-          />
-          <div
-            class="
-              rounded-full
-              h-5
-              w-5
-              flex
-              items-center
-              justify-center
-              bg-pink
-              text-xs text-white
-              group-hover:bg-red-400
-            "
-          >
-            2
-          </div>
-        </NuxtLink>
-      </template>
+          2
+        </div>
+      </NuxtLink>
     </div>
   </div>
 </template>
 <script>
-export default {}
+export default {
+  name: 'NavHeader',
+}
 </script>

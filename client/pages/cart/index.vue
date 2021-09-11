@@ -122,7 +122,6 @@
         </button>
       </div>
     </div>
-    <NuxtLink to="/cart/shipment">go to shipment</NuxtLink>
   </div>
 </template>
 <script>

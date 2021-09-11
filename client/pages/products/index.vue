@@ -15,6 +15,7 @@
         v-for="{ id, images, name, price, slug } in products.data"
         :key="id"
         :to="`/products/${slug}/${id}`"
+        class="motion-safe:hover:animate-pulse"
       >
         <ContainedImage
           :src="images[0].original_image"

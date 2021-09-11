@@ -191,9 +191,8 @@
     <modal
       name="sm-nav"
       width="100%"
-      height="0px"
-      :scrollable="true"
-      classes="h-screen w-screen top-0 transition-all bg-tertiary overflow-y-auto"
+      height="0"
+      classes="h-screen w-screen top-0 transition-all bg-tertiary overflow-y-auto overflow-x-hidden"
     >
       <div class="flex w-full justify-between px-5 pt-5">
         <ContainedImage
@@ -343,8 +342,6 @@ import { useGetNavigationGroups } from '@/composables/useNavigationGroup'
 export default {
   setup() {
     const { navigationGroups, getNavigationGroups } = useGetNavigationGroups()
-
-    console.log('fewfefe', navigationGroups)
     return { navigationGroups, getNavigationGroups }
   },
   data() {
