@@ -19,10 +19,10 @@
       >
         <ContainedImage
           :src="images[0].original_image"
-          width="351"
+          width="398"
           height="499"
           alt=""
-          class="rounded-lg mb-5"
+          class="mb-5"
         />
         <h2
           class="
