@@ -22,7 +22,7 @@
         "
       >
         <div
-          v-for="{ id, slug, name } in navigationGroups.data"
+          v-for="{ id, slug, name, categories } in navigationGroups.data"
           :key="id"
           class="group relative"
         >
@@ -73,20 +73,23 @@
                 <p class="text-6xl font-sans mb-10 text-[#F2F2F2]">
                   {{ name }}
                 </p>
-                <div class="grid grid-cols-3 pl-5">
-                  <div class="flex flex-col">
+                <div class="grid grid-cols-7 pl-5">
+                  <div
+                    v-for="category in categories"
+                    :key="category.id"
+                    class="flex flex-col"
+                  >
                     <ContainedImage
-                      src="/flower-7.png"
-                      class="mb-5"
-                      :is-fluid="false"
+                      :src="category.thumbnail_image"
+                      class="mb-5 max-w-[150px]"
                       width="150"
                       height="150"
                     />
-                    <p class="font-bold text-primary mb-3">Bloom Loop</p>
+                    <p class="font-bold text-primary mb-3">{{ category.label }}</p>
                     <ul class="text-secondary font-medium font-sans">
-                      <li>Petite</li>
-                      <li>Signature</li>
-                      <li>Deluxe</li>
+                      <li v-for="child in category.children" :key="child.id">
+                        {{ child.label }}
+                      </li>
                     </ul>
                   </div>
                 </div>
