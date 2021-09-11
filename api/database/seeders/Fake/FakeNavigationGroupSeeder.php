@@ -30,7 +30,11 @@ class FakeNavigationGroupSeeder extends Seeder
                 'name' => $g
             ]);
 
-            $randomCategories = $categories->random(random_int(1, 5))->pluck('id')->toArray();
+            $randomCategories = $categories->where('parent_id', null)
+                ->random(random_int(1, 5))
+                ->pluck('id')
+                ->toArray();
+
             $ng->categories()->sync($randomCategories);
         }
     }
