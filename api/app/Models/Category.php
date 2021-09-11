@@ -16,7 +16,9 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-        'slug'
+        'slug',
+        'parent_id',
+        'thumbnail_image'
     ];
 
     /**
@@ -39,5 +41,20 @@ class Category extends Model
     public function navigationGroups()
     {
         return $this->belongsToMany(NavigationGroup::class, null, 'category_ids', 'navigation_group_ids');
+    }
+
+    public function subCategories()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function allSubCategories()
+    {
+        return $this->hasMany(Category::class, 'parent_id')->with('subCategories');
+    }
+
+    public function parentCategory()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
     }
 }

@@ -27,7 +27,8 @@
                 <TreeSelect
                   v-if="categories.data"
                   v-model="form.category_ids"
-                  :disable-branch-nodes="true"
+                  :disable-branch-nodes="false"
+                  :value-consists-of="'BRANCH_PRIORITY'"
                   :multiple="true"
                   :options="categories.data"
                   placeholder="Select option..."
@@ -77,7 +78,7 @@ export default {
     const { form, createNavigationGroup, updateNavigationGroup } =
       useNavigationGroupForm()
 
-    const { categories } = useGetCategories()
+    const { categories } = useGetCategories(true)
 
     const initData = (data) => {
       form.name = data.name

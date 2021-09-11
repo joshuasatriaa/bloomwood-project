@@ -37,6 +37,7 @@ class Invoice extends Model
          *                  'thumbnail_image
          *              ]   
          *          ],
+         *          'message',
          *          'price',
          *          'total_price',
          *          'thumbnail_image

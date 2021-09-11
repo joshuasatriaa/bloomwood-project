@@ -13,7 +13,12 @@
           <td>
             {{ index + 1 }}
           </td>
-          <td class="text-nowrap">{{ category.name }}</td>
+          <td class="text-nowrap">
+            {{ category.name }}
+            <span v-if="!category.parent_id" class="badge bg-warning ms-3"
+              >Parent</span
+            >
+          </td>
           <td class="text-end text-nowrap">
             <NuxtLink
               :to="`/categories/${category.id}/edit`"

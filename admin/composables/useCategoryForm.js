@@ -17,9 +17,13 @@ const useCategoryForm = () => {
 
   const form = reactive({
     name: '',
+    parent_id: null,
+    thumbnail_image: null,
   })
 
   const createCategory = async () => {
+    form.thumbnail_image = form.thumbnail_image[0]
+
     const payload = app.$jsonToFormData(form)
     const [_, err] = await app.$async(
       store.dispatch('categories/STORE_CATEGORY', payload)

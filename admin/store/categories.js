@@ -2,6 +2,7 @@ export const state = () => ({
   categories: {},
   category: {},
   qs: '',
+  onlyParents: false,
 })
 
 export const getters = {
@@ -26,6 +27,9 @@ export const mutations = {
   SET_QUERY(state, payload) {
     state.qs = payload
   },
+  SET_ONLY_PARENTS(state, payload) {
+    state.onlyParents = payload
+  },
 }
 
 export const actions = {
@@ -34,8 +38,12 @@ export const actions = {
     if (state.qs) {
       query = state.qs
     }
+    if (state.onlyParents) {
+      query += '&only_parents=true'
+    }
     const res = await this.$axios.$get(`/api/categories?page=${page}${query}`)
     commit('SET_CATEGORIES', res)
+    commit('SET_ONLY_PARENTS', false)
     return res
   },
   async GET_CATEGORY({ commit }, id) {

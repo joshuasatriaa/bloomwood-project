@@ -3,6 +3,7 @@
 namespace Database\Seeders\Fake;
 
 use App\Models\Category;
+use App\Models\SubCategory;
 use App\Models\User;
 use App\Services\CategoryService;
 use App\Services\ImageService;
@@ -83,6 +84,7 @@ class FakeProductSeeder extends Seeder
 
         for ($i = 0; $i < 5; $i++) {
             $randomCategory = $categories->random(random_int(1, 3))->pluck('id')->toArray();
+
             $randomImages = $images->random(random_int(1, 3));
 
             $p =  \App\Models\Product::factory([

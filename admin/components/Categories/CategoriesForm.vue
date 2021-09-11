@@ -11,6 +11,14 @@
           </h5>
           <div class="row mt-5">
             <div class="col-10 mx-auto">
+              <div class="mb-3">
+                <BaseCheckbox
+                  v-model="form.isParent"
+                  label="Is Parent"
+                  form-for="formIsParent"
+                />
+              </div>
+
               <BaseInput
                 v-model="form.name"
                 type="text"
@@ -19,6 +27,30 @@
                 label="Name"
                 required
               />
+
+              <div v-if="form.isParent">
+                <BaseDropzone
+                  label="Parent Category Image"
+                  :max-images="1"
+                  @newImage="(image) => (form.thumbnail_image = image)"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="formCategories" class="form-label"
+                  >Parent Category</label
+                >
+                <TreeSelect
+                  v-if="categories.data"
+                  v-model="form.parent_id"
+                  :disable-branch-nodes="false"
+                  :value-consists-of="'BRANCH_PRIORITY'"
+                  :multiple="false"
+                  :options="categories.data"
+                  :disabled="form.isParent"
+                  placeholder="Select option..."
+                />
+              </div>
             </div>
           </div>
           <div class="row mt-3">
@@ -39,6 +71,7 @@
 
 <script>
 import { useCategoryForm } from '@/composables/useCategoryForm'
+import { useGetCategories } from '@/composables/useCategory'
 
 export default {
   props: {
@@ -53,9 +86,11 @@ export default {
   },
   setup(props) {
     const { form, createCategory, updateCategory } = useCategoryForm()
+    const { categories } = useGetCategories(true)
 
     const initData = (data) => {
       form.name = data.name
+      form.parent_id = data.parent_id
     }
 
     if (props.isUpdate) {
@@ -64,9 +99,15 @@ export default {
 
     return {
       form,
+      categories,
       createCategory,
       updateCategory,
     }
+  },
+  watch: {
+    'form.isParent'() {
+      this.form.parent_id = null
+    },
   },
 }
 </script>
