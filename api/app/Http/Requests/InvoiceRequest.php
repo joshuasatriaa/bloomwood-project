@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Models\Invoice;
+use App\Rules\ProductSizeExistsRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class InvoiceRequest extends FormRequest
 {
@@ -30,11 +32,13 @@ class InvoiceRequest extends FormRequest
             'address' => ['required', 'string'],
             'address_area_id' => ['required', 'string'],
             'pick_up' => ['required', 'boolean'],
-            'products' => ['required', 'array'],
+            'products' => ['required', 'array', new ProductSizeExistsRule],
             'products.*.id' => ['required', 'string'],
-            'products.*.variant_id' => ['required', 'nullable', 'string'],
+            'products.*.message' => ['required', 'nullable', 'string'],
+            'products.*.size' => ['required', 'string', Rule::in(['Classic', 'Deluxe'])],
+            'products.*.variant_id' => ['required', 'nullable', 'string', 'exists:product_variants,_id'],
             'products.*.add_ons' => ['required', 'array'],
-            'products.*.add_ons.*.id' => ['nullable', 'present', 'string'],
+            'products.*.add_ons.*.id' => ['nullable', 'present', 'string', 'exists:product_add_ons,_id'],
         ];
     }
 }

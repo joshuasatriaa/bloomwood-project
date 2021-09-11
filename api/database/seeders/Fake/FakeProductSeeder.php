@@ -89,12 +89,12 @@ class FakeProductSeeder extends Seeder
                 'user_id' => $users->random(1)->first()->id
             ])->create();
 
-            for ($x = 0; $x < random_int(1, 2); $x++) {
+            for ($x = 0; $x < random_int(0, 2); $x++) {
                 $randomVar =  $variants->random(1)->first();
                 $data =
                     [
                         'name' => $randomVar['name'],
-                        'price' => $p->price + 5000,
+                        'price' => 2500,
                         'thumbnail_image' => $this->saveThumbImages($randomVar['image'], $this->IMAGE_FOLDER)
                     ];
 

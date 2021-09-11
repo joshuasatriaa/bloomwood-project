@@ -32,15 +32,16 @@ export default {
       const res = await this.$axios.$post('/api/invoices', {
         notes: 'test notes',
         address: 'test address',
-        address_area_id: '6128c9b2d1ed38447c1ae7f6',
+        address_area_id: '613b1aebfc3fb909d97cef45',
         pick_up: 0,
         products: [
           {
-            id: '6128c9b6d1ed38447c1aea34',
-            variant_id: '6128c9b6d1ed38447c1aea35',
+            id: '613b1aedfc3fb909d97cf160',
+            variant_id: '613b1aedfc3fb909d97cf161',
+            size: 'Classic',
             add_ons: [
               {
-                id: '6128c9b6d1ed38447c1aea36',
+                id: '613b1aeefc3fb909d97cf163',
               },
             ],
           },

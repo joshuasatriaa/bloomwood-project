@@ -37,8 +37,8 @@ class FakeInvoiceSeeder extends Seeder
             $addressArea =  $randomAddress->addressArea;
 
             $pickup = $this->faker->randomElement([0, 1]);
-            $deliveryFee = $pickup ? 0 : $this->defineDeliverFee($purchaseProducts, $addressArea);
             $productDetails = $this->generateProductsDetail($purchaseProducts);
+            $deliveryFee = $pickup ? 0 : $this->defineDeliverFee($productDetails, $addressArea);
 
             $invoice = new Invoice;
             $invoice->invoice_number = $invoice->generateInvoiceNumber();
@@ -90,14 +90,14 @@ class FakeInvoiceSeeder extends Seeder
     {
         $sizes = [];
         foreach ($purchaseProducts as $p) {
-            array_push($sizes, $p->size);
+            array_push($sizes, $p['size']);
         }
 
         if (count($sizes) > 1) {
             return $addressArea->medium_price;
         }
 
-        if (count($sizes) == 1 && $sizes[0] == 'M') {
+        if (count($sizes) == 1 && $sizes[0]['name'] == config('constants.sizes.deluxe')) {
             return $addressArea->medium_price;
         }
 
@@ -110,21 +110,26 @@ class FakeInvoiceSeeder extends Seeder
         foreach ($products as $p) {
             $total_price = 0;
             $countAddOns = $p->productAddOns()->count();
+            $sizes = collect($p->sizes);
 
-            $randomVar = $p->productVariants()->get()->random(1)->first();
+            $randomVar = $p->productVariants()->exists() ? $p->productVariants()->get()->random(1)->first() : false;
+            $randomSize = $sizes->random(1)->first();
             $randomAddOns = $p->productAddOns()->get()->random(random_int(0, $countAddOns))->all();
             $thumbnail = $p->productImages()->first();
 
             $item =  [
                 'id' => $p['id'],
                 'name' => $p['name'],
-                'size' => $p['size'],
-                'price' => $p['price'],
+                'size' => $randomSize,
+                'price' => $randomSize['price'],
+                'message' => 'lorem ipsum message',
                 'thumbnail_image' => $thumbnail->thumbnail_image,
                 'variant' => [],
                 'add_ons' => [],
                 'total_price'  => 0,
             ];
+
+            $total_price = $item['price'];
 
             if ($randomVar) {
                 $item['variant'] = [
@@ -135,8 +140,6 @@ class FakeInvoiceSeeder extends Seeder
                 ];
 
                 $total_price += $randomVar->price;
-            } else {
-                $total_price += $p->price;
             }
 
             if (count($randomAddOns) > 0) {

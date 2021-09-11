@@ -23,12 +23,25 @@ class ProductFactory extends Factory
     public function definition()
     {
         $name = $this->faker->word() . ' ' . $this->faker->randomElement(['Flower', 'Bouquet', 'Basket']);
+        $c = [
+            'name' => config('constants.sizes.classic'),
+            'price' => $this->faker->randomElement([300000, 500000, 800000])
+        ];
+        $d = [
+            'name' => config('constants.sizes.deluxe'),
+            'price' => $this->faker->randomElement([1000000, 2000000, 3000000])
+        ];
+
+        $sizes = [[
+            $c,
+            $d
+        ], [$c], [$d]];
+
         return [
             'name' => $name . '-' . Str::random(2),
             'slug' => Str::slug($name),
             'description' => $this->faker->paragraph(),
-            'price' => $this->faker->randomElement([300000, 500000, 800000, 1000000, 2000000, 3000000]),
-            'size' => $this->faker->randomElement(['S', 'M'])
+            'sizes' => $this->faker->randomElement($sizes)
         ];
     }
 }

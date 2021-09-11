@@ -72,8 +72,8 @@
               </h5>
               <div
                 v-for="(product, index) in inv.products_detail"
-                class="row mt-4"
                 :key="product.id"
+                class="row mt-4"
               >
                 <div
                   class="
@@ -120,11 +120,14 @@
                         <th class="text-uppercase fw-bolder">
                           {{ item.label }}
                         </th>
-                        <td v-if="item.property !== 'price'">
-                          {{ product[item.property] }}
+                        <td v-if="item.property === 'price'">
+                          {{ $currencyFormat(product[item.property]) }}
+                        </td>
+                        <td v-else-if="item.property === 'size'">
+                          {{ product[item.property]['name'] }}
                         </td>
                         <td v-else>
-                          {{ $currencyFormat(product[item.property]) }}
+                          {{ product[item.property] }}
                         </td>
                       </tr>
                       <tr>
@@ -218,11 +221,7 @@ export default {
     const { invoice } = useGetInvoice()
     return { invoice }
   },
-  computed: {
-    inv() {
-      return this.invoice.data ?? {}
-    },
-  },
+
   data() {
     return {
       invoiceTable: {
@@ -301,6 +300,11 @@ export default {
         ],
       },
     }
+  },
+  computed: {
+    inv() {
+      return this.invoice.data ?? {}
+    },
   },
 }
 </script>

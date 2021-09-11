@@ -33,16 +33,21 @@ class InvoiceService
             $thumbnail = $product->productImages()->first();
             $total_price = 0;
 
+            $chosenSize = collect($product->sizes)->where('name', $p['size'])->first();
+
             $item = [
                 'id' => $product->id,
                 'name' => $product->name,
-                'size' => $product->size,
+                'size' => $chosenSize,
+                'message' => $p['message'],
                 'thumbnail_image' => $thumbnail->thumbnail_image,
-                'price' => $product->price,
+                'price' => $chosenSize['price'],
                 'variant' => [],
                 'add_ons' => [],
                 'total_price'  => 0,
             ];
+
+            $total_price += $item['price'];
 
             if ($p['variant_id']) {
                 $variant = ProductVariant::findOrFail($p['variant_id']);
@@ -55,8 +60,6 @@ class InvoiceService
                 ];
 
                 $total_price += $variant->price;
-            } else {
-                $total_price += $product->price;
             }
 
             if (count($p['add_ons']) > 0) {

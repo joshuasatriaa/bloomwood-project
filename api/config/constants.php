@@ -10,6 +10,10 @@ return [
 
     'image_folders' => [
         'product_images' => 'product-images'
-    ]
+    ],
+    'sizes' => [
+        'classic' => 'Classic',
+        'deluxe' => 'Deluxe'
+    ],
 
 ];
