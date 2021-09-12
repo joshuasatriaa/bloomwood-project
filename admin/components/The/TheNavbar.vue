@@ -41,6 +41,9 @@
           <li class="nav-item">
             <NuxtLink to="/invoices" class="nav-link">Invoices</NuxtLink>
           </li>
+          <li class="nav-item">
+            <NuxtLink to="/contact-us" class="nav-link">Contact Us</NuxtLink>
+          </li>
           <li class="nav-item dropdown me-5">
             <a
               id="navbarDropdown"
