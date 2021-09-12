@@ -46,6 +46,9 @@ class Invoice extends Model
          */
         'status', // [pending, paid, processed, delivered]
         'notes',
+        'recipients_name',
+        'recipients_phone',
+        'delivery_time',
         'address',
         'address_area', // copy of AddressArea
         'pick_up',

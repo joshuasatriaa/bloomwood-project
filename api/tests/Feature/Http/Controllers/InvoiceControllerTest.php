@@ -168,8 +168,10 @@ class InvoiceControllerTest extends TestCase
         foreach ($randomProducts as $p) {
             $item = [
                 'id' => $p->id,
-                'variant_id' => '',
-                'add_ons' => []
+                'variant_id' => null,
+                'add_ons' => [],
+                'size' => $p->sizes[0]['name'],
+                'message' => 'lorem ipsum message'
             ];
 
             if ($p->productVariants()->count() > 0) {

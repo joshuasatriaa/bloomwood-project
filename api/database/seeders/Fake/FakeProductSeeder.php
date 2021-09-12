@@ -82,7 +82,7 @@ class FakeProductSeeder extends Seeder
 
         $categories = Category::all();
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             $randomCategory = $categories->random(random_int(1, 3))->pluck('id')->toArray();
 
             $randomImages = $images->random(random_int(1, 3));

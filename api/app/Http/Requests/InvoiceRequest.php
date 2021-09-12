@@ -29,9 +29,13 @@ class InvoiceRequest extends FormRequest
     {
         return [
             'notes' => ['required', 'string'],
-            'address' => ['required', 'string'],
-            'address_area_id' => ['required', 'string'],
+            'recipients_name' => ['required', 'nullable', 'string'],
+            'recipients_phone' => ['required', 'nullable', 'string'],
+            'delivery_time' => ['required', 'nullable',  'date'],
+            'address' => ['required', 'nullable', 'string'],
+            'address_area_id' => ['required', 'nullable', 'string'],
             'pick_up' => ['required', 'boolean'],
+
             'products' => ['required', 'array', new ProductSizeExistsRule],
             'products.*.id' => ['required', 'string'],
             'products.*.message' => ['required', 'nullable', 'string'],

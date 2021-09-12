@@ -44,8 +44,11 @@ class FakeInvoiceSeeder extends Seeder
             $invoice->invoice_number = $invoice->generateInvoiceNumber();
             $invoice->notes = $this->faker->paragraph(5);
             $invoice->status = $this->faker->randomElement(['pending', 'paid', 'processed', 'delivered']);
-            $invoice->address = $randomAddress->address;
-            $invoice->address_area = $this->copyAddressArea($addressArea);
+            $invoice->recipients_name = $pickup ? null : $this->faker->name();
+            $invoice->recipients_phone = $pickup ? null : $this->faker->phoneNumber;
+            $invoice->delivery_time =  $pickup ? null : $this->faker->date();
+            $invoice->address = $pickup ? null : $randomAddress->address;
+            $invoice->address_area = $pickup ? null : $this->copyAddressArea($addressArea);
             $invoice->pick_up = $pickup;
 
             $invoice->products_detail = $productDetails;
