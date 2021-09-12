@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Database\Seeders\Fake\FakeAddressAreaSeeder;
 use Database\Seeders\Fake\FakeCategorySeeder;
+use Database\Seeders\Fake\FakeContactUsSeeder;
 use Database\Seeders\Fake\FakeInvoiceSeeder;
 use Database\Seeders\Fake\FakeNavigationGroupSeeder;
 use Database\Seeders\Fake\FakeProductSeeder;
@@ -30,6 +31,7 @@ class DatabaseSeeder extends Seeder
             FakeProductSeeder::class,
             FakeNavigationGroupSeeder::class,
             FakeInvoiceSeeder::class,
+            FakeContactUsSeeder::class
         ]);
     }
 }

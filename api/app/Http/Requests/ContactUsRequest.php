@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryRequest extends FormRequest
+class ContactUsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,10 +13,8 @@ class CategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->is(config('constants.superadmin.slug')) || $this->user()->is(config('constants.admin.slug'));
+        return true;
     }
-
-
 
     /**
      * Get the validation rules that apply to the request.
@@ -27,8 +25,10 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'parent_id' => ['sometimes', 'nullable', 'exists:categories,_id'],
-            'thumbnail_image' => ['sometimes', 'nullable', 'image']
+            'email' => ['required', 'email'],
+            'phone' => ['required', 'string'],
+            'found_bloomwood' => ['required', 'string'],
+            'message' => ['required', 'string']
         ];
     }
 }

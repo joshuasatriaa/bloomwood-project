@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <h1 class="mb-4">Invoices</h1>
-    <div class="row">
+    <!-- <div class="row">
       <div class="col text-end">
         <button class="btn btn-primary text-white mb-4" @click="testSend()">
           Test invoice
         </button>
       </div>
-    </div>
+    </div> -->
     <BaseSearch :callback="getInvoices" />
     <InvoicesTable v-if="invoices" :invoices="invoices" />
     <div class="col-12 col-md-6 d-flex justify-content-end ms-auto">
