@@ -28,22 +28,22 @@ const useGetProduct = () => {
   return { product, getProduct }
 }
 
-const useGetProducts = (search = '', group = '') => {
+const useGetProducts = (search = '', category = '') => {
   const { app } = useContext()
   const store = useStore()
   const route = useRoute()
 
   const getProducts = async (search = '', group = '') => {
     const qsSearch = app.$qsHandler('search', search)
-    const qsGroup = app.$qsHandler('group', group)
-    store.commit('products/SET_QUERY', `${qsSearch}${qsGroup}`)
+    const qsCategory = app.$qsHandler('category', category)
+    store.commit('products/SET_QUERY', `${qsSearch}${qsCategory}`)
     const [_, err] = await app.$async(
       store.dispatch('products/GET_PRODUCTS', {})
     )
   }
 
   useFetch(async () => {
-    await getProducts(search, group)
+    await getProducts(search, category)
   })
 
   const products = computed(() => {

@@ -26,8 +26,7 @@
           :key="id"
           class="group relative"
         >
-          <NuxtLink
-            :to="`/products?group=${slug}`"
+          <p
             :class="{ 'cursor-default': $route.query.group === slug }"
             class="relative"
           >
@@ -48,7 +47,7 @@
                   : 'w-full',
               ]"
             ></div>
-          </NuxtLink>
+          </p>
           <div
             class="
               fixed
@@ -71,7 +70,7 @@
           >
             <div class="bg-white py-4">
               <div class="container mx-auto">
-                <p class="text-6xl font-sans mb-10 text-[#F2F2F2]">
+                <p  class="text-6xl font-sans mb-10 text-[#F2F2F2]">
                   {{ name }}
                 </p>
                 <div class="grid grid-cols-7 pl-5">
@@ -86,12 +85,12 @@
                       width="150"
                       height="150"
                     />
-                    <p class="font-bold text-primary mb-3">
+                    <NuxtLink :to="`/products?category=${category.slug}`" class="font-bold text-primary mb-3">
                       {{ category.label }}
-                    </p>
+                    </NuxtLink>
                     <ul class="text-secondary font-medium font-sans">
                       <li v-for="child in category.children" :key="child.id">
-                        {{ child.label }}
+                        <NuxtLink :to="`/products?category=${child.slug}`">{{ child.label }}</NuxtLink>
                       </li>
                     </ul>
                   </div>

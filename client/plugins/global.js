@@ -90,7 +90,7 @@ export default (context, inject) => {
 
     const item = {
       value,
-      expiry: now.getTime() + ttl,
+      expiry: now.getTime() + ttl * 1000 * 60,
     }
     localStorage.setItem(key, JSON.stringify(item))
   }

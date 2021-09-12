@@ -1,22 +1,27 @@
 <template>
   <div class="container mx-auto pt-20">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 text-primary">
+    <div
+      v-if="!$fetchState.pending"
+      class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 text-primary"
+    >
       <ContainedImage
-        :src="product.data.images[0].original_image || '/'"
+        :src="PRODUCT.data.images[0].original_image || '/'"
         alt=""
         width="650"
         height="650"
       />
       <div class="mt-10 lg:mt-0">
-        <h1 class="text-4xl mb-6">{{ product.data.name }}</h1>
-        <h2 class="text-lg font-bold text-pink mb-3">Bloom Loop</h2>
+        <h1 class="text-4xl mb-6">{{ PRODUCT.data.name }}</h1>
+        <h2 class="text-lg font-bold text-pink mb-3">
+          {{ PRODUCT.data.categories.map(({ name }) => name).join(', ') }}
+        </h2>
         <p class="font-bold text-lg mb-6">
-          {{ product.data.description }}
+          {{ PRODUCT.data.description }}
         </p>
         <h3 class="text-2xl font-bold mb-5">Choose Size</h3>
         <ToggleButtonGroup
           class="mb-8"
-          :buttons="sizes"
+          :buttons="getSizesButtonGroup(PRODUCT.data.sizes)"
           :current-value="form.size"
           @changed="(value) => (form.size = value)"
         />
@@ -27,6 +32,7 @@
         </p>
         <InputTextArea
           id="message"
+          v-model="form.message"
           class="mb-8"
           rows="6"
           minlength="5"
@@ -42,7 +48,7 @@
         /> -->
 
         <h3 class="text-2xl font-bold text-uppercase mb-8">
-          {{ $currencyFormat(product.data.price) }}
+          {{ $currencyFormat(getCurrentPrice) }}
         </h3>
 
         <div class="flex gap-6 mb-12 flex-wrap">
@@ -63,12 +69,12 @@
             <button
               type="button"
               class="h-full w-20 cursor-pointer outline-none"
-              @click="() => form.total--"
+              @click="() => form.qty--"
             >
               <span class="m-auto text-2xl font-thin">−</span>
             </button>
             <input
-              v-model="form.total"
+              v-model="form.qty"
               type="number"
               class="
                 outline-none
@@ -85,7 +91,7 @@
             <button
               type="button"
               class="h-full w-20 cursor-pointer"
-              @click="() => form.total++"
+              @click="() => form.qty++"
             >
               <span class="m-auto text-2xl font-thin">+</span>
             </button>
@@ -113,7 +119,7 @@
         <h3 class="text-2xl font-bold mb-5">Frequently Bought Together</h3>
         <div class="flex items-center mb-8">
           <template
-            v-for="({ id, thumbnail_image }, idx) in product.data.add_ons"
+            v-for="({ id, thumbnail_image }, idx) in PRODUCT.data.add_ons"
           >
             <div :key="id" class="flex flex-row items-center">
               <ContainedImage
@@ -124,7 +130,7 @@
                 :is-fluid="false"
               />
               <span
-                v-if="idx + 1 !== product.data.add_ons.length"
+                v-if="idx + 1 !== PRODUCT.data.add_ons.length"
                 class="text-lg font-bold mx-4"
                 >+</span
               >
@@ -139,7 +145,7 @@
 
         <div class="mb-10 font-serif">
           <div
-            v-for="{ id, name, price } in product.data.add_ons"
+            v-for="{ id, name, price } in PRODUCT.data.add_ons"
             :key="id"
             class="flex items-center relative my-4 flex-wrap"
           >
@@ -275,7 +281,9 @@
     />
   </div>
 </template>
+
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import {
   useRoute,
   computed,
@@ -289,44 +297,92 @@ import { useGetProduct } from '@/composables/useProduct'
 
 export default {
   name: 'Product',
-  setup() {
-    const route = useRoute()
-    const context = useContext()
+  // setup() {
+  //   const route = useRoute()
+  //   const context = useContext()
 
-    const { product, getProduct } = useGetProduct()
+  //   const { product, getProduct } = useGetProduct()
 
-    const sizes = ref([
-      {
-        id: 'Small-123',
-        value: 'Small',
-        label: 'Small',
+  //   const initialSize = PRODUCT.value?.data?.sizes[0].name
+
+  //   return {
+  //     product,
+  //     getProduct,
+  //   }
+  // },
+  data() {
+    return {
+      form: {
+        qty: 1,
+        size: '',
+        message: '',
+        addOns: {},
       },
-      {
-        id: 'Medium-123',
-        value: 'Medium',
-        label: 'Medium',
-      },
-      {
-        id: 'Large-123',
-        value: 'Large',
-        label: 'Large',
-      },
-    ])
+    }
+  },
+  async fetch() {
+    await this.GET_PRODUCT(this.$route.params.id)
+    this.form.size = this.PRODUCT.data.sizes[0].name
+  },
 
-    const currentSize = ref('')
-
-    const form = ref({
-      total: 1,
-      size: '',
-      addOns: {},
-    })
-
-    return { product, getProduct, form, sizes, currentSize }
+  computed: {
+    ...mapGetters({
+      PRODUCT: 'products/PRODUCT',
+    }),
+    getCurrentPrice() {
+      const { price } = this.PRODUCT.data.sizes.find((size) => {
+        return this.form.size === size.name
+      })
+      return price
+    },
+  },
+  mounted() {
+    console.log(this.$getStorage('test2'))
   },
   methods: {
+    ...mapActions({
+      GET_PRODUCT: 'products/GET_PRODUCT',
+    }),
     addToCart() {
-      localStorage.test = JSON.stringify(this.form)
+      const bloomwoodCart = this.$getStorage('bloomwoodCart') || {}
+      const addOns = Object.keys(this.form.addOns).filter(
+        (addOn) => this.form.addOns[addOn] === true
+      )
+      const addOnsAppendedString =
+        addOns.length < 1 ? '' : `-${addOns.join('-')}`
+      const objName = `${this.PRODUCT.data.id}${addOnsAppendedString}`
+      let objToSave = {}
+
+      if (bloomwoodCart[objName]) {
+        objToSave = {
+          ...bloomwoodCart,
+          [objName]: {
+            ...bloomwoodCart[objName],
+            qty: bloomwoodCart[objName].qty + this.form.qty,
+          },
+        }
+      } else {
+        objToSave = {
+          ...bloomwoodCart,
+          [`${objName}`]: {
+            ...this.form,
+            productImage: this.PRODUCT.data.images[0].thumbnail_image,
+            addOns: this.PRODUCT.data.add_ons.filter((addOn) =>
+              Object.keys(this.form.addOns).includes(addOn.id)
+            ),
+          },
+        }
+      }
+      this.$setStorage('bloomwoodCart', objToSave, 1000)
       this.$modal.show('modal-add-cart')
+    },
+    getSizesButtonGroup() {
+      return this.PRODUCT.data.sizes.map(({ name }) => {
+        return {
+          value: name,
+          label: name,
+        }
+      })
     },
   },
 }
