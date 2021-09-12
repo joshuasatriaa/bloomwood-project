@@ -9,6 +9,7 @@ use Database\Seeders\Fake\FakeInvoiceSeeder;
 use Database\Seeders\Fake\FakeNavigationGroupSeeder;
 use Database\Seeders\Fake\FakeProductSeeder;
 use Database\Seeders\Fake\FakeRoleSeeder;
+use Database\Seeders\Fake\FakeTestimonySeeder;
 use Database\Seeders\Fake\FakeUserPinSeeder;
 use Database\Seeders\Fake\FakeUserSeeder;
 use Illuminate\Database\Seeder;
@@ -31,7 +32,8 @@ class DatabaseSeeder extends Seeder
             FakeProductSeeder::class,
             FakeNavigationGroupSeeder::class,
             FakeInvoiceSeeder::class,
-            FakeContactUsSeeder::class
+            FakeContactUsSeeder::class,
+            FakeTestimonySeeder::class
         ]);
     }
 }
