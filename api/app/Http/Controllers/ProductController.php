@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\ProductCategoriesFilter;
 use App\Filters\ProductNameFilter;
 use App\Filters\ProductGroupFilter;
 use App\Http\Requests\ProductRequest;
@@ -37,7 +38,7 @@ class ProductController extends Controller
     {
         $products = Product::query()->filter([
             ProductNameFilter::class,
-            ProductGroupFilter::class,
+            ProductCategoriesFilter::class,
         ])->paginate(request('per_page', 30));
 
         return ProductResource::collection($products);
