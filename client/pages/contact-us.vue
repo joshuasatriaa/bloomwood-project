@@ -162,9 +162,19 @@ export default {
     }
   },
   methods: {
-    submit() {
-      this.$modal.show('modal-contact-us')
-      console.log('submit')
+    async submit() {
+      try {
+        await this.$axios.$post('/api/contact-us', {
+          name: this.form.name,
+          email: this.form.email,
+          phone: this.form.phoneNumber,
+          found_bloomwood: this.form.howDidYouFind,
+          message: this.form.message,
+        })
+        this.$modal.show('modal-contact-us')
+      } catch (e) {
+        console.log(e)
+      }
     },
   },
 }

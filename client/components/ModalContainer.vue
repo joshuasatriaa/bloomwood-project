@@ -6,8 +6,10 @@
     :max-width="670"
     classes="p-2 bg-tertiary rounded-xl text-primary flex flex-col items-center justify-center"
   >
-    <h5 class="text-3xl font-serif mb-3">{{ title }}</h5>
-    <p class="font-bold mb-10">{{ desc }}</p>
+    <h5 class="text-3xl font-serif" :class="[desc ? 'mb-3' : 'mb-10']">
+      {{ title }}
+    </h5>
+    <p v-if="desc" class="font-bold mb-10">{{ desc }}</p>
     <div class="flex w-full justify-center gap-x-2">
       <button
         v-if="btnCloseTitle"
@@ -59,8 +61,9 @@ export default {
       required: true,
     },
     desc: {
-      type: String,
-      required: true,
+      type: [String, Boolean],
+      required: false,
+      default: false,
     },
     btnCloseTitle: {
       type: [String, Boolean],

@@ -48,7 +48,7 @@
         /> -->
 
         <h3 class="text-2xl font-bold text-uppercase mb-8">
-          {{ $currencyFormat(getCurrentPrice) }}
+          {{ $currencyFormat(getFlowerOnlyPrice) }}
         </h3>
 
         <div class="flex gap-6 mb-12 flex-wrap">
@@ -329,15 +329,12 @@ export default {
     ...mapGetters({
       PRODUCT: 'products/PRODUCT',
     }),
-    getCurrentPrice() {
+    getFlowerOnlyPrice() {
       const { price } = this.PRODUCT.data.sizes.find((size) => {
         return this.form.size === size.name
       })
       return price
     },
-  },
-  mounted() {
-    console.log(this.$getStorage('test2'))
   },
   methods: {
     ...mapActions({
@@ -362,14 +359,23 @@ export default {
           },
         }
       } else {
+        const filteredAddOns = this.PRODUCT.data.add_ons.filter((addOn) => {
+          return this.form.addOns[addOn.id]
+        })
+
+        console.log(filteredAddOns)
         objToSave = {
           ...bloomwoodCart,
           [`${objName}`]: {
             ...this.form,
+            productName: this.PRODUCT.data.name,
+            subtotalPrice:
+              this.getFlowerOnlyPrice +
+              filteredAddOns.reduce((acc, curr) => {
+                return (acc += curr.price)
+              }, 0),
             productImage: this.PRODUCT.data.images[0].thumbnail_image,
-            addOns: this.PRODUCT.data.add_ons.filter((addOn) =>
-              Object.keys(this.form.addOns).includes(addOn.id)
-            ),
+            addOns: filteredAddOns,
           },
         }
       }

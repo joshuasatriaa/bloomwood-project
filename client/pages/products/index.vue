@@ -4,7 +4,7 @@
   >
     <div class="mb-20">
       <h1 class="text-3xl md:text-4xl font-normal mb-5 font-serif capitalize">
-        {{ $route.query.category.replaceAll('-', ' ') }}
+        {{ $route.query.category.replace(/-/g, ' ') }}
       </h1>
       <div class="border-b-2 border-pink w-20 mx-auto flex-shrink"></div>
     </div>

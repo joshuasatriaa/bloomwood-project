@@ -4,7 +4,7 @@
       <h1 class="text-3xl font-normal mb-14 font-serif text-primary">
         Items in my cart
       </h1>
-      <template v-if="cart">
+      <template v-if="Object.keys(cart).length > 0">
         <div
           v-for="key in Object.keys(cart)"
           :key="key"
@@ -13,7 +13,11 @@
           <div class="flex justify-between">
             <div class="flex items-center">
               <div class="flex items-center relative my-4 flex-wrap mr-8">
-                <input type="checkbox" class="opacity-0 absolute h-5 w-5" />
+                <input
+                  v-model="checkedItems[key]"
+                  type="checkbox"
+                  class="opacity-0 absolute h-5 w-5"
+                />
                 <div
                   class="
                     bg-white
@@ -28,23 +32,44 @@
                     focus-within:border-blue-500 focus-within:bg-primary
                   "
                 >
-                  <div class="h-3 w-3 bg-pink rounded-sm"></div>
+                  <div
+                    class="h-3 w-3 bg-pink rounded-sm"
+                    :class="[checkedItems[key] ? 'block' : 'hidden']"
+                  ></div>
                 </div>
               </div>
               <ContainedImage
-                src="/flower-2.jpg"
+                :src="cart[key].productImage"
                 width="148"
                 height="148"
                 class="rounded-lg border-4 border-primary max-w-[140px] mr-4"
               />
               <div class="flex flex-col">
-                <h2 class="font-bold font-serif text-lg mb-2">Cloud Catcher</h2>
-                <span>Size: Medium</span>
-                <span>Bundle: None</span>
+                <h2 class="font-bold font-serif text-lg mb-2">
+                  {{ cart[key].productName }}
+                </h2>
+                <span>Size: {{ cart[key].size }}</span>
+                <span v-if="cart[key].addOns.length > 0"
+                  >Bundle:
+                  {{
+                    cart[key].addOns.map(({ name }) => name).join(', ')
+                  }}</span
+                >
               </div>
             </div>
             <div class="flex flex-col justify-between items-end">
-              <IconTrash class="transform scale-75 align" />
+              <button
+                type="button"
+                @click="
+                  () => {
+                    currentKey = key
+                    $modal.show('modal-delete')
+                  }
+                "
+              >
+                <IconTrash class="transform scale-75 align" />
+              </button>
+
               <div class="flex gap-x-20 items-end">
                 <div class="flex-col text-center">
                   <p class="font-bold text-sm">Quantity</p>
@@ -62,39 +87,26 @@
                   >
                     <button
                       type="button"
+                      :disabled="cart[key].qty === 1"
                       class="w-10 cursor-pointer outline-none"
-                      @click="() => form.total--"
+                      @click="() => changeQty('minus', key)"
                     >
                       <span class="m-auto">−</span>
                     </button>
-                    <input
-                      v-model="form.total"
-                      type="number"
-                      class="
-                        outline-none
-                        focus:outline-none
-                        text-center
-                        md:text-basecursor-default
-                        flex-shrink flex
-                        items-center
-                        justify-center
-                        bg-transparent
-                        max-w-[30px]
-                        font-bold
-                      "
-                      name="custom-input-number"
-                    />
+                    <p class="font-bold">
+                      {{ cart[key].qty }}
+                    </p>
                     <button
                       type="button"
                       class="h-full w-10 cursor-pointer"
-                      @click="() => form.total++"
+                      @click="() => changeQty('plus', key)"
                     >
                       <span class="m-auto">+</span>
                     </button>
                   </div>
                 </div>
                 <div class="font-bold">
-                  {{ $currencyFormat(2750000) }}
+                  {{ $currencyFormat(cart[key].subtotalPrice * cart[key].qty) }}
                 </div>
               </div>
             </div>
@@ -106,7 +118,7 @@
           <div class="flex flex-col">
             <div class="flex">
               <p class="mr-10 font-serif">Subtotal</p>
-              <p class="font-bold">{{ $currencyFormat(7500000) }}</p>
+              <p class="font-bold">{{ $currencyFormat(getTotalBySelected) }}</p>
             </div>
             <button
               type="button"
@@ -128,25 +140,71 @@
         </div>
       </template>
     </client-only>
+    <ModalContainer
+      id="modal-delete"
+      title="Removing Item"
+      desc="are you sure you want to remove this item?"
+      btn-close-title="no"
+      btn-proceed-title="yes"
+      :btn-proceed-callback="() => deleteItem()"
+    />
   </div>
 </template>
 <script>
 export default {
   name: 'Cart',
-  middleware: 'auth',
   data() {
     return {
       form: {
         total: 1,
       },
+      cart: {},
+      currentKey: '',
+      checkedItems: {},
     }
   },
   computed: {
-    cart() {
-      if (typeof window !== 'undefined') {
-        return this.$getStorage('bloomwoodCart')
+    getTotalBySelected() {
+      let totalSelected = 0
+      for (const [key, value] of Object.entries(this.checkedItems)) {
+        if (value) {
+          totalSelected += this.cart[key].subtotalPrice * this.cart[key].qty
+        }
       }
-      return null
+      return totalSelected
+    },
+  },
+  mounted() {
+    this.cart = this.$getStorage('bloomwoodCart')
+  },
+  methods: {
+    async changeQty(operator, key) {
+      await this.$setStorage(
+        'bloomwoodCart',
+        {
+          ...this.cart,
+          [key]: {
+            ...this.cart[key],
+            qty:
+              operator === 'plus'
+                ? (this.cart[key].qty += 1)
+                : (this.cart[key].qty -= 1),
+          },
+        },
+        1000
+      )
+    },
+    deleteItem() {
+      try {
+        const key = this.currentKey
+        const { [key]: value, ...otherItems } = this.cart
+        console.log('clicked', otherItems)
+        this.$setStorage('bloomwoodCart', otherItems, 1000)
+        this.cart = otherItems
+        this.$modal.hide('modal-delete')
+      } catch (e) {
+        console.log(e)
+      }
     },
   },
 }

@@ -33,7 +33,7 @@ const useGetProducts = (search = '', category = '') => {
   const store = useStore()
   const route = useRoute()
 
-  const getProducts = async (search = '', group = '') => {
+  const getProducts = async (search = '', category = '') => {
     const qsSearch = app.$qsHandler('search', search)
     const qsCategory = app.$qsHandler('category', category)
     store.commit('products/SET_QUERY', `${qsSearch}${qsCategory}`)

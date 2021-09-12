@@ -90,6 +90,13 @@ export default {
         return ['underlined', 'outlined'].includes(value)
       },
     },
+    fontSize: {
+      type: String,
+      default: 'default',
+      validator(value) {
+        return ['small', 'default'].includes(value)
+      },
+    },
     backgroundColor: {
       type: String,
       default: 'transparent',
