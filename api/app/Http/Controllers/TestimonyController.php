@@ -51,11 +51,11 @@ class TestimonyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\TestimonyRequest   $request
      * @param  \App\Models\Testimony  $testimony
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Testimony $testimony)
+    public function update(TestimonyRequest $request, Testimony $testimony)
     {
         $testimony->update($request->validated());
 
