@@ -65,6 +65,23 @@
                 class="
                   fw-bold
                   text-uppercase
+                  border-start border-5 border-danger
+                "
+              >
+                <span class="ms-3">Shipment Info</span>
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12 col-md-10 mx-auto">
+          <div class="card border-0 shadow rounded-2">
+            <div class="card-body">
+              <h5
+                class="
+                  fw-bold
+                  text-uppercase
                   border-start border-5 border-success
                 "
               >
@@ -142,9 +159,13 @@
                     </tbody>
                   </table>
                 </div>
+                <div class="col-10 mx-auto mt-4">
+                  <h5>Custom Message</h5>
+                  <p class="bg-light p-4 rounded">{{ product.message }}</p>
+                </div>
                 <div
                   v-if="product.add_ons.length > 0"
-                  class="col-10 mx-auto overflow-auto mt-4"
+                  class="col-10 mx-auto overflow-auto mt-3"
                 >
                   <h5>Chosen Add Ons</h5>
                   <table class="table table-hover table-borderless w-100">
@@ -226,11 +247,11 @@ export default {
     return {
       invoiceTable: {
         invoiceInfo: [
-          {
-            id: 'invoiceId',
-            label: 'ID',
-            property: 'id',
-          },
+          // {
+          //   id: 'invoiceId',
+          //   label: 'ID',
+          //   property: 'id',
+          // },
           {
             id: 'invoiceNumber',
             label: 'Invoice Number',
@@ -243,11 +264,11 @@ export default {
           },
         ],
         userInfo: [
-          {
-            id: 'userId',
-            label: 'User ID',
-            property: 'id',
-          },
+          // {
+          //   id: 'userId',
+          //   label: 'User ID',
+          //   property: 'id',
+          // },
           {
             id: 'userName',
             label: 'Name',
