@@ -28,7 +28,7 @@ class CategoryRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'parent_id' => ['sometimes', 'nullable', 'exists:categories,_id'],
-            'thumbnail_image' => ['required', 'nullable', 'image']
+            'thumbnail_image' => ['sometimes', 'nullable', 'image']
         ];
     }
 }

@@ -19,7 +19,7 @@ const useProductForm = () => {
     name: '',
     description: '',
     price: '0',
-    size: '',
+    sizes: [],
     category_ids: [],
     images: [],
     variants: [
@@ -36,12 +36,30 @@ const useProductForm = () => {
         thumbnail_image: null,
       },
     ],
+    classic: {
+      name: 'Classic',
+      price: null,
+    },
+    deluxe: {
+      name: 'Deluxe',
+      price: null,
+    },
+    hasClassic: false,
+    hasDeluxe: false,
   })
   const previewImages = reactive([])
   const previewVariants = reactive([])
   const previewAddOns = reactive([])
 
   const createProduct = async () => {
+    if (form.hasClassic) {
+      form.sizes.push(form.classic)
+    }
+
+    if (form.hasDeluxe) {
+      form.sizes.push(form.deluxe)
+    }
+
     const payload = app.$jsonToFormData(form)
     const [res, err] = await app.$async(
       store.dispatch('products/STORE_PRODUCT', payload)
@@ -56,6 +74,14 @@ const useProductForm = () => {
   }
 
   const updateProduct = async () => {
+    if (form.hasClassic) {
+      form.sizes.push(form.classic)
+    }
+
+    if (form.hasDeluxe) {
+      form.sizes.push(form.deluxe)
+    }
+
     const payload = app.$jsonToFormData(form)
     const [_, err] = await app.$async(
       store.dispatch('products/UPDATE_PRODUCT', {

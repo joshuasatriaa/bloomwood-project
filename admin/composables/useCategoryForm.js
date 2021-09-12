@@ -24,7 +24,9 @@ const useCategoryForm = () => {
   })
 
   const createCategory = async () => {
-    form.thumbnail_image = form.thumbnail_image[0]
+    if (form.thumbnail_image != null) {
+      form.thumbnail_image = form.thumbnail_image[0]
+    }
 
     const payload = app.$jsonToFormData(form)
     const [_, err] = await app.$async(
@@ -40,8 +42,9 @@ const useCategoryForm = () => {
   }
 
   const updateCategory = async () => {
-    form.thumbnail_image = form.thumbnail_image[0]
-
+    if (form.thumbnail_image != null) {
+      form.thumbnail_image = form.thumbnail_image[0]
+    }
     const payload = app.$jsonToFormData(form)
     const [_, err] = await app.$async(
       store.dispatch('categories/UPDATE_CATEGORY', {

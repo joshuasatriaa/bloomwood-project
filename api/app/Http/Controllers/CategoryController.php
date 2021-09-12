@@ -86,7 +86,7 @@ class CategoryController extends Controller
     {
         $validated = $request->validated();
 
-        if ($validated['thumbnail_image']) {
+        if (@$validated['thumbnail_image']) {
             $validated['thumbnail_image'] = $this->saveThumbnailCategory($request, $validated);
         }
 
@@ -114,7 +114,10 @@ class CategoryController extends Controller
 
     private function saveThumbnailCategory(Request $request, array $validated)
     {
-        $thumbnail = $this->imageService->uploadThumbnail($request, 'category-images', 'thumbnail_image');
+        $thumbnail = null;
+        if ($request->hasFile('thumbnail_image')) {
+            $thumbnail = $this->imageService->uploadThumbnail($request, 'category-images', 'thumbnail_image');
+        }
 
         return $thumbnail;
     }

@@ -56,7 +56,7 @@
                   :disable-branch-nodes="false"
                   :value-consists-of="'BRANCH_PRIORITY'"
                   :multiple="false"
-                  :options="categories.data"
+                  :options="disabledSubCategories"
                   :disabled="form.isParent"
                   placeholder="Select option..."
                 />
@@ -122,6 +122,21 @@ export default {
   watch: {
     'form.isParent'() {
       this.form.parent_id = null
+    },
+  },
+  computed: {
+    disabledSubCategories() {
+      if (!this.categories.data) {
+        return []
+      }
+
+      const cats = this.categories.data
+
+      for (const i of cats) {
+        delete i.children
+      }
+
+      return cats
     },
   },
 }

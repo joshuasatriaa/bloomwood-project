@@ -1,11 +1,7 @@
 <template>
   <div class="container">
     <h1>Invoice Details</h1>
-    <NuxtLink
-      :to="`/products/${$route.params.id}/edit`"
-      class="btn btn-success text-white px-4"
-      >Edit</NuxtLink
-    >
+    <button class="btn btn-danger text-white px-4">Cancel Invoice</button>
     <div v-if="invoice.data">
       <div class="row mt-4">
         <div class="col-12 col-md-10 mx-auto">
@@ -68,8 +64,32 @@
                   border-start border-5 border-danger
                 "
               >
-                <span class="ms-3">Shipment Info</span>
+                <span class="ms-3">Delivery Info</span>
               </h5>
+              <h4 v-if="inv.pick_up">
+                <span class="badge bg-primary">SELF PICK UP</span>
+              </h4>
+              <h4 v-else>
+                <span class="badge bg-danger">DELIVERY</span>
+              </h4>
+              <div v-if="!inv.pick_up">
+                <table class="mt-3">
+                  <tbody>
+                    <tr
+                      v-for="item in invoiceTable.deliveryInfo"
+                      :key="item.id"
+                    >
+                      <th class="text-uppercase fw-bolder">{{ item.label }}</th>
+                      <td>
+                        <span v-if="item.id == 'DeliveryFee'">{{
+                          $currencyFormat(inv[item.property])
+                        }}</span>
+                        <span v-else>{{ inv[item.property] }}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -83,6 +103,37 @@
                   fw-bold
                   text-uppercase
                   border-start border-5 border-success
+                "
+              >
+                <span class="ms-3">Payment Info</span>
+              </h5>
+              <table class="mt-3">
+                <tbody>
+                  <tr v-for="item in invoiceTable.paymentInfo" :key="item.id">
+                    <th class="text-uppercase fw-bolder">{{ item.label }}</th>
+                    <td>
+                      {{
+                        item.isCurrency
+                          ? $currencyFormat(inv[item.property])
+                          : inv[item.property]
+                      }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12 col-md-10 mx-auto">
+          <div class="card border-0 shadow rounded-2">
+            <div class="card-body">
+              <h5
+                class="
+                  fw-bold
+                  text-uppercase
+                  border-start border-5 border-primary
                 "
               >
                 <span class="ms-3">Purchased Products</span>
@@ -317,6 +368,47 @@ export default {
             id: 'addOnPrice',
             label: 'Price',
             property: 'price',
+          },
+        ],
+        deliveryInfo: [
+          {
+            id: 'Address',
+            label: 'Address',
+            property: 'address',
+          },
+          {
+            id: 'RecipientsName',
+            label: "Recipient's Name",
+            property: 'recipients_name',
+          },
+          {
+            id: 'RecipientsPhone',
+            label: "Recipient's Phone",
+            property: 'recipients_phone',
+          },
+          {
+            id: 'DeliveryTime',
+            label: 'Delivery Time',
+            property: 'delivery_time',
+          },
+          {
+            id: 'DeliveryFee',
+            label: 'Delivery Fee',
+            property: 'delivery_fee',
+          },
+        ],
+        paymentInfo: [
+          {
+            id: 'Status',
+            label: 'Status',
+            property: 'status',
+            isCurrency: false,
+          },
+          {
+            id: 'Grandtotal',
+            label: 'Grand Total',
+            property: 'grand_total',
+            isCurrency: true,
           },
         ],
       },
