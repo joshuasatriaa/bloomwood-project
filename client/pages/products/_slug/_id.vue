@@ -2,13 +2,14 @@
   <div class="container mx-auto pt-20">
     <div
       v-if="!$fetchState.pending"
-      class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 text-primary"
+      class="grid grid-cols-1 lg:grid-cols-2 gap-x-14 text-primary"
     >
       <ContainedImage
         :src="PRODUCT.data.images[0].original_image || '/'"
         alt=""
         width="650"
         height="650"
+        class="max-w-[690px]"
       />
       <div class="mt-10 lg:mt-0">
         <h1 class="text-4xl mb-6">{{ PRODUCT.data.name }}</h1>

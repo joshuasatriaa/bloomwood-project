@@ -144,13 +144,30 @@
         "
       >
         <div
-          v-for="(product, idx) in 4"
-          :key="idx"
+          v-for="product in MOST_GIFTED_PRODUCTS.data"
+          :key="product.id"
           class="flex flex-col items-center text-primary"
         >
-          <img src="/temp-product.jpg" class="mb-4 w-full font-serif" />
-          <p class="mb-2">Caspea Bouquet - Natural</p>
-          <strong>{{ $currencyFormat(125000) }}</strong>
+          <NuxtLink
+            :to="`/products/${product.slug}/${product.id}`"
+            class="text-center group"
+          >
+            <ContainedImage
+              :src="product.images[0].original_image"
+              width="335"
+              height="335"
+              class="
+                mb-4
+                transition
+                rounded
+                filter
+                scale-95
+                group-hover:scale-100 group-hover:drop-shadow-xl
+              "
+            />
+            <p class="mb-2 font-serif">{{ product.name }}</p>
+            <strong>{{ $currencyFormat(getMinPrice(product.sizes)) }}</strong>
+          </NuxtLink>
         </div>
       </div>
     </div>
@@ -193,14 +210,27 @@
 </template>
 
 <script>
-// import { mapActions, mapGetters } from 'vuex'
-// import { useGetCategories } from '@/composables/useCategory'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  async fetch() {
+    await this.GET_MOST_GIFTED_PRODUCTS()
+  },
+  computed: {
+    ...mapGetters({
+      MOST_GIFTED_PRODUCTS: 'home/MOST_GIFTED_PRODUCTS',
+    }),
+  },
   methods: {
-    // ...mapActions({
-    //   GET_NAVIGATION_GROUPS: 'GET_NAVIGATION_GROUPS',
-    // }),
+    ...mapActions({
+      GET_MOST_GIFTED_PRODUCTS: 'home/GET_MOST_GIFTED_PRODUCTS',
+    }),
+    getMinPrice(sizes) {
+      const { price } = sizes.reduce((prev, curr) =>
+        prev.price < curr.price ? prev : curr
+      )
+      return price
+    },
   },
 }
 </script>

@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      TESTIMONIES: 'testimonies/TESTIMONIES',
+      TESTIMONIES: 'home/TESTIMONIES',
     }),
   },
   mounted() {
@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      GET_TESTIMONIES: 'testimonies/GET_TESTIMONIES',
+      GET_TESTIMONIES: 'home/GET_TESTIMONIES',
     }),
   },
 }
