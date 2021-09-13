@@ -28,12 +28,21 @@
                 label="Testimony"
                 required
               />
+              <small
+                :class="{
+                  'text-danger': charCounter > 240,
+                  'text-muted': charCounter <= 240,
+                }"
+                >*Max 240 characters, current characters:
+                {{ charCounter }}</small
+              >
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-12 col-md-6 mx-auto">
               <button
                 class="btn btn-success w-100 text-white"
+                :disabled="charCounter > 240"
                 @click="!isUpdate ? createTestimony() : updateTestimony()"
               >
                 <span v-if="!isUpdate">CREATE</span><span v-else>UPDATE</span>
@@ -48,6 +57,7 @@
 
 <script>
 import { useTestimonyForm } from '@/composables/useTestimonyForm'
+import { computed } from '@nuxtjs/composition-api'
 
 export default {
   name: 'TestimoniesForm',
@@ -73,8 +83,13 @@ export default {
       initData(props.testimony.data)
     }
 
+    const charCounter = computed(() => {
+      return form.message.length
+    })
+
     return {
       form,
+      charCounter,
       createTestimony,
       updateTestimony,
     }
