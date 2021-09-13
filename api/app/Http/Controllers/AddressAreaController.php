@@ -31,7 +31,7 @@ class AddressAreaController extends Controller
 
         $areas = AddressArea::query()->filter([
             AddressAreaFilter::class,
-        ])->paginate(request('per_page', 100));
+        ])->paginate(request('limit', 1000));
 
 
         return AddressAreaResource::collection($areas);
