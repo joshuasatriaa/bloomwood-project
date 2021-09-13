@@ -1,22 +1,27 @@
 <template>
   <div class="container mx-auto pt-20">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 text-primary">
+    <div
+      v-if="!$fetchState.pending"
+      class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 text-primary"
+    >
       <ContainedImage
-        :src="product.data.images[0].original_image"
+        :src="PRODUCT.data.images[0].original_image || '/'"
         alt=""
         width="650"
         height="650"
       />
       <div class="mt-10 lg:mt-0">
-        <h1 class="text-4xl mb-6">{{ product.data.name }}</h1>
-        <h2 class="text-lg font-bold text-pink mb-3">Bloom Loop</h2>
+        <h1 class="text-4xl mb-6">{{ PRODUCT.data.name }}</h1>
+        <h2 class="text-lg font-bold text-pink mb-3">
+          {{ PRODUCT.data.categories.map(({ name }) => name).join(', ') }}
+        </h2>
         <p class="font-bold text-lg mb-6">
-          {{ product.data.description }}
+          {{ PRODUCT.data.description }}
         </p>
         <h3 class="text-2xl font-bold mb-5">Choose Size</h3>
         <ToggleButtonGroup
           class="mb-8"
-          :buttons="sizes"
+          :buttons="getSizesButtonGroup(PRODUCT.data.sizes)"
           :current-value="form.size"
           @changed="(value) => (form.size = value)"
         />
@@ -27,6 +32,7 @@
         </p>
         <InputTextArea
           id="message"
+          v-model="form.message"
           class="mb-8"
           rows="6"
           minlength="5"
@@ -42,7 +48,7 @@
         /> -->
 
         <h3 class="text-2xl font-bold text-uppercase mb-8">
-          {{ $currencyFormat(product.data.price) }}
+          {{ $currencyFormat(getFlowerOnlyPrice) }}
         </h3>
 
         <div class="flex gap-6 mb-12 flex-wrap">
@@ -63,12 +69,12 @@
             <button
               type="button"
               class="h-full w-20 cursor-pointer outline-none"
-              @click="() => form.total--"
+              @click="() => form.qty--"
             >
               <span class="m-auto text-2xl font-thin">−</span>
             </button>
             <input
-              v-model="form.total"
+              v-model="form.qty"
               type="number"
               class="
                 outline-none
@@ -85,7 +91,7 @@
             <button
               type="button"
               class="h-full w-20 cursor-pointer"
-              @click="() => form.total++"
+              @click="() => form.qty++"
             >
               <span class="m-auto text-2xl font-thin">+</span>
             </button>
@@ -113,7 +119,7 @@
         <h3 class="text-2xl font-bold mb-5">Frequently Bought Together</h3>
         <div class="flex items-center mb-8">
           <template
-            v-for="({ id, thumbnail_image }, idx) in product.data.add_ons"
+            v-for="({ id, thumbnail_image }, idx) in PRODUCT.data.add_ons"
           >
             <div :key="id" class="flex flex-row items-center">
               <ContainedImage
@@ -124,7 +130,7 @@
                 :is-fluid="false"
               />
               <span
-                v-if="idx + 1 !== product.data.add_ons.length"
+                v-if="idx + 1 !== PRODUCT.data.add_ons.length"
                 class="text-lg font-bold mx-4"
                 >+</span
               >
@@ -139,15 +145,15 @@
 
         <div class="mb-10 font-serif">
           <div
-            v-for="{ id, name, price } in product.data.add_ons"
+            v-for="{ id, name, price } in PRODUCT.data.add_ons"
             :key="id"
             class="flex items-center relative my-4 flex-wrap"
           >
             <input
               :id="id"
-              v-model="form.addOns[id].checked"
+              v-model="form.addOns[id]"
               type="checkbox"
-              class="opacity-0 absolute h-5 w-5"
+              class="opacity-0 absolute h-5 w-5 cursor-pointer"
               :name="id"
             />
             <div
@@ -161,15 +167,19 @@
                 flex flex-shrink-0
                 justify-center
                 items-center
+                cursor-pointer
                 focus-within:border-blue-500 focus-within:bg-primary
               "
             >
               <div
                 class="h-3 w-3 bg-pink rounded-sm"
-                :class="[form.addOns[id].checked ? 'block' : 'hidden']"
+                :class="[form.addOns[id] ? 'block' : 'hidden']"
               ></div>
             </div>
-            <label :for="id" class="text-lg font-bold select-none ml-5">
+            <label
+              :for="id"
+              class="text-lg font-bold select-none ml-5 cursor-pointer"
+            >
               <div class="flex flex-col md:flex-row md:items-center">
                 <p class="mr-2">{{ name }}</p>
                 <!-- <InputSelect
@@ -212,6 +222,7 @@
             relative
           "
           style="max-width: 420px"
+          @click="addToCart"
         >
           <p>save to cart</p>
           <IconCart class="absolute fill-current text-white right-5" />
@@ -262,124 +273,124 @@
         </Accordion>
       </div>
     </div>
+    <ModalContainer
+      id="modal-add-cart"
+      title="Added to Cart"
+      desc="item successfully added to cart"
+      btn-close-title="okay"
+    />
   </div>
 </template>
+
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import {
   useRoute,
   computed,
   watch,
   ref,
   onMounted,
+  useFetch,
+  useContext,
 } from '@nuxtjs/composition-api'
 import { useGetProduct } from '@/composables/useProduct'
 
 export default {
-  setup() {
-    const route = useRoute()
+  name: 'Product',
+  // setup() {
+  //   const route = useRoute()
+  //   const context = useContext()
 
-    const { product, getProduct } = useGetProduct()
+  //   const { product, getProduct } = useGetProduct()
 
-    // console.log(product.value.data.name)
+  //   const initialSize = PRODUCT.value?.data?.sizes[0].name
 
-    const sizes = ref([
-      {
-        id: 'Small-123',
-        value: 'Small',
-        label: 'Small',
-      },
-      {
-        id: 'Medium-123',
-        value: 'Medium',
-        label: 'Medium',
-      },
-      {
-        id: 'Large-123',
-        value: 'Large',
-        label: 'Large',
-      },
-    ])
-
-    const currentSize = ref('')
-
-    const form = ref({
-      total: 1,
-      size: '',
-      addOns: computed(() => {
-        return product.value.data.add_ons.reduce((acc, curr) => {
-          return {
-            ...acc,
-            [curr.id]: {
-              id: curr.id,
-              price: curr.price,
-              name: curr.name,
-              checked: false,
-            },
-          }
-        }, {})
-      }),
-    })
-
-    // onMounted(() => {
-    //   form.value.addOns =
-    // })
-
-    const handleCheckbox = (e) => {
-      console.log(e.target.checked)
-      console.log(e.target.name)
-    }
-
-    // return { ...product.value.data, getProduct }
-    return { product, getProduct, handleCheckbox, form, sizes, currentSize }
-  },
-  // data() {
   //   return {
-  //     currentSize: '',
-  //     currentBundle: '',
-  //     form: {
-  //       test: '',
-  //     },
-  //     total: 1,
-  //     sizes: [
-  //       {
-  //         id: 'Small-123',
-  //         value: 'Small',
-  //         label: 'Small',
-  //       },
-  //       {
-  //         id: 'Medium-123',
-  //         value: 'Medium',
-  //         label: 'Medium',
-  //       },
-  //       {
-  //         id: 'Large-123',
-  //         value: 'Large',
-  //         label: 'Large',
-  //       },
-  //     ],
-  //     bundles: [
-  //       {
-  //         id: 'Cake-123',
-  //         value: 'Cake',
-  //         label: 'Cake',
-  //       },
-  //       {
-  //         id: 'Wine-123',
-  //         value: 'Wine',
-  //         label: 'Wine',
-  //       },
-  //       {
-  //         id: 'Chocolate-123',
-  //         value: 'Chocolate',
-  //         label: 'Chocolate',
-  //       },
-  //     ],
+  //     product,
+  //     getProduct,
   //   }
   // },
-  // async mounted() {
-  //   const res = await this.$axios.$get('/api/products/6128c8c72799b71e1a7e932f')
-  //   console.log(res)
-  // },
+  data() {
+    return {
+      form: {
+        qty: 1,
+        size: '',
+        message: '',
+        addOns: {},
+      },
+    }
+  },
+  async fetch() {
+    await this.GET_PRODUCT(this.$route.params.id)
+    this.form.size = this.PRODUCT.data.sizes[0].name
+  },
+
+  computed: {
+    ...mapGetters({
+      PRODUCT: 'products/PRODUCT',
+    }),
+    getFlowerOnlyPrice() {
+      const { price } = this.PRODUCT.data.sizes.find((size) => {
+        return this.form.size === size.name
+      })
+      return price
+    },
+  },
+  methods: {
+    ...mapActions({
+      GET_PRODUCT: 'products/GET_PRODUCT',
+    }),
+    addToCart() {
+      const bloomwoodCart = this.$getStorage('bloomwoodCart') || {}
+      const addOns = Object.keys(this.form.addOns).filter(
+        (addOn) => this.form.addOns[addOn] === true
+      )
+      const addOnsAppendedString =
+        addOns.length < 1 ? '' : `-${addOns.join('-')}`
+      const objName = `${this.PRODUCT.data.id}${addOnsAppendedString}`
+      let objToSave = {}
+
+      if (bloomwoodCart[objName]) {
+        objToSave = {
+          ...bloomwoodCart,
+          [objName]: {
+            ...bloomwoodCart[objName],
+            qty: bloomwoodCart[objName].qty + this.form.qty,
+          },
+        }
+      } else {
+        const filteredAddOns = this.PRODUCT.data.add_ons.filter((addOn) => {
+          return this.form.addOns[addOn.id]
+        })
+
+        console.log(filteredAddOns)
+        objToSave = {
+          ...bloomwoodCart,
+          [`${objName}`]: {
+            ...this.form,
+            productName: this.PRODUCT.data.name,
+            subtotalPrice:
+              this.getFlowerOnlyPrice +
+              filteredAddOns.reduce((acc, curr) => {
+                return (acc += curr.price)
+              }, 0),
+            productImage: this.PRODUCT.data.images[0].thumbnail_image,
+            addOns: filteredAddOns,
+          },
+        }
+      }
+      this.$setStorage('bloomwoodCart', objToSave, 1000)
+      this.$modal.show('modal-add-cart')
+    },
+    getSizesButtonGroup() {
+      return this.PRODUCT.data.sizes.map(({ name }) => {
+        return {
+          value: name,
+          label: name,
+        }
+      })
+    },
+  },
 }
 </script>
 <style>

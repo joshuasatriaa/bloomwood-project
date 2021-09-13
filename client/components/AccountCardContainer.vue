@@ -14,8 +14,18 @@
         px-5
       "
     >
-      <h1 class="text-3xl text-center mb-4 font-serif">{{ title }}</h1>
-      <p class="font-bold text-center mb-16">{{ description }}</p>
+      <h1
+        class="text-3xl text-center font-serif"
+        :class="[marginType === 'default' ? 'mb-4' : 'mt-10 mb-8']"
+      >
+        {{ title }}
+      </h1>
+      <p
+        class="font-bold text-center"
+        :class="[marginType === 'default' ? 'mb-16' : 'mb-10']"
+      >
+        {{ description }}
+      </p>
       <slot />
     </div>
   </div>
@@ -31,6 +41,13 @@ export default {
     description: {
       type: String,
       required: true,
+    },
+    marginType: {
+      type: String,
+      default: 'default',
+      validator(value) {
+        return ['default', 'compact'].includes(value)
+      },
     },
   },
 }

@@ -85,11 +85,60 @@ export default (context, inject) => {
     return formData
   }
 
+  const setStorage = (key, value, ttl) => {
+    const now = new Date()
+
+    const item = {
+      value,
+      expiry: now.getTime() + ttl * 1000 * 60,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  }
+
+  const getStorage = (key) => {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) return null
+
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return null
+    }
+
+    return item.value
+  }
+
+  const setSessionStorage = (key, value) => {
+    const now = new Date()
+
+    const item = {
+      value,
+    }
+    sessionStorage.setItem(key, JSON.stringify(item))
+  }
+
+  const getSessionStorage = (key) => {
+    const itemStr = sessionStorage.getItem(key)
+
+    if (!itemStr) return null
+
+    const item = JSON.parse(itemStr)
+
+    return item.value
+  }
+
   inject('async', async)
   inject('qsHandler', qsHandler)
   inject('getFullImageUrl', getFullImageUrl)
   inject('currencyFormat', currencyFormat)
   inject('jsonToFormData', jsonToFormData)
+  inject('setStorage', setStorage)
+  inject('getStorage', getStorage)
+  inject('setSessionStorage', setSessionStorage)
+  inject('getSessionStorage', getSessionStorage)
   //   inject('errorHandler', errorHandler)
   //   inject('successHandler', successHandler)
   //   inject('inputWarning', inputWarning)

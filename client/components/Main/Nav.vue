@@ -22,16 +22,15 @@
         "
       >
         <div
-          v-for="{ id, slug, name } in navigationGroups.data"
+          v-for="{ id, slug, name, categories } in navigationGroups.data"
           :key="id"
           class="group relative"
         >
-          <NuxtLink
-            :to="`/products?group=${slug}`"
+          <div
             :class="{ 'cursor-default': $route.query.group === slug }"
             class="relative"
           >
-            <span>{{ name }}</span>
+            <span class="cursor-default">{{ name }}</span>
             <div
               class="
                 cursor-pointer
@@ -48,22 +47,24 @@
                   : 'w-full',
               ]"
             ></div>
-          </NuxtLink>
+          </div>
           <div
             class="
               fixed
-              opacity-0
-              h-0
-              shadow-sm
-              overflow-hidden
-              transition-all
-              duration-300
-              z-10
               w-full
+              z-10
               left-0
+              transition-all
+              scale-y-0
+              origin-top
+              opacity-0
+              duration-300
+              top-36
+              border-b
+              pt-[2.6rem]
             "
             :class="{
-              'group-hover:bg-transparent group-hover:h-auto group-hover:overflow-visible group-hover:opacity-100 group-hover:top-24 group-hover:pt-[2.6rem]':
+              'group-hover:scale-y-100 group-hover:top-24 group-hover:opacity-100':
                 $route.query.group !== slug,
             }"
           >
@@ -72,20 +73,32 @@
                 <p class="text-6xl font-sans mb-10 text-[#F2F2F2]">
                   {{ name }}
                 </p>
-                <div class="grid grid-cols-3 pl-5">
-                  <div class="flex flex-col">
-                    <ContainedImage
-                      src="/flower-7.png"
-                      class="mb-5"
-                      :is-fluid="false"
-                      width="150"
-                      height="150"
-                    />
-                    <p class="font-bold text-primary mb-3">Bloom Loop</p>
+                <div class="grid grid-cols-7 pl-5">
+                  <div
+                    v-for="category in categories"
+                    :key="category.id"
+                    class="flex flex-col"
+                  >
+                    <NuxtLink :to="`/products?category=${category.slug}`">
+                      <ContainedImage
+                        :src="category.thumbnail_image"
+                        class="mb-5 max-w-[150px]"
+                        width="150"
+                        height="150"
+                      />
+                    </NuxtLink>
+                    <NuxtLink
+                      :to="`/products?category=${category.slug}`"
+                      class="font-bold text-primary mb-3"
+                    >
+                      {{ category.label }}
+                    </NuxtLink>
                     <ul class="text-secondary font-medium font-sans">
-                      <li>Petite</li>
-                      <li>Signature</li>
-                      <li>Deluxe</li>
+                      <li v-for="child in category.children" :key="child.id">
+                        <NuxtLink :to="`/products?category=${child.slug}`">{{
+                          child.label
+                        }}</NuxtLink>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -191,9 +204,7 @@
     <modal
       name="sm-nav"
       width="100%"
-      height="0px"
-      :scrollable="true"
-      classes="h-screen w-screen top-0 transition-all bg-tertiary overflow-y-auto"
+      classes="h-screen w-screen top-0 transition-all bg-tertiary overflow-y-auto overflow-x-hidden"
     >
       <div class="flex w-full justify-between px-5 pt-5">
         <ContainedImage
@@ -343,8 +354,6 @@ import { useGetNavigationGroups } from '@/composables/useNavigationGroup'
 export default {
   setup() {
     const { navigationGroups, getNavigationGroups } = useGetNavigationGroups()
-
-    console.log('fewfefe', navigationGroups)
     return { navigationGroups, getNavigationGroups }
   },
   data() {
