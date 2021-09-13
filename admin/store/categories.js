@@ -30,6 +30,9 @@ export const mutations = {
   SET_ONLY_PARENTS(state, payload) {
     state.onlyParents = payload
   },
+  RESET_STATE(state) {
+    state.category = {}
+  },
 }
 
 export const actions = {

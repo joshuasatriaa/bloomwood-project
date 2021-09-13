@@ -41,9 +41,33 @@
           <li class="nav-item">
             <NuxtLink to="/invoices" class="nav-link">Invoices</NuxtLink>
           </li>
-          <li class="nav-item">
-            <NuxtLink to="/contact-us" class="nav-link">Contact Us</NuxtLink>
+          <li class="nav-item dropdown">
+            <a
+              id="navbarWebsite"
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              >Website
+            </a>
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="navbarWebsite"
+            >
+              <li>
+                <NuxtLink to="/contact-us" class="dropdown-item"
+                  >Contact Us</NuxtLink
+                >
+              </li>
+              <li>
+                <NuxtLink to="/testimonies" class="dropdown-item"
+                  >Testimonies</NuxtLink
+                >
+              </li>
+            </ul>
           </li>
+
           <li class="nav-item dropdown me-5">
             <a
               id="navbarDropdown"
