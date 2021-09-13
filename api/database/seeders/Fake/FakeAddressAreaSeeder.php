@@ -18,20 +18,20 @@ class FakeAddressAreaSeeder extends Seeder
     {
         $areas = [
             [
-                'name' => 'Jakarta Utara',
-                'description' => 'This covers Kelapa Gading, Sunter',
+                'name' => 'Kelapa Gading',
+                'description' => 'Kelapa Gading Area',
                 'small_price' => 10000,
                 'medium_price' => 15000
             ],
             [
-                'name' => 'Jakarta Barat',
-                'description' => 'This covers Kebon Jeruk, Puri, Tanjung Duren',
+                'name' => 'Sunter',
+                'description' => 'Sunter area',
                 'small_price' => 13000,
                 'medium_price' => 17000
             ],
             [
-                'name' => 'Jakarta Utara 2',
-                'description' => 'This covers PIK, Pluit',
+                'name' => 'Kemayoran',
+                'description' => 'Kemayoran area',
                 'small_price' => 5000,
                 'medium_price' => 10000
             ],
