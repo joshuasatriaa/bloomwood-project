@@ -67,7 +67,16 @@
                   }
                 "
               >
-                <IconTrash class="transform scale-75 align" />
+                <IconTrash
+                  class="
+                    transform
+                    scale-75
+                    fill-current
+                    transition-transform
+                    text-primary
+                    hover:scale-100
+                  "
+                />
               </button>
 
               <div class="flex gap-x-20 items-end">
@@ -115,24 +124,46 @@
         <div
           class="w-full flex flex-col items-end justify-end mt-14 text-primary"
         >
-          <div class="flex flex-col">
-            <div class="flex">
+          <div class="flex flex-col items-end">
+            <div class="flex mb-5">
               <p class="mr-10 font-serif">Subtotal</p>
               <p class="font-bold">{{ $currencyFormat(getTotalBySelected) }}</p>
             </div>
+            <template v-if="!$auth.user">
+              <p class="text-red-400 font-bold text-right">
+                you need to login before checkout.
+                <NuxtLink to="/accounts/login" class="text-brown underline"
+                  >Login</NuxtLink
+                >
+              </p>
+            </template>
+            <template
+              v-else-if="
+                Object.keys(checkedItems).filter((key) => checkedItems[key])
+                  .length < 1
+              "
+            >
+              <p class="text-red-400 font-bold text-right">
+                please select item before checkout.
+              </p>
+            </template>
+
             <button
+              :disabled="!$auth.user || Object.keys(checkedItems).length < 1"
               type="button"
               class="
                 font-bold
                 text-lg
-                py-1
+                py-2
                 bg-primary
                 text-white
                 rounded
                 w-full
-                mt-5
+                disabled:bg-gray-400
+                disabled:text-gray-600
+                disabled:cursor-not-allowed
               "
-              @click="$router.push(`${$route.path}/shipment`)"
+              @click="checkout"
             >
               checkout
             </button>
@@ -142,10 +173,10 @@
     </client-only>
     <ModalContainer
       id="modal-delete"
-      title="Removing Item"
-      desc="are you sure you want to remove this item?"
-      btn-close-title="no"
-      btn-proceed-title="yes"
+      title="Confirmation"
+      desc="please confirm to remove the selected item from your cart"
+      btn-close-title="cancel"
+      btn-proceed-title="confirm"
       :btn-proceed-callback="() => deleteItem()"
     />
   </div>
@@ -175,7 +206,7 @@ export default {
     },
   },
   mounted() {
-    this.cart = this.$getStorage('bloomwoodCart')
+    this.cart = this.$getStorage('bloomwoodCart') || {}
   },
   methods: {
     async changeQty(operator, key) {
@@ -202,6 +233,20 @@ export default {
         this.$setStorage('bloomwoodCart', otherItems, 1000)
         this.cart = otherItems
         this.$modal.hide('modal-delete')
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    checkout() {
+      try {
+        const selectedItemsArr = []
+        Object.keys(this.checkedItems).forEach((key) => {
+          if (this.checkedItems[key]) {
+            selectedItemsArr.push({ ...this.cart[key], id: key })
+          }
+        })
+        this.$setStorage('bloomwoodShipment', selectedItemsArr, 1000)
+        this.$router.push(`${this.$route.path}/shipment`)
       } catch (e) {
         console.log(e)
       }

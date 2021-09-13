@@ -111,6 +111,25 @@ export default (context, inject) => {
     return item.value
   }
 
+  const setSessionStorage = (key, value) => {
+    const now = new Date()
+
+    const item = {
+      value,
+    }
+    sessionStorage.setItem(key, JSON.stringify(item))
+  }
+
+  const getSessionStorage = (key) => {
+    const itemStr = sessionStorage.getItem(key)
+
+    if (!itemStr) return null
+
+    const item = JSON.parse(itemStr)
+
+    return item.value
+  }
+
   inject('async', async)
   inject('qsHandler', qsHandler)
   inject('getFullImageUrl', getFullImageUrl)
@@ -118,6 +137,8 @@ export default (context, inject) => {
   inject('jsonToFormData', jsonToFormData)
   inject('setStorage', setStorage)
   inject('getStorage', getStorage)
+  inject('setSessionStorage', setSessionStorage)
+  inject('getSessionStorage', getSessionStorage)
   //   inject('errorHandler', errorHandler)
   //   inject('successHandler', successHandler)
   //   inject('inputWarning', inputWarning)

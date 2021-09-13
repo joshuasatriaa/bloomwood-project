@@ -14,15 +14,12 @@
       <button
         v-if="btnCloseTitle"
         type="button"
-        class="
-          w-full
-          py-3
-          hover:bg-brown
-          text-white
-          font-bold
-          bg-primary
-          rounded
-        "
+        class="w-full py-3 font-bold rounded"
+        :class="[
+          btnProceedTitle
+            ? 'bg-[#E9E9E9] text-primary hover:bg-gray-300'
+            : 'text-white bg-primary hover:bg-brown',
+        ]"
         style="max-width: 250px"
         @click="$modal.hide(id)"
       >
