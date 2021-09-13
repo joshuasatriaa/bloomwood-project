@@ -22,7 +22,7 @@ class TestimonyFactory extends Factory
     public function definition()
     {
         return [
-            'message' => $this->faker->paragraph(),
+            'message' => $this->faker->text(random_int(120, 240)),
             'name' => $this->faker->name
         ];
     }

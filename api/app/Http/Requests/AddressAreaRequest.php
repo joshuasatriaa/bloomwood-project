@@ -24,6 +24,8 @@ class AddressAreaRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => ['required', 'string'],
+            'description' => ['required', 'string'],
             'small_price' => ['required', 'numeric'],
             'medium_price' => ['required', 'numeric'],
         ];

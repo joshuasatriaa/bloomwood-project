@@ -15,11 +15,8 @@ class AddressArea extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'province',
-        'city',
-        'district',
-        'urban',
-        'postal_code',
+        'name',
+        'description',
         'small_price',
         'medium_price'
     ];
