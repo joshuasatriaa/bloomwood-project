@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MeController;
+use App\Http\Controllers\MostGiftedController;
 use App\Http\Controllers\NavigationGroupController;
 use App\Http\Controllers\ProductAddOnController;
 use App\Http\Controllers\ProductController;
@@ -48,6 +49,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('contact-us', ContactUsController::class)->except(['store']);
     Route::apiResource('testimonies', TestimonyController::class)->except(['index', 'show']);
 });
+
+Route::get('most-gifted-products', MostGiftedController::class);
 
 Route::apiResource('testimonies', TestimonyController::class)->only(['index', 'show']);
 Route::apiResource('contact-us', ContactUsController::class)->only('store');
