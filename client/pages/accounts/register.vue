@@ -9,43 +9,49 @@
           id="email"
           v-model="form.email"
           type="email"
-          label="E-mail Address"
+          label="email address"
           class="mb-7"
+          :error="errors.email"
         />
         <InputText
           id="password"
           v-model="form.password"
           type="password"
-          label="Password"
+          label="password"
           class="mb-7"
+          :error="errors.password"
         />
         <InputText
           id="password-confirmation"
           v-model="form.confirmPassword"
           type="password"
-          label="Password"
+          label="confirm password"
           class="mb-7"
+          :error="errors.password"
         />
         <InputText
           id="full-name"
           v-model="form.fullName"
           type="text"
-          label="Full Name"
+          label="full name"
           class="mb-7"
+          :error="errors.name"
         />
         <InputText
           id="phone-number"
           v-model="form.phoneNumber"
-          type="number"
-          label="Phone Number"
+          type="tel"
+          label="phone number"
           class="mb-7"
+          :error="errors.phone_number"
         />
         <InputText
           id="address"
-          v-model="form.addess"
+          v-model="form.address"
           type="text"
-          label="Address"
+          label="address"
           class="mb-7"
+          :error="errors.address"
         />
         <!-- <InputText
           id="area"
@@ -67,8 +73,9 @@
               value: 'test-2',
             },
           ]"
-          label="Area"
+          label="select area"
           class="mb-7"
+          :error="errors.address_area_id"
         />
         <button
           type="submit"
@@ -96,10 +103,17 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+import { useGetAddressAreas } from '@/composables/useAddressArea'
+
 export default {
   name: 'Register',
   middleware: 'auth',
   auth: 'guest',
+  // setup() {
+  //   const { addressAreas, getAddressAreas } = useGetAddressAreas()
+  //   return { addressAreas, getAddressAreas }
+  // },
   data() {
     return {
       form: {
@@ -111,20 +125,47 @@ export default {
         address: '',
         area: '',
       },
+      errors: {},
     }
   },
+  async fetch() {
+    await this.GET_ADDRESS_AREAS()
+  },
+  computed: {
+    ...mapGetters({
+      ADDRESS_AREA: 'addressAreas/ADDRESS_AREA',
+    }),
+  },
   methods: {
+    ...mapActions({
+      GET_ADDRESS_AREAS: 'addressAreas/GET_ADDRESS_AREAS',
+    }),
     async register() {
       this.$store.dispatch('TOGGLE_LOADING', true)
       try {
-        await this.$axios.$post('/api/users', {
+        await this.$axios.$post('/register', {
           name: this.form.fullName,
           email: this.form.email,
           password: this.form.password,
+          password_confirmation: this.form.confirmPassword,
+          phone_number: this.form.phoneNumber,
+          address: this.form.address,
+          address_area_id: this.form.area,
         })
-        this.$router.push('/home')
+        this.$router.push('/accounts/sign-up-success')
       } catch (err) {
-        console.log(err)
+        console.log(err.response.data.errors)
+        if (
+          err.response.data.errors &&
+          typeof err.response.data.errors === 'object'
+        ) {
+          this.errors = Object.keys(err.response.data.errors).reduce(
+            (acc, key) => {
+              return { ...acc, [key]: err.response.data.errors[key][0] }
+            },
+            {}
+          )
+        }
       } finally {
         this.$store.dispatch('TOGGLE_LOADING', false)
       }

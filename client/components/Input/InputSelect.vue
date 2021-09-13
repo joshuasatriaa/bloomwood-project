@@ -1,28 +1,36 @@
 <template>
   <div
-    class="input-field relative"
-    :class="{ '-translate-y-7': variant === 'underlined' }"
+    class="relative"
+    :class="[
+      { '-translate-y-7': variant === 'underlined' },
+      variant === 'outlined'
+        ? 'input-field-outlined'
+        : 'input-field-underlined',
+    ]"
   >
     <select
       :id="id"
       v-bind="$attrs"
       ref="formSelect"
-      placeholder="test"
+      :placeholder="placeholder"
       :value="value"
       required
-      class="w-full bg-transparent border-primary focus:outline-none"
-      :class="{
-        'mt-5 border-b-4': variant === 'underlined',
-        'border rounded-sm': variant === 'outlined',
-        'h-9': height === 'default',
-        'h-8': height === 'short',
-        'text-sm': fontSize === 'small',
-      }"
+      class="w-full border-primary focus:outline-none"
+      :class="[
+        {
+          'mt-5 border-b-4': variant === 'underlined',
+          'border-2 rounded-sm pl-2': variant === 'outlined',
+          'h-10': height === 'default',
+          'h-8': height === 'short',
+          'text-sm': fontSize === 'small',
+        },
+        getBackgroundColor,
+      ]"
       @input="onInput($event)"
     >
       <!-- <option selected value="" disabled>{{ description }}</option> -->
       <option v-for="option in options" :key="option.id" :value="option.value">
-        {{ option.value }}
+        {{ option.label || option.value }}
       </option>
     </select>
     <label
@@ -34,16 +42,19 @@
         cursor-text
         ease-in-out
         left-0
-        bottom-3
         absolute
         bg-transparent
         text-secondary
         font-bold
       "
-      :class="{
-        ' -translate-y-5': value !== '',
-        hidden: variant === 'outlined',
-      }"
+      :class="[
+        {
+          '-translate-y-5': value !== '' && variant === 'underlined',
+          '-translate-y-8 translate-x-0':
+            value !== '' && variant === 'outlined',
+        },
+        variant !== 'outlined' ? 'bottom-3' : 'bottom-2',
+      ]"
     >
       {{ label }}
     </label>
@@ -62,6 +73,10 @@ export default {
       required: true,
     },
     value: {
+      type: String,
+      default: '',
+    },
+    placeholder: {
       type: String,
       default: '',
     },
@@ -90,6 +105,15 @@ export default {
         return ['small', 'default'].includes(value)
       },
     },
+    backgroundColor: {
+      type: String,
+      default: 'transparent',
+    },
+  },
+  computed: {
+    getBackgroundColor() {
+      return `bg-${this.backgroundColor}`
+    },
   },
   methods: {
     onInput(event) {
@@ -100,7 +124,15 @@ export default {
 </script>
 
 <style>
-.input-field:focus-within label {
+.input-field-underlined:focus-within label {
   @apply -translate-y-5;
+}
+.input-field-outlined:focus-within label {
+  @apply -translate-y-8;
+  @apply translate-x-0;
+}
+
+.input-field-outlined:not(:focus-within) label {
+  @apply translate-x-5;
 }
 </style>

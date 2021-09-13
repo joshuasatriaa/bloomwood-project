@@ -3,6 +3,7 @@
     <AccountCardContainer
       title="Sign Up Success"
       description="account has been created, please login to your account"
+      margin-type="compact"
     >
       <div class="flex">
         <NuxtLink
@@ -15,7 +16,7 @@
             text-lg text-white
             py-3
             rounded-md
-            mb-10
+            mb-8
           "
         >
           login

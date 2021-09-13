@@ -4,7 +4,7 @@
   >
     <div class="mb-20">
       <h1 class="text-3xl md:text-4xl font-normal mb-5 font-serif capitalize">
-        {{ $route.query.group.replace('-', ' ') }}
+        {{ $route.query.category.replace(/-/g, ' ') }}
       </h1>
       <div class="border-b-2 border-pink w-20 mx-auto flex-shrink"></div>
     </div>
@@ -12,16 +12,17 @@
       class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-16 gap-y-12"
     >
       <NuxtLink
-        v-for="{ id, images, name, price, slug } in products.data"
+        v-for="{ id, images, name, slug, sizes } in products.data"
         :key="id"
         :to="`/products/${slug}/${id}`"
+        class="motion-safe:hover:animate-pulse"
       >
         <ContainedImage
           :src="images[0].original_image"
-          width="351"
+          width="398"
           height="499"
           alt=""
-          class="rounded-lg mb-5"
+          class="mb-5"
         />
         <h2
           class="
@@ -36,7 +37,7 @@
         >
           {{ name }}
         </h2>
-        <p class="text-lg">{{ $currencyFormat(price) }}</p>
+        <p class="text-lg">{{ $currencyFormat(getMinPrice(sizes)) }}</p>
       </NuxtLink>
     </div>
   </div>
@@ -51,16 +52,23 @@ export default {
   setup() {
     const route = useRoute()
 
-    const group = computed(() => route.value.query.group)
+    const category = computed(() => route.value.query.category)
 
-    const { products, getProducts } = useGetProducts('', group.value)
+    const { products, getProducts } = useGetProducts('', category.value)
 
     watch(
-      () => route.value.query.group,
-      () => getProducts('', group.value)
+      () => route.value.query.category,
+      () => getProducts('', category.value)
     )
 
-    return { products, getProducts }
+    const getMinPrice = (sizes) => {
+      const { price } = sizes.reduce((prev, curr) =>
+        prev.price < curr.price ? prev : curr
+      )
+      return price
+    }
+
+    return { products, getProducts, getMinPrice }
   },
 }
 </script>
