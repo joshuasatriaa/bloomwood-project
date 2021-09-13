@@ -235,7 +235,7 @@
                     value: 'test-2',
                   },
                 ]"
-                label="Area"
+                label="area"
                 class="mb-10"
               />
               <InputText
@@ -246,6 +246,29 @@
                 class="mb-7"
                 background-color="white"
                 variant="outlined"
+              />
+            </div>
+            <div v-else>
+              <InputSelect
+                id="area"
+                v-model="form.area"
+                variant="outlined"
+                background-color="white"
+                placeholder="Area"
+                :options="[
+                  {
+                    id: 1,
+                    value: 'test',
+                    label: 'test',
+                  },
+                  {
+                    id: 2,
+                    value: 'test-2',
+                    label: 'tesssst2222',
+                  },
+                ]"
+                label="Address"
+                class="mb-10"
               />
             </div>
 

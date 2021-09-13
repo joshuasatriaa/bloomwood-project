@@ -1,59 +1,67 @@
 <template>
-  <div
-    class="relative"
-    :class="[
-      { '-translate-y-7': variant === 'underlined' },
-      variant === 'outlined'
-        ? 'input-field-outlined'
-        : 'input-field-underlined',
-    ]"
-  >
-    <input
-      :id="id"
-      v-bind="$attrs"
-      ref="formInput"
-      placeholder=" "
-      :type="type"
-      :value="value"
-      required
-      class="w-full bg-transparent border-primary focus:outline-none c-input"
+  <div>
+    <div
+      class="relative"
       :class="[
-        {
-          'mt-5 border-b-4': variant === 'underlined',
-          'border-2 rounded-sm pl-3': variant === 'outlined',
-          'h-10': height === 'default',
-          'h-8': height === 'short',
-          'text-sm': fontSize === 'small',
-        },
-        getBackgroundColor,
-      ]"
-      @input="onInput($event)"
-    />
-    <label
-      :for="id"
-      class="
-        transition
-        transform
-        duration-800
-        cursor-text
-        ease-in-out
-        left-0
-        absolute
-        bg-transparent
-        text-secondary
-        font-bold
-      "
-      :class="[
-        {
-          '-translate-y-5': value !== '' && variant === 'underlined',
-          '-translate-y-8 translate-x-0':
-            value !== '' && variant === 'outlined',
-        },
-        variant !== 'outlined' ? 'bottom-3' : 'bottom-2',
+        { '-translate-y-7': variant === 'underlined' },
+        variant === 'outlined'
+          ? 'input-field-outlined'
+          : 'input-field-underlined',
       ]"
     >
-      {{ label }}
-    </label>
+      <input
+        :id="id"
+        v-bind="$attrs"
+        ref="formInput"
+        placeholder=" "
+        :type="type"
+        :value="value"
+        required
+        class="w-full bg-transparent border-primary focus:outline-none c-input"
+        :class="[
+          {
+            'mt-5 border-b-4': variant === 'underlined',
+            'border-2 rounded-sm pl-3': variant === 'outlined',
+            'h-10': height === 'default',
+            'h-8': height === 'short',
+            'text-sm': fontSize === 'small',
+          },
+          getBackgroundColor,
+        ]"
+        @input="onInput($event)"
+      />
+      <label
+        :for="id"
+        class="
+          transition
+          transform
+          duration-800
+          cursor-text
+          ease-in-out
+          left-0
+          absolute
+          bg-transparent
+          text-secondary
+          font-bold
+        "
+        :class="[
+          {
+            '-translate-y-5': value !== '' && variant === 'underlined',
+            '-translate-y-8 translate-x-0':
+              value !== '' && variant === 'outlined',
+          },
+          variant !== 'outlined' ? 'bottom-3' : 'bottom-2',
+        ]"
+      >
+        {{ label }}
+      </label>
+    </div>
+    <span
+      v-if="error"
+      class="text-red-400 font-bold"
+      :class="{ 'absolute -translate-y-6': variant === 'underlined' }"
+      >{{ error }}</span
+    >
   </div>
 </template>
 <script>
@@ -100,6 +108,10 @@ export default {
     backgroundColor: {
       type: String,
       default: 'transparent',
+    },
+    error: {
+      type: [String, Boolean],
+      default: false,
     },
   },
   computed: {

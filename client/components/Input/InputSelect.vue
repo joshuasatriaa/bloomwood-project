@@ -30,7 +30,7 @@
     >
       <!-- <option selected value="" disabled>{{ description }}</option> -->
       <option v-for="option in options" :key="option.id" :value="option.value">
-        {{ option.value }}
+        {{ option.label || option.value }}
       </option>
     </select>
     <label
