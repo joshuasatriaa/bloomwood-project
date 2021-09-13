@@ -25,7 +25,7 @@ class TestimonyRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'message' => ['required', 'string'],
+            'message' => ['required', 'string', 'max:240'],
         ];
     }
 }
