@@ -3,6 +3,7 @@
 namespace Database\Seeders\Fake;
 
 use App\Models\AddressArea;
+use App\Models\CustomerAddress;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
@@ -52,9 +53,10 @@ class FakeUserSeeder extends Seeder
             for ($x = 0; $x < random_int(1, 2); $x++) {
                 $randomAreaId = $areas->random(1)->first()->id;
 
-                $user->customerAddresses()->create([
+                CustomerAddress::create([
                     'address' => $this->faker->address,
-                    'address_area_id' => $randomAreaId
+                    'address_area_id' => $randomAreaId,
+                    'user_id' => $user->id
                 ]);
             }
         }

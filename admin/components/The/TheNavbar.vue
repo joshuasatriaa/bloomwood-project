@@ -56,13 +56,18 @@
               aria-labelledby="navbarWebsite"
             >
               <li>
-                <NuxtLink to="/contact-us" class="dropdown-item"
-                  >Contact Us</NuxtLink
+                <NuxtLink to="/featured-products" class="dropdown-item"
+                  >Featured Products</NuxtLink
                 >
               </li>
               <li>
                 <NuxtLink to="/testimonies" class="dropdown-item"
                   >Testimonies</NuxtLink
+                >
+              </li>
+              <li>
+                <NuxtLink to="/contact-us" class="dropdown-item"
+                  >Contact Us</NuxtLink
                 >
               </li>
             </ul>
