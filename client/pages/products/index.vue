@@ -15,15 +15,23 @@
         v-for="{ id, images, name, slug, sizes } in products.data"
         :key="id"
         :to="`/products/${slug}/${id}`"
-        class="motion-safe:hover:animate-pulse"
+        class="group"
       >
-        <ContainedImage
-          :src="images[0].original_image"
-          width="398"
-          height="499"
-          alt=""
-          class="mb-5"
-        />
+        <div>
+          <ContainedImage
+            :src="images[0].original_image"
+            width="398"
+            height="499"
+            alt=""
+            class="
+              mb-5
+              transition
+              scale-95
+              filter
+              group-hover:scale-100 group-hover:drop-shadow-xl
+            "
+          />
+        </div>
         <h2
           class="
             text-xl
