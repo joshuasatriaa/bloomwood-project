@@ -22,7 +22,7 @@
         "
       >
         <div
-          v-for="{ id, slug, name, categories } in navigationGroups.data"
+          v-for="{ id, slug, name, categories } in NAVIGATION_GROUPS.data"
           :key="id"
           class="group relative"
         >
@@ -287,7 +287,7 @@
       </div>
       <div class="flex flex-col pt-12 items-center gap-y-6">
         <button
-          v-for="{ id, slug, name } in navigationGroups.data"
+          v-for="{ id, slug, name } in NAVIGATION_GROUPS.data"
           :key="id"
           :class="{ 'cursor-default': $route.query.group === slug }"
           class="relative group"
@@ -349,17 +349,26 @@
 </template>
 
 <script>
-import { useGetNavigationGroups } from '@/composables/useNavigationGroup'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  setup() {
-    const { navigationGroups, getNavigationGroups } = useGetNavigationGroups()
-    return { navigationGroups, getNavigationGroups }
-  },
   data() {
     return {
       isOpen: false,
     }
+  },
+  async fetch() {
+    await this.GET_NAVIGATION_GROUPS({})
+  },
+  computed: {
+    ...mapGetters({
+      NAVIGATION_GROUPS: 'NAVIGATION_GROUPS',
+    }),
+  },
+  methods: {
+    ...mapActions({
+      GET_NAVIGATION_GROUPS: 'GET_NAVIGATION_GROUPS',
+    }),
   },
 }
 </script>
