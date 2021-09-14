@@ -46,6 +46,7 @@ export default {
     '@/plugins/global.js',
     { src: '@/plugins/treeSelect.js', mode: 'client' },
     { src: '@/plugins/dropzone.js', mode: 'client' },
+    { src: '@/plugins/vuedraggable.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
