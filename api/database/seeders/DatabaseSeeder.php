@@ -35,6 +35,8 @@ class DatabaseSeeder extends Seeder
             FakeInvoiceSeeder::class,
             FakeContactUsSeeder::class,
             FakeTestimonySeeder::class,
+
+            //must be present in production
             FakeFeaturedProductSeeder::class,
         ]);
     }

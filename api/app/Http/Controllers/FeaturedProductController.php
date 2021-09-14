@@ -13,11 +13,13 @@ use Illuminate\Support\Facades\Cache;
 class FeaturedProductController extends Controller
 {
     protected $cacheKey;
+    protected $tagKey;
 
     public function __construct()
     {
         $this->middleware(['role.check:superadmin,admin'])->only(['store', 'update', 'destroy']);
         $this->cacheKey = 'featured-products';
+        $this->tagKey = 'featured-products-tag';
     }
     /**
      * Display a listing of the resource.
@@ -26,7 +28,7 @@ class FeaturedProductController extends Controller
      */
     public function index()
     {
-        return Cache::rememberForever($this->cacheKey,  function () {
+        return Cache::tags($this->tagKey)->rememberForever($this->cacheKey,  function () {
             return ProductResource::collection($this->getProductsInFeatured());
         });
     }
@@ -45,57 +47,28 @@ class FeaturedProductController extends Controller
         $fp ? $fp->update($validated) : FeaturedProduct::create($validated);
 
         $this->refreshCache();
-        return Cache::get($this->cacheKey);
+        return ProductResource::collection($this->getProductsInFeatured());
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\FeaturedProduct  $featuredProduct
-     * @return \Illuminate\Http\Response
-     */
-    public function show(FeaturedProduct $featuredProduct)
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\FeaturedProductRequest  $request
-     * @param  \App\Models\FeaturedProduct  $featuredProduct
-     * @return \Illuminate\Http\Response
-     */
-    public function update(FeaturedProductRequest $request, FeaturedProduct $featuredProduct)
-    {
-        $validated = $request->validated();
-
-        $featuredProduct->update($validated);
-
-        $this->refreshCache();
-        return Cache::get($this->cacheKey);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\FeaturedProduct  $featuredProduct
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(FeaturedProduct $featuredProduct)
-    {
-        //
-    }
 
     protected function getProductsInFeatured(): Collection
     {
         $fp = FeaturedProduct::first();
-        $products = Product::whereIn('_id', $fp->product_ids)->get();
+        $productIds = $fp->product_ids;
+
+        $sorter = static function ($product) use ($productIds) {
+            return array_search($product->id, $productIds);
+        };
+
+        $products = Product::whereIn('_id', $productIds)->get()->sortBy($sorter);
+
 
         return $products;
     }
 
     protected function refreshCache()
     {
-        Cache::forever($this->cacheKey, ProductResource::collection($this->getProductsInFeatured()));
+        Cache::tags($this->tagKey)->flush();
+        Cache::tags($this->tagKey)->forever($this->cacheKey, ProductResource::collection($this->getProductsInFeatured()));
     }
 }

@@ -49,7 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('contact-us', ContactUsController::class)->except(['store']);
     Route::apiResource('testimonies', TestimonyController::class)->except(['index', 'show']);
-    Route::apiResource('featured-products', FeaturedProductController::class)->except(['index', 'show', 'destroy']);
+    Route::apiResource('featured-products', FeaturedProductController::class)->only(['store']);
 });
 
 Route::get('most-gifted-products', MostGiftedController::class);
