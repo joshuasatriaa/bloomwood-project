@@ -65,7 +65,7 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalChangeProductLabel">
+            <h5 id="modalChangeProductLabel" class="modal-title">
               Change Product
             </h5>
             <button
