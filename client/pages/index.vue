@@ -152,7 +152,7 @@
       </NuxtLink>
     </div>
 
-    <div class="container mx-auto mb-20 px-10">
+    <div class="container mx-auto mb-20 xl:px-10">
       <h2 class="text-3xl font-bold text-primary text-center mb-16 font-serif">
         Most Gifted
       </h2>

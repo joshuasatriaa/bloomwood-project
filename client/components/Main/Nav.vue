@@ -1,6 +1,6 @@
 <template>
   <div class="border-t border-b border-soft-gray font-serif relative">
-    <div class="container mx-auto flex justify-between items-center h-24">
+    <div class="container mx-auto flex justify-between items-center h-20">
       <NuxtLink to="/">
         <ContainedImage
           src="/logo.svg"
@@ -55,10 +55,10 @@
               duration-300
               top-36
               border-b
-              pt-[2.6rem]
+              pt-8
             "
             :class="{
-              'group-hover:scale-y-100 group-hover:top-24 group-hover:opacity-100':
+              'group-hover:scale-y-100 group-hover:top-[5.7rem] group-hover:opacity-100':
                 showDropdown,
             }"
           >
@@ -129,7 +129,7 @@
           ></div>
         </NuxtLink>
       </div>
-      <InputSearch class="hidden sm:block max-w-[300px] mx-5" />
+      <InputSearch class="hidden sm:block xl:max-w-[300px] mx-5" />
       <div class="relative block xl:hidden">
         <button
           class="text-gray-500 w-10 h-10 relative focus:outline-none bg-white"
