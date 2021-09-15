@@ -39,7 +39,7 @@
           </td>
         </tr>
         <tr v-if="!invoices.data.length">
-          <td colspan="6" class="text-center">
+          <td colspan="7" class="text-center">
             <span class="text-danger fw-bold">Data not found.</span>
           </td>
         </tr>

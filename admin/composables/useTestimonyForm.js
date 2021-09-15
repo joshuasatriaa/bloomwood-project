@@ -27,7 +27,7 @@ const useTestimonyForm = () => {
       store.dispatch('testimonies/STORE_TESTIMONY', payload)
     )
     if (err) {
-      app.$errorHandler(err)
+      app.$inputWarning(err)
       return
     }
 
@@ -44,7 +44,7 @@ const useTestimonyForm = () => {
       })
     )
     if (err) {
-      app.$errorHandler(err)
+      app.$inputWarning(err)
       return
     }
 

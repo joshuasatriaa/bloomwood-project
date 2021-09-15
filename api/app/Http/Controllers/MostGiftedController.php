@@ -27,9 +27,18 @@ class MostGiftedController extends Controller
     {
         $key = 'most-gifted-products';
 
-        return Cache::remember($key, now()->addDay(), function () {
+        $this->modifyNumberOfProducts();
+
+        return Cache::remember($key . "{$this->numberOfProducts}", now()->addDay(), function () {
             return $this->getProductsResource();
         });
+    }
+
+    protected function modifyNumberOfProducts(): void
+    {
+        if (request('limit') && is_numeric(request('limit'))) {
+            $this->numberOfProducts = request('limit');
+        }
     }
 
     protected function getProductsResource(): ResourceCollection
@@ -40,10 +49,11 @@ class MostGiftedController extends Controller
         $realCountOfChosenIds = count($onlyChosenIds);
         $missingIdCount = $this->numberOfProducts - $realCountOfChosenIds;
 
-        if ($missingIdCount < $this->numberOfProducts) {
-            $missingProductIds = Product::all()->random($missingIdCount)->pluck('id')->toArray();
-            array_merge($onlyChosenIds, $missingProductIds);
+        if ($realCountOfChosenIds < $this->numberOfProducts) {
+            $missingProductIds = Product::whereNotIn('_id', $onlyChosenIds)->get()->random($missingIdCount)->pluck('id')->toArray();
+            $onlyChosenIds = array_merge($onlyChosenIds, $missingProductIds);
         }
+
 
         return ProductResource::collection(Product::whereIn('_id', $onlyChosenIds)->get());
     }
