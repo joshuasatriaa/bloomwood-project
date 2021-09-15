@@ -2,14 +2,18 @@
 
 use App\Http\Controllers\AddressAreaController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\FeaturedProductController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MeController;
+use App\Http\Controllers\MostGiftedController;
 use App\Http\Controllers\NavigationGroupController;
 use App\Http\Controllers\ProductAddOnController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TestimonyController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -42,8 +46,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('address-areas', AddressAreaController::class)->except(['index', 'show']);
     Route::apiResource('navigation-groups', NavigationGroupController::class)->except(['index', 'show']);
     Route::apiResource('invoices', InvoiceController::class);
+
+    Route::apiResource('contact-us', ContactUsController::class)->except(['store']);
+    Route::apiResource('testimonies', TestimonyController::class)->except(['index', 'show']);
+    Route::apiResource('featured-products', FeaturedProductController::class)->only(['store']);
 });
 
+Route::get('most-gifted-products', MostGiftedController::class);
+Route::apiResource('featured-products', FeaturedProductController::class)->only(['index']);
+
+Route::apiResource('testimonies', TestimonyController::class)->only(['index', 'show']);
+Route::apiResource('contact-us', ContactUsController::class)->only('store');
 Route::apiResource('products', ProductController::class)->only(['index', 'show']);
 Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
 Route::apiResource('navigation-groups', NavigationGroupController::class)->only(['index', 'show']);

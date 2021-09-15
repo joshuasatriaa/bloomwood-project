@@ -26,6 +26,9 @@ export const mutations = {
   SET_QUERY(state, payload) {
     state.qs = payload
   },
+  RESET_STATE(state) {
+    state.addressArea = {}
+  },
 }
 
 export const actions = {
@@ -45,11 +48,11 @@ export const actions = {
     commit('SET_ADDRESS_AREA', res)
     return res
   },
-  //   async STORE_ADDRESS_AREA({ commit }, payload) {
-  //     const res = await this.$axios.$post(`/api/address-areas`, payload)
-  //     commit('SET_ADDRESS_AREA', res)
-  //     return res
-  //   },
+  async STORE_ADDRESS_AREA({ commit }, payload) {
+    const res = await this.$axios.$post(`/api/address-areas`, payload)
+    commit('SET_ADDRESS_AREA', res)
+    return res
+  },
   async UPDATE_ADDRESS_AREA({ commit }, { id, payload }) {
     const res = await this.$axios.$post(
       `/api/address-areas/${id}?_method=PUT`,
@@ -58,8 +61,8 @@ export const actions = {
     commit('SET_ADDRESS_AREA', res)
     return res
   },
-  //   async DELETE_ADDRESS_AREA({ commit }, id) {
-  //     const res = await this.$axios.$delete(`/api/address-areas/${id}`)
-  //     return res
-  //   },
+  async DELETE_ADDRESS_AREA({ commit }, id) {
+    const res = await this.$axios.$delete(`/api/address-areas/${id}`)
+    return res
+  },
 }

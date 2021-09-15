@@ -4,25 +4,30 @@
       <div class="card rounded-2 shadow">
         <div class="card-body pb-5">
           <h5 class="card-title">
-            <span class="badge bg-success">Update Form</span>
+            <span class="badge bg-success"
+              ><span v-if="!isUpdate">Create</span
+              ><span v-else>Update</span> Form</span
+            >
           </h5>
-          <div class="row mt-5">
-            <div class="col-10 mx-auto">
-              <div
-                v-for="(value, property, index) in addressArea.data"
-                :key="index"
-              >
-                <p
-                  v-if="property != 'small_price' && property != 'medium_price'"
-                >
-                  <span class="text-uppercase fw-bolder">{{ property }} :</span
-                  ><span> {{ value }}</span>
-                </p>
-              </div>
-            </div>
-          </div>
+
           <div class="row mt-3">
             <div class="col-10 mx-auto">
+              <BaseInput
+                v-model="form.name"
+                type="text"
+                placeholder="The Area Name"
+                form-for="formAddressName"
+                label="Name"
+                required
+              />
+              <BaseInput
+                v-model="form.description"
+                type="text"
+                placeholder="The description of the area"
+                form-for="formAddressDescription"
+                label="Description"
+                required
+              />
               <BaseInput
                 v-model="form.small_price"
                 type="number"
@@ -45,9 +50,9 @@
             <div class="col-12 col-md-6 mx-auto">
               <button
                 class="btn btn-success w-100 text-white"
-                @click="updateAddressArea()"
+                @click="!isUpdate ? createAddressArea() : updateAddressArea()"
               >
-                UPDATE
+                <span v-if="!isUpdate">CREATE</span><span v-else>UPDATE</span>
               </button>
             </div>
           </div>
@@ -72,9 +77,11 @@ export default {
     },
   },
   setup(props) {
-    const { form, updateAddressArea } = useAddressAreaForm()
+    const { form, updateAddressArea, createAddressArea } = useAddressAreaForm()
 
     const initData = (data) => {
+      form.name = data.name
+      form.description = data.description
       form.small_price = data.small_price
       form.medium_price = data.medium_price
     }
@@ -86,6 +93,7 @@ export default {
     return {
       form,
       updateAddressArea,
+      createAddressArea,
     }
   },
 }

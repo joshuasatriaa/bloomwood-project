@@ -1,0 +1,175 @@
+<template>
+  <div class="container mx-auto text-primary pt-20">
+    <AccountCardContainer
+      title="Sign Up"
+      description="please enter your information below"
+    >
+      <form @submit.prevent="register()">
+        <InputText
+          id="email"
+          v-model="form.email"
+          type="email"
+          label="email address"
+          class="mb-7"
+          :error="errors.email"
+        />
+        <InputText
+          id="password"
+          v-model="form.password"
+          type="password"
+          label="password"
+          class="mb-7"
+          :error="errors.password"
+        />
+        <InputText
+          id="password-confirmation"
+          v-model="form.confirmPassword"
+          type="password"
+          label="confirm password"
+          class="mb-7"
+          :error="errors.password"
+        />
+        <InputText
+          id="full-name"
+          v-model="form.fullName"
+          type="text"
+          label="full name"
+          class="mb-7"
+          :error="errors.name"
+        />
+        <InputText
+          id="phone-number"
+          v-model="form.phoneNumber"
+          type="tel"
+          label="phone number"
+          class="mb-7"
+          :error="errors.phone_number"
+        />
+        <InputText
+          id="address"
+          v-model="form.address"
+          type="text"
+          label="address"
+          class="mb-7"
+          :error="errors.address"
+        />
+        <!-- <InputText
+          id="area"
+          v-model="form.area"
+          type="text"
+          label="Area"
+          class="mb-7"
+        /> -->
+        <InputSelect
+          id="area"
+          v-model="form.area"
+          :options="[
+            {
+              id: 1,
+              value: 'test',
+            },
+            {
+              id: 2,
+              value: 'test-2',
+            },
+          ]"
+          label="select area"
+          class="mb-7"
+          :error="errors.address_area_id"
+        />
+        <button
+          type="submit"
+          class="
+            w-full
+            bg-primary
+            font-bold
+            text-lg text-white
+            py-3
+            rounded-md
+            mb-10
+          "
+        >
+          create account
+        </button>
+        <p class="font-bold text-center">
+          already have an account ?
+          <NuxtLink to="/accounts/register" class="text-pink hover:text-red-400"
+            >sign in</NuxtLink
+          >
+        </p>
+      </form>
+    </AccountCardContainer>
+  </div>
+</template>
+
+<script>
+import { mapGetters, mapActions } from 'vuex'
+import { useGetAddressAreas } from '@/composables/useAddressArea'
+
+export default {
+  name: 'Register',
+  middleware: 'auth',
+  auth: 'guest',
+  // setup() {
+  //   const { addressAreas, getAddressAreas } = useGetAddressAreas()
+  //   return { addressAreas, getAddressAreas }
+  // },
+  data() {
+    return {
+      form: {
+        email: '',
+        password: '',
+        confirmPassword: '',
+        fullName: '',
+        phoneNumber: '',
+        address: '',
+        area: '',
+      },
+      errors: {},
+    }
+  },
+  async fetch() {
+    await this.GET_ADDRESS_AREAS()
+  },
+  computed: {
+    ...mapGetters({
+      ADDRESS_AREA: 'addressAreas/ADDRESS_AREA',
+    }),
+  },
+  methods: {
+    ...mapActions({
+      GET_ADDRESS_AREAS: 'addressAreas/GET_ADDRESS_AREAS',
+    }),
+    async register() {
+      this.$store.dispatch('TOGGLE_LOADING', true)
+      try {
+        await this.$axios.$post('/register', {
+          name: this.form.fullName,
+          email: this.form.email,
+          password: this.form.password,
+          password_confirmation: this.form.confirmPassword,
+          phone_number: this.form.phoneNumber,
+          address: this.form.address,
+          address_area_id: this.form.area,
+        })
+        this.$router.push('/accounts/sign-up-success')
+      } catch (err) {
+        console.log(err.response.data.errors)
+        if (
+          err.response.data.errors &&
+          typeof err.response.data.errors === 'object'
+        ) {
+          this.errors = Object.keys(err.response.data.errors).reduce(
+            (acc, key) => {
+              return { ...acc, [key]: err.response.data.errors[key][0] }
+            },
+            {}
+          )
+        }
+      } finally {
+        this.$store.dispatch('TOGGLE_LOADING', false)
+      }
+    },
+  },
+}
+</script>

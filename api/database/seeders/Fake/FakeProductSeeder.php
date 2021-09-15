@@ -3,6 +3,7 @@
 namespace Database\Seeders\Fake;
 
 use App\Models\Category;
+use App\Models\SubCategory;
 use App\Models\User;
 use App\Services\CategoryService;
 use App\Services\ImageService;
@@ -81,20 +82,21 @@ class FakeProductSeeder extends Seeder
 
         $categories = Category::all();
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             $randomCategory = $categories->random(random_int(1, 3))->pluck('id')->toArray();
+
             $randomImages = $images->random(random_int(1, 3));
 
             $p =  \App\Models\Product::factory([
                 'user_id' => $users->random(1)->first()->id
             ])->create();
 
-            for ($x = 0; $x < random_int(1, 2); $x++) {
+            for ($x = 0; $x < random_int(0, 2); $x++) {
                 $randomVar =  $variants->random(1)->first();
                 $data =
                     [
                         'name' => $randomVar['name'],
-                        'price' => 50000,
+                        'price' => 2500,
                         'thumbnail_image' => $this->saveThumbImages($randomVar['image'], $this->IMAGE_FOLDER)
                     ];
 

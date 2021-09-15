@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Category;
+use App\Models\SubCategory;
 use Jenssegers\Mongodb\Eloquent\Model;
 
 class CategoryService

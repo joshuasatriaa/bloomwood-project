@@ -29,15 +29,6 @@
                 required
               />
 
-              <BaseInput
-                v-model="form.price"
-                type="number"
-                placeholder="The price of the product"
-                form-for="formPrice"
-                label="Price (Rp.)"
-                required
-              />
-
               <div class="mb-3">
                 <label for="formCategories" class="form-label"
                   >Categories</label
@@ -45,24 +36,50 @@
                 <TreeSelect
                   v-if="categories.data"
                   v-model="form.category_ids"
-                  :disable-branch-nodes="true"
+                  :disable-branch-nodes="false"
+                  :value-consists-of="'LEAF_PRIORITY'"
                   :multiple="true"
                   :options="categories.data"
                   placeholder="Select option..."
                 />
               </div>
 
-              <BaseSelect
-                v-model="form.size"
-                placeholder="The size of the product"
-                form-for="formSize"
-                label="Size"
-                :options="[
-                  { id: 'S', value: 'S', label: 'Small' },
-                  { id: 'M', value: 'M', label: 'Medium' },
-                ]"
-                required
-              />
+              <div class="mb-3">
+                <label for="types" class="form-label">Product Sizes</label>
+                <BaseCheckbox
+                  v-model="form.hasClassic"
+                  label="Classic"
+                  class="mb-3"
+                  form-for="formClassic"
+                  :disabled="isUpdate"
+                />
+                <BaseInput
+                  v-if="form.hasClassic"
+                  v-model="form.classic.price"
+                  type="number"
+                  form-for="formClassicPrice"
+                  placeholder="Input Price"
+                  label="Price for Classic (Rp.)"
+                  required
+                />
+
+                <BaseCheckbox
+                  v-model="form.hasDeluxe"
+                  label="Deluxe"
+                  class="mb-3"
+                  form-for="formDeluxe"
+                  :disabled="isUpdate"
+                />
+                <BaseInput
+                  v-if="form.hasDeluxe"
+                  v-model="form.deluxe.price"
+                  type="number"
+                  form-for="formDeluxePrice"
+                  placeholder="Input Price"
+                  label="Price for Deluxe (Rp.)"
+                  required
+                />
+              </div>
 
               <!-- PRODUCT PREVIEW IMAGE -->
               <div v-if="isUpdate" class="mb-3">
@@ -332,14 +349,12 @@ export default {
       previewAddOns,
       deleteProductAddOn,
     } = useProductForm()
-    const { categories } = useGetCategories()
+    const { categories } = useGetCategories(true)
 
     const initData = (data) => {
       form.name = data.name
       form.description = data.description
-      form.price = data.price.toString()
       form.category_ids = data.categories.map((x) => x.id)
-      form.size = data.size
       data.images.forEach((x) => {
         previewImages.push(x)
       })
@@ -348,6 +363,17 @@ export default {
       })
       data.add_ons.forEach((x) => {
         previewAddOns.push(x)
+      })
+
+      data.sizes.forEach((x) => {
+        if (x.name === 'Classic') {
+          form.hasClassic = true
+          form.classic.price = x.price
+        }
+        if (x.name === 'Deluxe') {
+          form.hasDeluxe = true
+          form.deluxe.price = x.price
+        }
       })
     }
 

@@ -25,6 +25,15 @@ class ImageService implements ImageServiceContract
         return $result;
     }
 
+    public function uploadThumbnail(Request $request, string $folderName, string $field)
+    {
+        $image = $request->file($field);
+
+        $thumbPath = $this->saveThumbnailImage($image, $folderName);
+
+        return $thumbPath;
+    }
+
     /**
      * Upload multiple images to specified folder
      * 
