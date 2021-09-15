@@ -60,6 +60,7 @@
     </div>
 
     <div
+      v-if="!$fetchState.pending"
       class="
         grid grid-cols-2
         sm:grid-cols-4
@@ -157,6 +158,7 @@
         Most Gifted
       </h2>
       <div
+        v-if="!$fetchState.pending"
         class="
           grid grid-cols-1
           sm:grid-cols-2

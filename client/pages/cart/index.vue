@@ -170,6 +170,36 @@
           </div>
         </div>
       </template>
+      <template v-else>
+        <div>
+          <p class="font-bold text-primary text-lg">Oops no item yet</p>
+          <div class="flex w-full justify-center">
+            <div class="mt-8 flex flex-col items-center">
+              <ContainedImage
+                src="/empty-cart.svg"
+                alt="empty cart illustration"
+                width="425"
+                height="333"
+              />
+              <button
+                type="button"
+                class="
+                  bg-primary
+                  font-bold
+                  text-white
+                  mt-10
+                  w-11/12
+                  py-2
+                  rounded
+                  text-lg
+                "
+              >
+                back to home
+              </button>
+            </div>
+          </div>
+        </div>
+      </template>
     </client-only>
     <ModalContainer
       id="modal-delete"
