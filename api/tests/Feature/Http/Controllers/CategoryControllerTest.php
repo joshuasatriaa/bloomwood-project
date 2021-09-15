@@ -2,77 +2,137 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-
 use App\Models\Category;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Tests\Traits\MigrateSeedOnce;
 use Tests\Traits\TestTrait;
+use Tests\Traits\MigrateSeedOnce;
 
 class CategoryControllerTest extends TestCase
 {
-    use WithFaker,
-        MigrateSeedOnce,
-        TestTrait;
+    use MigrateSeedOnce,
+        WithFaker,
+        TestTrait; 
     /** @test */
     public function test_only_admin_can_store_update_delete()
     {
-        $this->assertTrue(2, 1+1);
-        // $this->actingAs($this->createBasicUser());
-        // $category = Category::factory()->create();
-
-        // $this->json('POST', route('categories.store'))
-        //     ->assertStatus(403);
-        // $this->json('PATCH', route('categories.update', ['category'=>$category->id]))
-        //     ->assertStatus(403);
-        // $this->json('DELETE', route('categories.delete', ['category'=>$category->id]))
-        //     ->assertStatus(403);
+        //1A
+        $this->postJson(route('categories.store'), [])
+            ->assertStatus(401);
+        $this->putJson(route('categories.update', ['category'=>'-1']))
+            ->assertStatus(401);
+        $this->json('DELETE', route('categories.destroy', ['category'=>'-1']))
+            ->assertStatus(401);
     }
 
     /** @test */
-    // public function test_index_public_access(){
-    //     // Category::factory()->count(2)->create();
+    public function test_index_public_access(){
+        //1B, 1C, 1D
+        Category::factory()->count(2)->create();
 
-    //     // $this->json('GET', route('categories.index'))
-    //     //     ->assertStatus(200)
-    //     //     ->assertJsonStructure(
-    //     //         [
-    //     //             'data' => [
-    //     //                 0 => [
-    //     //                     'id',
-    //     //                     'name',
-    //     //                     'label',
-    //     //                     'slug'
-    //     //                 ]
-    //     //             ]
-    //     //         ]
-    //     //     );
-    // }
+        $this->json('GET', route('categories.index'))
+            ->assertStatus(200)
+            ->assertJsonStructure(
+                [
+                    'data' => [
+                        0 => [
+                            'id',
+                            'name',
+                            'label',
+                            'slug'
+                        ]
+                    ]
+                ]
+            );
+    }
 
-    // /** @test */
-    // public function test_return_category_resources(){
-    //     // $user = $this->createAdminUser();
-    //     // $this->actingAs($user);
+    /** @test */
+    public function test_search_category(){
+        $category = Category::factory()->create();
+        $this->json('GET', route('categories.index', ['search'=>$category->name]))
+            ->assertStatus(200)
+            ->assertJsonStructure(
+                [
+                    'data' => [
+                        0 => [
+                            'id',
+                            'name',
+                            'label',
+                            'slug'
+                        ]
+                    ]
+                ]
+            );
+    }
 
-    //     // $request = $this->generateFakeRequest();
+    /** @test */
+    public function test_store_function(){
+        $user = $this->createAdminUser();
+        $this->actingAs($user);
 
-    //     // $this->postJson(route('invoices.store'), $request)
-    //     //     ->assertJson([
-    //     //         'data' => [
-    //     //             'id' => $request['id'],
-    //     //             'name' => $request['name'],
-    //     //             'label' => $request['label'],
-    //     //             'slug' => $request['slug'],
-    //     //         ]
-    //     //         ]);
-    // }
+        $request = ['name'=>'test'];
 
-    // private function generateFakeRequest(){
-    //     return   [
-    //         'id' => $this->faker->randomDigit(),
-    //         'name' => $this->faker->name,
-    //         'label' => $this->faker->paragraph(),
-    //         'slug' => $this->faker->slug,
-    //     ];
-    // }
+        $this->json('POST', route('categories.store'), $request)
+            ->assertStatus(201)
+            ->assertJson([
+                'data' => [
+                    'name' => $request['name'],
+                ]   
+            ]);
+        
+        $this->assertDatabaseHas('categories', [
+            'name' => 'test'
+        ]);
+    }
+    
+    /** @test */
+    public function test_show_function(){
+        $test = Category::factory()->create();
+        $this->json('GET', route('categories.show', ['category'=>$test]))
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'id' => $test->id,
+                ]   
+            ]);
+    }
+
+    /** @test */
+    public function test_update_function(){
+        $user = $this->createAdminUser();
+        $category = Category::factory()->create();
+        $data = ['name' => 'Category Updated.'];
+
+
+        $this->actingAs($user)
+            ->json('PATCH', route('categories.update', ['category' => $category->id]), $data)
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'id' => $category->id,
+                    'name'=> $data['name'],
+                    'label'=>$category->label,
+                    'slug'=>$category->slug,
+                ]   
+            ]);
+
+        $this->assertDatabaseHas('categories', 
+            [
+                'id'=> $category->id,
+                'name'=>$data['name'],
+                'label'=>$category->label,
+                'slug'=>$category->slug
+            ]);
+    }
+
+    /** @test */
+    public function test_destroy_function(){
+        $user = $this->createAdminUser();
+        $category = Category::factory()->create();
+        $this->actingAs($user)
+            ->json('DELETE', route('categories.destroy', ['category'=>$category->id]));
+        
+        
+        $this->assertDatabaseMissing('categories', [$category->id]);
+    }
 }
