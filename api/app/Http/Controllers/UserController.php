@@ -16,7 +16,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role.check:superadmin']);
+        $this->middleware(['role.check:superadmin'])->except(['update', 'show']);
         // $this->middleware('check.pin')->only(['store', 'update', 'destroy']);
     }
 
@@ -43,7 +43,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $this->authorize('create', Auth::user());
+        $this->authorize('create');
 
         $validated = $request->validated();
         $user = User::create($validated);
@@ -60,6 +60,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('view', $user);
         return new UserResource($user);
     }
 
@@ -77,9 +78,7 @@ class UserController extends Controller
         $validated = $request->validated();
         $user->update($validated);
 
-        $address = $user->customerAddresses()->first();
-        $address->address = $validated['address'];
-        $address->address_area_id = $validated['address_area_id'];
+        $this->updateCustomerAddress($user, $validated);
 
         return new UserResource($user);
     }
@@ -118,5 +117,12 @@ class UserController extends Controller
     private function getRoleId($id)
     {
         return Role::where('_id', $id)->first()->id;
+    }
+
+    protected function updateCustomerAddress(User $user, array $validated): void
+    {
+        $address = $user->customerAddresses()->first();
+        $address->address = $validated['address'];
+        $address->address_area_id = $validated['address_area_id'];
     }
 }
