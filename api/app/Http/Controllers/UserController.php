@@ -77,6 +77,10 @@ class UserController extends Controller
         $validated = $request->validated();
         $user->update($validated);
 
+        $address = $user->customerAddresses()->first();
+        $address->address = $validated['address'];
+        $address->address_area_id = $validated['address_area_id'];
+
         return new UserResource($user);
     }
 

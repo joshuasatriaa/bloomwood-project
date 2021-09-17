@@ -27,10 +27,12 @@ class UserRequest extends FormRequest
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
             'password' => ['string'],
-            'role_id' => ['required', 'string', 'exists:roles,_id']
+            'role_id' => ['required', 'string', 'exists:roles,_id'],
+            'address' => ['required', 'string'],
+            'address_area_id' => ['required', 'string']
         ];
 
-        if (request()->isMethod('POST')) {
+        if (request()->isMethod('post')) {
             array_push($rules['password'], 'required');
         }
 
