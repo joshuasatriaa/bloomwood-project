@@ -177,7 +177,7 @@
             class="text-center group"
           >
             <ContainedImage
-              :src="product.images[0].original_image"
+              :src="product.images[0].thumbnail_image"
               width="335"
               height="335"
               class="

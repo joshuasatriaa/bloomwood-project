@@ -12,13 +12,14 @@
       :id="id"
       v-bind="$attrs"
       ref="formSelect"
-      :placeholder="placeholder"
+      placeholder=" "
       :value="value"
       required
-      class="w-full border-primary focus:outline-none"
+      class="w-full border-primary focus:outline-none ring-0 pl-0 pr-4"
       :class="[
         {
-          'mt-5 border-b-4': variant === 'underlined',
+          'mt-5 border-t-0 border-l-0 border-r-0 border-b-4':
+            variant === 'underlined',
           'border-2 rounded-sm pl-2': variant === 'outlined',
           'h-10': height === 'default',
           'h-8': height === 'short',
@@ -28,7 +29,7 @@
       ]"
       @input="onInput($event)"
     >
-      <!-- <option selected value="" disabled>{{ description }}</option> -->
+      <option selected value=""></option>
       <option v-for="option in options" :key="option.id" :value="option.value">
         {{ option.label || option.value }}
       </option>

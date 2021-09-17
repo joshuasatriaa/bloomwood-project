@@ -64,8 +64,9 @@
               text-primary
               border-2 border-primary
               font-bold
+              border-none
+              max-w-[170px]
             "
-            style="max-width: 170px"
           >
             <button
               type="button"
@@ -91,7 +92,7 @@
             />
             <button
               type="button"
-              class="h-full w-20 cursor-pointer"
+              class="h-full w-20 cursor-pointer border-none"
               @click="() => form.qty++"
             >
               <span class="m-auto text-2xl font-thin">+</span>

@@ -17,10 +17,19 @@
         :type="type"
         :value="value"
         required
-        class="w-full bg-transparent border-primary focus:outline-none c-input"
+        class="
+          w-full
+          bg-transparent
+          border-primary
+          ring-0
+          focus:outline-none
+          c-input
+          pl-0
+        "
         :class="[
           {
-            'mt-5 border-b-4': variant === 'underlined',
+            'mt-5 border-t-0 border-l-0 border-r-0 border-b-4':
+              variant === 'underlined',
             'border-2 rounded-sm pl-3': variant === 'outlined',
             'h-10': height === 'default',
             'h-8': height === 'short',

@@ -66,7 +66,7 @@
             </div>
           </template>
         </div>
-        <div class="bg-tertiary rounded-xl p-5">
+        <form class="bg-tertiary rounded-xl p-5" @submit.prevent="payment">
           <h2 class="mb-5 font-bold font-serif text-lg">Select Method</h2>
           <div class="flex min-h-[6rem] gap-x-3 sm:gap-x-6 mb-8">
             <button
@@ -212,7 +212,7 @@
               />
               <InputText
                 id="phone-number"
-                v-model="form.phoneNumber"
+                v-model="form.phone"
                 type="text"
                 class="mb-10"
                 label="recipient's phone number"
@@ -225,16 +225,7 @@
                 variant="outlined"
                 background-color="white"
                 placeholder="Area"
-                :options="[
-                  {
-                    id: 1,
-                    value: 'test',
-                  },
-                  {
-                    id: 2,
-                    value: 'test-2',
-                  },
-                ]"
+                :options="areas"
                 label="area"
                 class="mb-10"
               />
@@ -276,6 +267,7 @@
               id="delivery-date"
               v-model="form.time"
               placeholder="select delivery time"
+              :min="getMinDate()"
               class="mb-8"
               label="select delivery time"
             />
@@ -320,7 +312,7 @@
           </div>
           <div class="flex w-100 justify-center">
             <button
-              type="button"
+              type="submit"
               class="
                 my-8
                 py-2
@@ -335,14 +327,18 @@
               proceed to payment
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </template>
   </div>
 </template>
+
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'Shipment',
+
   beforeRouteLeave(to, from, next) {
     if (this.shipment.length > 0) {
       const answer = window.confirm(
@@ -360,21 +356,95 @@ export default {
       addressType: 'currentAddress',
       form: {
         name: '',
-        phoneNumber: '',
+        phone: '',
         area: '',
         address: '',
         time: '',
         request: '',
       },
       shipment: [],
+      areas: [],
     }
+  },
+  async fetch() {
+    const res = await this.GET_ADDRESS_AREAS({})
+    this.areas = res.data.map((address) => {
+      return {
+        id: address.id,
+        label: address.name,
+        value: address.id,
+      }
+    })
+  },
+  head() {
+    return {
+      script: [
+        {
+          type: 'text/javascript',
+          src: 'https://app.sandbox.midtrans.com/snap/snap.js',
+          'data-client-key': process.env.MIDTRANS_CLIENT_KEY || null,
+        },
+      ],
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      ADDRESS_AREA: 'addressAreas/ADDRESS_AREA',
+    }),
   },
   mounted() {
     this.shipment = this.$getStorage('bloomwoodShipment') || []
-  },
+      },
   methods: {
+    ...mapActions({
+      GET_ADDRESS_AREAS: 'addressAreas/GET_ADDRESS_AREAS',
+    }),
     handleMethod(method) {
       this.deliveryMethod = method
+    },
+    getMinDate() {
+      const currentDate = new Date()
+      const offset = currentDate.getTimezoneOffset()
+      const formattedDate = new Date(currentDate.getTime() - offset * 60 * 1000)
+      return formattedDate.toISOString().split('T')[0]
+    },
+    async payment() {
+      const products = this.shipment
+      .reduce((acc, val) => {
+        if (val.qty > 1) {
+          for (let i = 0; i < val.qty; i++) {
+            acc = [...acc, val]
+          }
+          return acc
+        }
+        return [...acc, val]
+      }, [])
+      .map((item) => {
+        return {
+          id: item.id,
+          message: item.message,
+          size: item.size,
+          add_ons: item.addOns.map((addOn) => {
+            return { id: addOn.id }
+          }),
+        }
+      })
+
+      const res = await this.$axios
+        .$post('/api/invoices', {
+          notes: this.form.request,
+          recipients_name: this.form.name,
+          recipients_phone: this.form.phone,
+          delivery_time: this.form.time,
+          address: this.form.address,
+          address_area_id: this.form.area,
+          pick_up: this.deliveryMethod === 'delivery' ? 0 : 1,
+          products,
+        })
+        .then((res) => {
+          window.snap.pay(res.data.payment_token)
+        })
     },
   },
 }
