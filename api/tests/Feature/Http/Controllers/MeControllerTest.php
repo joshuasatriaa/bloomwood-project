@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\User as ModelsUser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\Traits\TestTrait;
@@ -18,9 +17,11 @@ class MeControllerTest extends TestCase {
     /** @test */
 
     public function test_result_user_resource(){
-        $user = ModelsUser::factory()->create();
+        $user = $this->createBasicUser();
 
-        $this->json('GET', route('user', ['user'=>$user, 'role'=>['id'=>1,'name'=>'user']]))
+
+        $this->actingAs($user)
+            ->json('GET', '/api/user')
             ->assertJson(
                 [
                     'data' => [ 
@@ -30,16 +31,17 @@ class MeControllerTest extends TestCase {
                         'email' => $user->email,
                         'phone_number' => $user->phone_number,
                         'role' => [
-                            'uuid'  =>  $user->role->uuid,
+                            'uuid'  =>  $user->role->id,
                             'id'    =>  $user->role->id,
                             'name'  =>  $user->role->name,
                             'slug'  =>  $user->role->slug
                         ],
-                        'is_suspended' => $user->is_suspended,
+                        'is_suspended' => (bool) $user->is_suspended,
                     ]
                 ]
-            )
-            ->assertIsObject($user->role);
+                    );
+        
+        $this->assertIsObject($user->role);   
     }
 
 

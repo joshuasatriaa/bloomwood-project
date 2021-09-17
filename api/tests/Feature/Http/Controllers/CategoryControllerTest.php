@@ -4,9 +4,11 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 use Tests\Traits\TestTrait;
 use Tests\Traits\MigrateSeedOnce;
+
 
 class CategoryControllerTest extends TestCase
 {
@@ -78,7 +80,19 @@ class CategoryControllerTest extends TestCase
                 'data' => [
                     'name' => $request['name'],
                 ]   
-            ]);
+            ])
+            ->assertJsonStructure(
+                [
+                    'data' => [
+                    
+                            'id',
+                            'name',
+                            'label',
+                            'slug'
+                        
+                    ]
+                ]
+            );
         
         $this->assertDatabaseHas('categories', [
             'name' => 'test'
@@ -94,7 +108,19 @@ class CategoryControllerTest extends TestCase
                 'data' => [
                     'id' => $test->id,
                 ]   
-            ]);
+            ])
+            ->assertJsonStructure(
+                [
+                    'data' => [
+                    
+                            'id',
+                            'name',
+                            'label',
+                            'slug'
+                        
+                    ]
+                ]
+            );
     }
 
     /** @test */
@@ -103,25 +129,35 @@ class CategoryControllerTest extends TestCase
         $category = Category::factory()->create();
         $data = ['name' => 'Category Updated.'];
 
-
         $this->actingAs($user)
-            ->json('PATCH', route('categories.update', ['category' => $category->id]), $data)
+            ->json('PATCH', route('categories.update', ['category' => $category]), $data)
             ->assertStatus(200)
             ->assertJson([
                 'data' => [
                     'id' => $category->id,
                     'name'=> $data['name'],
-                    'label'=>$category->label,
-                    'slug'=>$category->slug,
+                    'label'=> $data['name'],
+                    'slug'=>Str::slug($data['name']),
                 ]   
-            ]);
+            ])
+            ->assertJsonStructure(
+                [
+                    'data' => [
+                    
+                            'id',
+                            'name',
+                            'label',
+                            'slug'
+                        
+                    ]
+                ]
+            );
 
         $this->assertDatabaseHas('categories', 
             [
-                'id'=> $category->id,
-                'name'=>$data['name'],
-                'label'=>$category->label,
-                'slug'=>$category->slug
+                'id' => $category->id,
+                'name'=> $data['name'],
+                'slug'=> Str::slug($data['name']),
             ]);
     }
 
