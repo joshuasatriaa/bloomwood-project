@@ -27,6 +27,36 @@
           @changed="(value) => (form.size = value)"
         />
 
+        <h3 class="text-2xl font-bold mb-5">Choose Variant</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 mb-8 gap-y-3">
+          <template v-for="variant in PRODUCT.data.variants">
+            <div :key="variant.id" class="flex items-center">
+              <input
+                :id="variant.id"
+                v-model="form.variant"
+                type="radio"
+                :name="variant.name"
+                :value="variant.id"
+                class="ring-primary checked:bg-primary"
+              />
+              <label :for="variant.id" class="ml-5 cursor-pointer">
+                <div class="flex items-center">
+                  <ContainedImage
+                    :src="variant.thumbnail_image"
+                    width="50"
+                    height="50"
+                    class="max-w-[3.75rem] mr-5 rounded"
+                  />
+                  <div class="flex flex-col text-lg">
+                    <p class="font-bold">{{ variant.name }}</p>
+                    <p>({{ $currencyFormat(variant.price) }})</p>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </template>
+        </div>
+
         <h3 class="text-2xl font-bold mb-1">Gift Card Message</h3>
         <p class="mb-4 text-sm">
           *Please include your message unless you wish to keep it anonymous
@@ -64,7 +94,6 @@
               text-primary
               border-2 border-primary
               font-bold
-              border-none
               max-w-[170px]
             "
           >
@@ -87,6 +116,7 @@
                 flex
                 items-center
                 text-2xl
+                border-none
               "
               name="custom-input-number"
             />
@@ -98,7 +128,7 @@
               <span class="m-auto text-2xl font-thin">+</span>
             </button>
           </div>
-          <button
+          <!-- <button
             class="
               bg-primary
               text-white text-xl text-center
@@ -115,7 +145,7 @@
           >
             <p>add to cart</p>
             <IconCart class="absolute fill-current text-white right-5" />
-          </button>
+          </button> -->
         </div>
 
         <h3 class="text-2xl font-bold mb-5">Frequently Bought Together</h3>
@@ -319,12 +349,14 @@ export default {
         size: '',
         message: '',
         addOns: {},
+        variant: '',
       },
     }
   },
   async fetch() {
     await this.GET_PRODUCT(this.$route.params.id)
     this.form.size = this.PRODUCT.data.sizes[0].name
+    this.form.variant = this.PRODUCT.data.variants[0].id
   },
 
   computed: {
@@ -370,6 +402,7 @@ export default {
           ...bloomwoodCart,
           [`${objName}`]: {
             ...this.form,
+            id: this.PRODUCT.data.id,
             productName: this.PRODUCT.data.name,
             subtotalPrice:
               this.getFlowerOnlyPrice +
@@ -378,6 +411,7 @@ export default {
               }, 0),
             productImage: this.PRODUCT.data.images[0].thumbnail_image,
             addOns: filteredAddOns,
+            variant: this.PRODUCT.data.variants.find((variant) => variant.id === this.form.variant),
           },
         }
       }

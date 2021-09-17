@@ -395,7 +395,30 @@ export default {
   },
   mounted() {
     this.shipment = this.$getStorage('bloomwoodShipment') || []
-      },
+    const products = this.shipment
+      .reduce((acc, val) => {
+        console.log('val', val)
+        if (val.qty > 1) {
+          for (let i = 0; i < val.qty; i++) {
+            acc = [...acc, val]
+          }
+          return acc
+        }
+        return [...acc, val]
+      }, [])
+      .map((item) => {
+        return {
+          id: item.originalId,
+          message: item.message,
+          size: item.size,
+          add_ons: item.addOns.map((addOn) => {
+            return { id: addOn.id }
+          }),
+          variant_id: item.variant.id,
+        }
+      })
+    console.log(products)
+  },
   methods: {
     ...mapActions({
       GET_ADDRESS_AREAS: 'addressAreas/GET_ADDRESS_AREAS',
@@ -411,25 +434,27 @@ export default {
     },
     async payment() {
       const products = this.shipment
-      .reduce((acc, val) => {
-        if (val.qty > 1) {
-          for (let i = 0; i < val.qty; i++) {
-            acc = [...acc, val]
+        .reduce((acc, val) => {
+          if (val.qty > 1) {
+            for (let i = 0; i < val.qty; i++) {
+              acc = [...acc, val]
+            }
+            return acc
           }
-          return acc
-        }
-        return [...acc, val]
-      }, [])
-      .map((item) => {
-        return {
-          id: item.id,
-          message: item.message,
-          size: item.size,
-          add_ons: item.addOns.map((addOn) => {
-            return { id: addOn.id }
-          }),
-        }
-      })
+          return [...acc, val]
+        }, [])
+        .map((item) => {
+          console.log(item)
+          return {
+            id: item.originalId,
+            message: item.message,
+            size: item.size,
+            add_ons: item.addOns.map((addOn) => {
+              return { id: addOn.id }
+            }),
+            variant_id: item.variant.id,
+          }
+        })
 
       const res = await this.$axios
         .$post('/api/invoices', {

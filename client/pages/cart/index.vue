@@ -272,7 +272,11 @@ export default {
         const selectedItemsArr = []
         Object.keys(this.checkedItems).forEach((key) => {
           if (this.checkedItems[key]) {
-            selectedItemsArr.push({ ...this.cart[key], id: key })
+            selectedItemsArr.push({
+              ...this.cart[key],
+              id: key,
+              originalId: this.cart[key].id,
+            })
           }
         })
         this.$setStorage('bloomwoodShipment', selectedItemsArr, 1000)
