@@ -27,35 +27,37 @@
           @changed="(value) => (form.size = value)"
         />
 
-        <h3 class="text-2xl font-bold mb-5">Choose Variant</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 mb-8 gap-y-3">
-          <template v-for="variant in PRODUCT.data.variants">
-            <div :key="variant.id" class="flex items-center">
-              <input
-                :id="variant.id"
-                v-model="form.variant"
-                type="radio"
-                :name="variant.name"
-                :value="variant.id"
-                class="ring-primary checked:bg-primary"
-              />
-              <label :for="variant.id" class="ml-5 cursor-pointer">
-                <div class="flex items-center">
-                  <ContainedImage
-                    :src="variant.thumbnail_image"
-                    width="50"
-                    height="50"
-                    class="max-w-[3.75rem] mr-5 rounded"
-                  />
-                  <div class="flex flex-col text-lg">
-                    <p class="font-bold">{{ variant.name }}</p>
-                    <p>({{ $currencyFormat(variant.price) }})</p>
+        <template v-if="PRODUCT.data.variants.length > 0">
+          <h3 class="text-2xl font-bold mb-5">Choose Variant</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 mb-8 gap-y-3">
+            <template v-for="variant in PRODUCT.data.variants">
+              <div :key="variant.id" class="flex items-center">
+                <input
+                  :id="variant.id"
+                  v-model="form.variant"
+                  type="radio"
+                  :name="variant.name"
+                  :value="variant.id"
+                  class="ring-primary checked:bg-primary"
+                />
+                <label :for="variant.id" class="ml-5 cursor-pointer">
+                  <div class="flex items-center">
+                    <ContainedImage
+                      :src="variant.thumbnail_image"
+                      width="50"
+                      height="50"
+                      class="max-w-[3.75rem] mr-5 rounded"
+                    />
+                    <div class="flex flex-col text-lg">
+                      <p class="font-bold">{{ variant.name }}</p>
+                      <p>({{ $currencyFormat(variant.price) }})</p>
+                    </div>
                   </div>
-                </div>
-              </label>
-            </div>
-          </template>
-        </div>
+                </label>
+              </div>
+            </template>
+          </div>
+        </template>
 
         <h3 class="text-2xl font-bold mb-1">Gift Card Message</h3>
         <p class="mb-4 text-sm">
@@ -316,32 +318,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import {
-  useRoute,
-  computed,
-  watch,
-  ref,
-  onMounted,
-  useFetch,
-  useContext,
-} from '@nuxtjs/composition-api'
-import { useGetProduct } from '@/composables/useProduct'
 
 export default {
   name: 'Product',
-  // setup() {
-  //   const route = useRoute()
-  //   const context = useContext()
-
-  //   const { product, getProduct } = useGetProduct()
-
-  //   const initialSize = PRODUCT.value?.data?.sizes[0].name
-
-  //   return {
-  //     product,
-  //     getProduct,
-  //   }
-  // },
   data() {
     return {
       form: {
@@ -356,7 +335,10 @@ export default {
   async fetch() {
     await this.GET_PRODUCT(this.$route.params.id)
     this.form.size = this.PRODUCT.data.sizes[0].name
-    this.form.variant = this.PRODUCT.data.variants[0].id
+    this.form.variant =
+      this.PRODUCT.data.variants.length > 0
+        ? this.PRODUCT.data.variants[0].id
+        : ''
   },
 
   computed: {
@@ -364,15 +346,19 @@ export default {
       PRODUCT: 'products/PRODUCT',
     }),
     getFlowerOnlyPrice() {
-      const { price } = this.PRODUCT.data.sizes.find((size) => {
-        return this.form.size === size.name
-      })
-      return price
+      if (this.PRODUCT.data && this.form.size) {
+        const size = this.PRODUCT.data.sizes.find((size) => {
+          return this.form.size === size.name
+        })
+        return size.price
+      }
+      return null
     },
   },
   methods: {
     ...mapActions({
       GET_PRODUCT: 'products/GET_PRODUCT',
+      GET_CART_COUNT: 'GET_CART_COUNT',
     }),
     addToCart() {
       const bloomwoodCart = this.$getStorage('bloomwoodCart') || {}
@@ -411,12 +397,15 @@ export default {
               }, 0),
             productImage: this.PRODUCT.data.images[0].thumbnail_image,
             addOns: filteredAddOns,
-            variant: this.PRODUCT.data.variants.find((variant) => variant.id === this.form.variant),
+            variant: this.PRODUCT.data.variants.find(
+              (variant) => variant.id === this.form.variant
+            ),
           },
         }
       }
       this.$setStorage('bloomwoodCart', objToSave, 1000)
       this.$modal.show('modal-add-cart')
+      this.GET_CART_COUNT()
     },
     getSizesButtonGroup() {
       return this.PRODUCT.data.sizes.map(({ name }) => {

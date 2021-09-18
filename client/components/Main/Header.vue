@@ -35,9 +35,7 @@
             transition-colors
           "
         />
-        <span
-          to="/account"
-          class="text-secondary group-hover:text-primary transition-colors"
+        <span class="text-secondary group-hover:text-primary transition-colors"
           >Account</span
         >
         <div
@@ -45,6 +43,7 @@
           class="
             hidden
             group-hover:flex
+            group-focus:flex
             flex-col
             absolute
             min-w-full
@@ -79,14 +78,29 @@
             group-hover:bg-red-400
           "
         >
-          2
+          {{ CART_COUNT }}
         </div>
       </NuxtLink>
     </div>
   </div>
 </template>
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'NavHeader',
+  computed: {
+    ...mapGetters({
+      CART_COUNT: 'CART_COUNT',
+    }),
+  },
+  mounted() {
+    this.GET_CART_COUNT()
+  },
+  methods: {
+    ...mapActions({
+      GET_CART_COUNT: 'GET_CART_COUNT',
+    }),
+  },
 }
 </script>

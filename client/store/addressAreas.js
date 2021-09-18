@@ -29,14 +29,8 @@ export const mutations = {
 }
 
 export const actions = {
-  async GET_ADDRESS_AREAS({ commit, state }, { page = 1 }) {
-    let query = ''
-    if (state.qs) {
-      query = state.qs
-    }
-    const res = await this.$axios.$get(
-      `/api/address-areas?page=${page}${query}`
-    )
+  async GET_ADDRESS_AREAS({ commit, state }) {
+    const res = await this.$axios.$get('/api/address-areas')
     commit('SET_ADDRESS_AREAS', res)
     return res
   },

@@ -4,6 +4,7 @@
       <div class="lg:ml-14">
         <h1
           class="text-5xl sm:text-6xl md:text-7xl text-primary mb-20 font-serif"
+          data-aos="fade-right"
         >
           About Us
         </h1>
@@ -18,6 +19,8 @@
             text-lg
             border-l-4
           "
+          data-aos="fade-right"
+          data-aos-delay="300"
         >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
           quis hendrerit dolor. Praesent nibh justo, efficitur vel ultrices
@@ -31,7 +34,7 @@
           aliquet in.
         </div>
       </div>
-      <div class="flex items-center">
+      <div class="flex items-center" data-aos="fade-left">
         <ContainedImage
           width="731"
           height="479"

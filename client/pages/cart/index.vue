@@ -212,6 +212,8 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Cart',
   data() {
@@ -239,6 +241,9 @@ export default {
     this.cart = this.$getStorage('bloomwoodCart') || {}
   },
   methods: {
+    ...mapActions({
+      GET_CART_COUNT: 'GET_CART_COUNT',
+    }),
     async changeQty(operator, key) {
       await this.$setStorage(
         'bloomwoodCart',
@@ -263,6 +268,7 @@ export default {
         this.$setStorage('bloomwoodCart', otherItems, 1000)
         this.cart = otherItems
         this.$modal.hide('modal-delete')
+        this.GET_CART_COUNT()
       } catch (e) {
         console.log(e)
       }

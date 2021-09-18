@@ -24,6 +24,7 @@
             pb-14
             px-14
           "
+          data-aos="fade-up"
         >
           <IconLogo class="self-center mb-12 scale-125" />
           <div class="text-primary text-xl mb-11 font-serif">
@@ -74,6 +75,7 @@
         :key="item.id"
         :to="`/products/${item.slug}/${item.id}`"
         class="relative group"
+        data-aos="zoom-in"
       >
         <div
           class="
@@ -111,10 +113,12 @@
         />
       </NuxtLink>
       <NuxtLink
-        v-for="item in [...FEATURED_PRODUCTS.data].splice(4, 6)"
+        v-for="(item, idx) in [...FEATURED_PRODUCTS.data].splice(4, 6)"
         :key="item.id"
         :to="`/products/${item.slug}/${item.id}`"
         class="relative group col-span-2"
+        data-aos="fade-up"
+        :data-aos-delay="100 * idx"
       >
         <div
           class="
@@ -175,9 +179,10 @@
           <NuxtLink
             :to="`/products/${product.slug}/${product.id}`"
             class="text-center group"
+            data-aos="fade-up"
           >
             <ContainedImage
-              :src="product.images[0].thumbnail_image"
+              :src="product.images[0].original_image"
               width="335"
               height="335"
               class="
@@ -185,7 +190,8 @@
                 transition
                 rounded
                 filter
-                scale-95
+                scale-100
+                sm:scale-95
                 group-hover:scale-100 group-hover:drop-shadow-xl
               "
             />
@@ -196,14 +202,7 @@
       </div>
     </div>
 
-    <div class="container mx-auto">
-      <h2 class="text-3xl font-bold text-primary text-center mb-16 font-serif">
-        What People Say
-      </h2>
-      <div class="h-96">
-        <HomeTestimoniesCarousel />
-      </div>
-    </div>
+    <HomeTestimoniesCarousel />
 
     <div class="container mx-auto">
       <h2

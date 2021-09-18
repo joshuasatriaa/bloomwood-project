@@ -96,7 +96,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { useGetAddressAreas } from '@/composables/useAddressArea'
 
 export default {
   name: 'Register',

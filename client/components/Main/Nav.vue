@@ -53,12 +53,12 @@
               origin-top
               opacity-0
               duration-300
-              top-36
+              top-32
               border-b
               pt-8
             "
             :class="{
-              'group-hover:scale-y-100 group-hover:top-[5.7rem] group-hover:opacity-100':
+              'group-hover:scale-y-100 group-hover:top-[5.63rem] group-hover:opacity-100':
                 showDropdown,
             }"
           >
@@ -294,7 +294,7 @@
                 sm:grid-cols-3
                 md:grid-cols-5
                 xl:grid-cols-6
-                gap-y-6
+                gap-y-6 gap-x-4
                 pl-5
               "
             >
