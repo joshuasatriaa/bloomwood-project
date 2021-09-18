@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', MeController::class);
+    Route::get('/user/change-password', [UserController::class, 'changePassword']);
     Route::apiResource('users', UserController::class);
     Route::apiResource('roles', RoleController::class)->only('index');
     Route::post('/suspend-user/{user}', [UserController::class, 'suspendUser']);
