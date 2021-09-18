@@ -30,7 +30,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        //
+        return $user->is(config('constants.superadmin.slug')) || $user->id === $model->id;
     }
 
     /**

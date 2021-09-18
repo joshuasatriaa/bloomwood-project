@@ -8,7 +8,7 @@
         </button>
       </div>
     </div> -->
-    <BaseSearch :callback="getInvoices" />
+    <!-- <BaseSearch :callback="getInvoices" /> -->
     <InvoicesTable v-if="invoices" :invoices="invoices" />
     <div class="col-12 col-md-6 d-flex justify-content-end ms-auto">
       <BasePagination
