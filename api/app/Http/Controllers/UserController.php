@@ -76,7 +76,7 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         $validated = $request->validated();
-        $user->update($validated);
+        $user->update(array_filter($validated));
 
         $this->updateCustomerAddress($user, $validated);
 
