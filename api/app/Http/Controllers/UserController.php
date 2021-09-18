@@ -17,7 +17,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role.check:superadmin'])->except(['update', 'show']);
+        $this->middleware(['role.check:superadmin'])->except(['update', 'show', 'changePassword']);
         // $this->middleware('check.pin')->only(['store', 'update', 'destroy']);
     }
 
@@ -120,15 +120,13 @@ class UserController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        $this->authorize('update', $user);
-
         $validated = $request->validated();
         $user->forceFill([
             'password' => Hash::make($validated['new_password'])
         ])->save();
 
 
-        return response()->json(['message', 'OK'], 200);
+        return response()->json(['message' => 'Ok'], 200);
     }
 
     private function getRoleId($id)

@@ -383,6 +383,13 @@ export default {
           return this.form.addOns[addOn.id]
         })
 
+        let variant = null
+        if (this.PRODUCT.data.variants) {
+          variant = this.PRODUCT.data.variants.find(
+            (variant) => this.form.variant === variant.id
+          )
+        }
+
         console.log(filteredAddOns)
         objToSave = {
           ...bloomwoodCart,
@@ -394,12 +401,11 @@ export default {
               this.getFlowerOnlyPrice +
               filteredAddOns.reduce((acc, curr) => {
                 return (acc += curr.price)
-              }, 0),
+              }, 0) +
+              (variant ? variant.price : 0),
             productImage: this.PRODUCT.data.images[0].thumbnail_image,
             addOns: filteredAddOns,
-            variant: this.PRODUCT.data.variants.find(
-              (variant) => variant.id === this.form.variant
-            ),
+            variant,
           },
         }
       }

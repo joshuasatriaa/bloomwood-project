@@ -11,6 +11,7 @@
           label="Email Address"
           type="email"
           class="mb-7"
+          :error="errors.email"
         />
         <button
           type="submit"
@@ -26,6 +27,9 @@
         >
           submit
         </button>
+        <p v-if="success" class="text-center text-success font-bold mt-5">
+          Password reset request has been sent to your email
+        </p>
       </form>
     </AccountCardContainer>
   </div>
@@ -40,12 +44,22 @@ export default {
       form: {
         email: '',
       },
+      errors: {},
+      success: false,
     }
   },
   methods: {
     async forgotPassword() {
       await this.$axios.$get('/sanctum/csrf-cookie')
-      await this.$async(this.$axios.$post('/forgot-password', this.form))
+      const [_, err] = await this.$async(
+        this.$axios.$post('/forgot-password', this.form)
+      )
+      if (err) {
+        this.errors = err.response.data.errors
+        return
+      }
+
+      this.success = true
     },
   },
 }

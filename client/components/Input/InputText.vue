@@ -65,12 +65,13 @@
         {{ label }}
       </label>
     </div>
-    <span
-      v-if="error"
-      class="text-red-400 font-bold"
-      :class="{ 'absolute -translate-y-6': variant === 'underlined' }"
-      >{{ error }}</span
-    >
+    <template v-if="error">
+      <div :class="{ 'absolute -translate-y-6': variant === 'underlined' }">
+        <p class="text-red-400 font-bold">
+          {{ error[0] }}
+        </p>
+      </div>
+    </template>
   </div>
 </template>
 <script>
