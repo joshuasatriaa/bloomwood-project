@@ -27,22 +27,23 @@ class UserRequest extends FormRequest
         $rules =   [
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
-            'password' => ['string'],
             'address' => ['required', 'string'],
-            'address_area_id' => ['required', 'string']
+            'address_area_id' => ['required', 'string'],
+            'phone_number' => ['required', 'string']
         ];
 
-        if (Auth::user()->is('superadmin')) {
+        /** @var User $user */
+        $user = Auth::user();
+        if ($user->is('superadmin')) {
+            if (request()->isMethod('post')) {
+                array_push($rules['password'], 'required');
+            }
+            if (request()->isMethod('put') || request()->isMethod('patch')) {
+                array_push($rules['password'], 'nullable');
+            }
             array_push($rules['role_id'], ['required', 'string', 'exists:roles,_id']);
         }
 
-        if (request()->isMethod('post')) {
-            array_push($rules['password'], 'required');
-        }
-
-        if (request()->isMethod('put') || request()->isMethod('patch')) {
-            array_push($rules['password'], 'nullable');
-        }
 
 
         return $rules;

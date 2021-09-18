@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Filters\UserFilter;
 use App\Filters\UserRoleFilter;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Role;
@@ -112,6 +113,22 @@ class UserController extends Controller
         $user->save();
 
         return new UserResource($user);
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $this->authorize('update', $user);
+
+        $validated = $request->validated();
+        $user->forceFill([
+            'password' => Hash::make($validated['new_password'])
+        ])->save();
+
+
+        return response()->json(['message', 'OK'], 200);
     }
 
     private function getRoleId($id)
