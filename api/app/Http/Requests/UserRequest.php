@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserRequest extends FormRequest
 {
@@ -27,10 +28,13 @@ class UserRequest extends FormRequest
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
             'password' => ['string'],
-            'role_id' => ['required', 'string', 'exists:roles,_id'],
             'address' => ['required', 'string'],
             'address_area_id' => ['required', 'string']
         ];
+
+        if (Auth::user()->is('superadmin')) {
+            array_push($rules['role_id'], ['required', 'string', 'exists:roles,_id']);
+        }
 
         if (request()->isMethod('post')) {
             array_push($rules['password'], 'required');
