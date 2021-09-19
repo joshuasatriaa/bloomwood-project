@@ -77,7 +77,7 @@ RUN chown -R www-data:www-data \
 
 RUN chmod -R 775 storage bootstrap/cache        
 
-RUN rm public/storage
+# RUN rm public/storage
 
 RUN php artisan storage:link
 
