@@ -47,13 +47,13 @@ class PaymentHookController extends Controller
             return response()->json(['message' => 'Invalid signature'], 403);
         }
 
-        // $invoice->invoicePayment()->updateOrCreate(
-        //     ['invoice_id' => $order_id],
-        //     (array) $notif
-        // );
-
         $invoice->status = $transactionStatus;
         $invoice->save();
+
+        $invoice->invoicePayment()->updateOrCreate(
+            ['invoice_id' => $order_id],
+            (array) $notif
+        );
 
         return true;
     }
