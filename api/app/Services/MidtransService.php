@@ -26,8 +26,6 @@ class MidtransService implements PaymentGatewayContract
         $this->isProduction = config('app.middtrans_production');
         $this->isSanitized = true;
         $this->is3ds = true;
-
-        $this->notification = new \Midtrans\Notification();
     }
 
     public function setInvoiceId(string $id): PaymentGatewayContract
@@ -75,6 +73,7 @@ class MidtransService implements PaymentGatewayContract
     {
         MidtransConfig::$isProduction = $this->isProduction;
         MidtransConfig::$serverKey = $this->serverKey;
+        $this->notification = new \Midtrans\Notification();
         $notif = $this->notification;
 
         $transactionStatus = $notif->transaction_status;
