@@ -58,7 +58,7 @@
         >
           <a
             href="https://www.instagram.com/bloomwoodflorist"
-            rel="noopener noreferrer nofollow"
+            rel="noopener noreferrer"
             target="_blank"
             class="flex mr-6"
           >
@@ -67,7 +67,7 @@
           </a>
           <a
             href="https://www.tokopedia.com/bloomwoodflorist"
-            rel="noopener noreferrer nofollow"
+            rel="noopener noreferrer"
             target="_blank"
             class="flex"
           >
