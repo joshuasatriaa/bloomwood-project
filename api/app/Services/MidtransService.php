@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Invoice;
 use App\Services\Contracts\PaymentGatewayContract;
+use Illuminate\Http\Request;
 use Midtrans\Config as MidtransConfig;
 
 class MidtransService implements PaymentGatewayContract
@@ -16,12 +18,16 @@ class MidtransService implements PaymentGatewayContract
     protected $grossAmount;
     protected $customer;
 
+    protected $notification;
+
     public function __construct()
     {
         $this->serverKey = config('app.midtrans_server_key');
         $this->isProduction = config('app.middtrans_production');
         $this->isSanitized = true;
         $this->is3ds = true;
+
+        $this->notification = new \Midtrans\Notification();
     }
 
     public function setInvoiceId(string $id): PaymentGatewayContract
@@ -63,6 +69,34 @@ class MidtransService implements PaymentGatewayContract
 
         $snapToken = \Midtrans\Snap::getSnapToken($this->generateInvoiceDetail());
         return $snapToken;
+    }
+
+    public function updateInvoiceStatus(Request $request): bool
+    {
+        MidtransConfig::$isProduction = $this->isProduction;
+        MidtransConfig::$serverKey = $this->serverKey;
+        $notif = $this->notification;
+
+        $transactionStatus = $notif->transaction_status;
+        $order_id = $notif->order_id;
+
+        $invoice = Invoice::findOrFail($order_id);
+
+        $payload = json_decode($request->getContent());
+        $validSignatureKey = hash("sha512", $invoice->id . $payload->status_code . $invoice->grand_total . $this->serverKey);
+        if ($payload->signature_key != $validSignatureKey) {
+            return response()->json(['message' => 'Invalid signature'], 403);
+        }
+
+        $invoice->invoicePayment()->updateOrCreate(
+            ['invoice_id' => $order_id],
+            $notif
+        );
+
+        $invoice->status = $transactionStatus;
+        $invoice->save();
+
+        return true;
     }
 
     protected function generateInvoiceDetail(): array

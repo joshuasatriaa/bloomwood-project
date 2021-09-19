@@ -37,6 +37,7 @@ class InvoiceResource extends JsonResource
             'created_at_format' => Carbon::parse($this->created_at)->toDayDateTimeString(),
             'payment_token' => $this->payment_token,
             'user' => new UserResource($this->user),
+            'invoice_payment' => new InvoicePaymentResource($this->invoicePayment)
         ];
     }
 }
