@@ -58,7 +58,7 @@
                   <span class="font-normal">
                     Size: {{ product.size.name }}
                   </span>
-                  <span v-if="product.variant" class="font-normal">
+                  <span v-if="product.variant.name" class="font-normal">
                     Variant: {{ product.variant.name }}
                   </span>
                 </div>
@@ -70,6 +70,7 @@
               <div class="text-center xl:mb-5 order-2 xl:order-1">
                 <button
                   class="pb-1 border-b border-brown text-center mb-3 font-bold"
+                  @click="() => payNow(history.payment_token)"
                 >
                   pay now
                 </button>
@@ -89,7 +90,7 @@
                 </div>
               </div>
               <div class="font-bold text-lg sm:text-2xl xl:order-2">
-                {{ $currencyFormat(2750000) }}
+                {{ $currencyFormat(history.grand_total) }}
               </div>
             </div>
           </div>
@@ -117,6 +118,17 @@ export default {
   async fetch() {
     await this.GET_ORDER_HISTORY()
   },
+  head() {
+    return {
+      script: [
+        {
+          type: 'text/javascript',
+          src: 'https://app.sandbox.midtrans.com/snap/snap.js',
+          'data-client-key': process.env.MIDTRANS_CLIENT_KEY || null,
+        },
+      ],
+    }
+  },
   computed: {
     ...mapGetters({
       ORDER_HISTORY: 'invoices/ORDER_HISTORY',
@@ -126,6 +138,9 @@ export default {
     ...mapActions({
       GET_ORDER_HISTORY: 'invoices/GET_ORDER_HISTORY',
     }),
+    payNow(token) {
+      window.snap.pay(token)
+    },
   },
 }
 </script>
