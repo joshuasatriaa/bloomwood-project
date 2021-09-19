@@ -10,4 +10,5 @@ interface PaymentGatewayContract
     public function setInvoiceId(string $id): PaymentGatewayContract;
     public function setGrossAmount(int $amount): PaymentGatewayContract;
     public function setCustomerDetail(string $name, string $email, string $phoneNumber): PaymentGatewayContract;
+    public function updateInvoiceStatus(string $invoiceId): bool;
 }
