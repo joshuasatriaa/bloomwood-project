@@ -69,7 +69,7 @@ class MidtransService implements PaymentGatewayContract
         return $snapToken;
     }
 
-    public function updateInvoiceStatus(Request $request): bool
+    public function updateInvoiceStatus(Request $request)
     {
         MidtransConfig::$isProduction = $this->isProduction;
         MidtransConfig::$serverKey = $this->serverKey;
