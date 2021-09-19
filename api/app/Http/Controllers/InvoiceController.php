@@ -49,7 +49,8 @@ class InvoiceController extends Controller
     {
         $invoice = $this->generateInvoice($request);
         $token = $this->generateToken($invoice);
-        $invoice->token = $token;
+        $invoice->payment_token = $token;
+        $invoice->save();
 
         NewInvoiceEvent::dispatch();
 
