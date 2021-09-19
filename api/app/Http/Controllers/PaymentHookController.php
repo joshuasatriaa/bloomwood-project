@@ -11,12 +11,12 @@ use Midtrans\Config as MidtransConfig;
 class PaymentHookController extends Controller
 {
 
-    // protected $paymentGateway;
+    protected $paymentGateway;
 
-    // public function __construct(PaymentGatewayContract $paymentGatewayContract)
-    // {
-    //     $this->paymentGateway = $paymentGatewayContract;
-    // }
+    public function __construct(PaymentGatewayContract $paymentGatewayContract)
+    {
+        $this->paymentGateway = $paymentGatewayContract;
+    }
 
     /**
      * Handle the incoming request.
@@ -26,35 +26,10 @@ class PaymentHookController extends Controller
      */
     public function __invoke(Request $request)
     {
-        // try {
-        //     $this->paymentGateway->updateInvoiceStatus($request);
-        // } catch (\Exception $e) {
-        //     return response()->json(['errors' => $e->getMessage()], 400);
-        // }
-        MidtransConfig::$isProduction = config('app.middtrans_production');
-        MidtransConfig::$serverKey = config('app.midtrans_server_key');
-
-        $notif = new \Midtrans\Notification();
-
-        $transactionStatus = $notif->transaction_status;
-        $order_id = $notif->order_id;
-
-        $invoice = Invoice::findOrFail($order_id);
-
-        $payload = json_decode($request->getContent());
-        $validSignatureKey = hash("sha512",  $payload->order_id . $payload->status_code . $payload->gross_amount . config('app.midtrans_server_key'));
-        if ($payload->signature_key != $validSignatureKey) {
-            return response()->json(['message' => 'Invalid signature'], 403);
+        try {
+            $this->paymentGateway->updateInvoiceStatus($request);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => $e->getMessage()], 400);
         }
-
-        $invoice->status = $transactionStatus;
-        $invoice->save();
-
-        $invoice->invoicePayment()->updateOrCreate(
-            ['invoice_id' => $order_id],
-            (array) $notif
-        );
-
-        return true;
     }
 }
