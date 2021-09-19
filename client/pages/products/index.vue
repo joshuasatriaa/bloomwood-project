@@ -22,7 +22,20 @@
         class="group"
       >
         <div>
-          <ContainedImage
+          <!-- <ContainedImage
+            :src="images[0].original_image"
+            width="398"
+            height="499"
+            alt=""
+            class="
+              mb-5
+              transition
+              scale-95
+              filter
+              group-hover:scale-100 group-hover:drop-shadow-xl
+            "
+          /> -->
+          <ContainedImageTemp
             :src="images[0].original_image"
             width="398"
             height="499"

@@ -1,52 +1,67 @@
 <template>
   <div class="text-primary font-bold">
     <h2 class="text-3xl mb-10">My Order History</h2>
-    <div class="grid grid-cols-1 gap-y-4">
-      <template v-if="history.length > 0">
+    <div v-if="!$fetchState.pending" class="grid grid-cols-1 gap-y-4">
+      <template v-if="ORDER_HISTORY.data.length > 0">
         <div
-          v-for="(history, idx) in history"
-          :key="idx"
+          v-for="history in ORDER_HISTORY.data"
+          :key="history.id"
           class="
             bg-tertiary
             rounded-xl
             p-3
-            sm:py-10 sm:px-14
+            sm:py-8 sm:px-14
             w-full
             text-primary
             font-bold
           "
         >
+          <p class="font-bold mb-3">17 August 2021</p>
           <div class="flex justify-between flex-col xl:flex-row">
-            <div class="flex flex-col sm:flex-row sm:items-center">
-              <ContainedImage
-                src="/flower-2.jpg"
-                width="148"
-                height="148"
-                class="
-                  rounded-lg
-                  border-4 border-primary
-                  max-w-[140px]
-                  mr-4
-                  mb-3
-                  sm:mb-0
-                "
-              />
-              <div class="flex flex-col">
-                <h2
+            <div class="flex flex-col gap-y-3">
+              <div
+                v-for="(product, idx) in history.products_detail"
+                :key="`${product.id + idx}`"
+                class="flex"
+              >
+                <ContainedImage
+                  src="/flower-2.jpg"
+                  width="148"
+                  height="148"
                   class="
-                    font-bold font-serif
-                    text-lg
-                    2xl:text-xl
-                    mb-2
-                    max-w-[26ch]
-                    line-clamp-2
+                    rounded-lg
+                    border-4 border-primary
+                    max-w-[140px]
+                    mr-4
+                    mb-3
+                    sm:mb-0
                   "
-                >
-                  Cloud Catcher Cloud Catcher Cloud Catcher Cloud Catcher Cloud
-                  Catcher Cloud Catcher Cloud Catcher
-                </h2>
-                <span class="font-normal mb-2">17 August 2021</span>
-                <span class="font-normal">Quantity: 1</span>
+                />
+                <div class="flex flex-col">
+                  <h2
+                    class="
+                      font-bold font-serif
+                      text-lg
+                      2xl:text-xl
+                      mb-2
+                      max-w-[26ch]
+                      line-clamp-2
+                    "
+                  >
+                    {{ product.name }}
+                  </h2>
+
+                  <span class="font-normal"
+                    >Add Ons:
+                    {{ product.add_ons.map(({ name }) => name).join(',') }}
+                  </span>
+                  <span class="font-normal">
+                    Size: {{ product.size.name }}
+                  </span>
+                  <span v-if="product.variant.name" class="font-normal">
+                    Variant: {{ product.variant.name }}
+                  </span>
+                </div>
               </div>
             </div>
             <div
@@ -55,6 +70,7 @@
               <div class="text-center xl:mb-5 order-2 xl:order-1">
                 <button
                   class="pb-1 border-b border-brown text-center mb-3 font-bold"
+                  @click="() => payNow(history.payment_token)"
                 >
                   pay now
                 </button>
@@ -70,11 +86,11 @@
                     sm:text-lg
                   "
                 >
-                  waiting
+                  {{ history.status }}
                 </div>
               </div>
               <div class="font-bold text-lg sm:text-2xl xl:order-2">
-                {{ $currencyFormat(2750000) }}
+                {{ $currencyFormat(history.grand_total) }}
               </div>
             </div>
           </div>
@@ -95,12 +111,36 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'AccountOrderHistory',
-  data() {
+  async fetch() {
+    await this.GET_ORDER_HISTORY()
+  },
+  head() {
     return {
-      history: [],
+      script: [
+        {
+          type: 'text/javascript',
+          src: 'https://app.sandbox.midtrans.com/snap/snap.js',
+          'data-client-key': process.env.MIDTRANS_CLIENT_KEY || null,
+        },
+      ],
     }
+  },
+  computed: {
+    ...mapGetters({
+      ORDER_HISTORY: 'invoices/ORDER_HISTORY',
+    }),
+  },
+  methods: {
+    ...mapActions({
+      GET_ORDER_HISTORY: 'invoices/GET_ORDER_HISTORY',
+    }),
+    payNow(token) {
+      window.snap.pay(token)
+    },
   },
 }
 </script>

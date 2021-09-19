@@ -8,9 +8,40 @@
         <div
           v-for="key in Object.keys(cart)"
           :key="key"
-          class="bg-tertiary rounded-xl px-8 pt-8 pb-5 text-primary mb-5"
+          class="
+            bg-tertiary
+            rounded-xl
+            px-3
+            sm:px-8
+            pt-8
+            pb-5
+            text-primary
+            mb-5
+            relative
+          "
         >
-          <div class="flex justify-between">
+          <button
+            class="absolute right-3 sm:right-8"
+            type="button"
+            @click="
+              () => {
+                currentKey = key
+                $modal.show('modal-delete')
+              }
+            "
+          >
+            <IconTrash
+              class="
+                transform
+                scale-75
+                fill-current
+                transition-transform
+                text-primary
+                hover:scale-100
+              "
+            />
+          </button>
+          <div class="flex justify-between flex-col sm:flex-row gap-y-3">
             <div class="flex items-center">
               <div class="flex items-center relative my-4 flex-wrap mr-8">
                 <input
@@ -38,49 +69,42 @@
                   ></div>
                 </div>
               </div>
-              <ContainedImage
-                :src="cart[key].productImage"
-                width="148"
-                height="148"
-                class="rounded-lg border-4 border-primary max-w-[140px] mr-4"
-              />
-              <div class="flex flex-col">
-                <h2 class="font-bold font-serif text-lg mb-2">
-                  {{ cart[key].productName }}
-                </h2>
-                <span>Size: {{ cart[key].size }}</span>
-                <span v-if="cart[key].addOns.length > 0"
-                  >Bundle:
-                  {{
-                    cart[key].addOns.map(({ name }) => name).join(', ')
-                  }}</span
-                >
+              <div class="flex flex-col sm:flex-row items-center">
+                <ContainedImage
+                  :src="cart[key].productImage"
+                  width="148"
+                  height="148"
+                  class="rounded-lg border-4 border-primary max-w-[140px] mr-4"
+                />
+                <div class="flex mt-3 sm:mt-0 flex-col">
+                  <h2 class="font-bold font-serif text-lg mb-2">
+                    {{ cart[key].productName }}
+                  </h2>
+                  <span>Size: {{ cart[key].size }}</span>
+                  <span v-if="cart[key].addOns.length > 0"
+                    >Bundle:
+                    {{
+                      cart[key].addOns.map(({ name }) => name).join(', ')
+                    }}</span
+                  >
+                </div>
               </div>
             </div>
             <div class="flex flex-col justify-between items-end">
-              <button
-                type="button"
-                @click="
-                  () => {
-                    currentKey = key
-                    $modal.show('modal-delete')
-                  }
+              <div class=""></div>
+              <div
+                class="
+                  flex flex-row
+                  w-full
+                  pl-12
+                  justify-between
+                  items-end
+                  sm:flex-col sm:items-center
+                  md:gap-x-5
+                  lg:flex-row lg:gap-x-20 lg:items-end
                 "
               >
-                <IconTrash
-                  class="
-                    transform
-                    scale-75
-                    fill-current
-                    transition-transform
-                    text-primary
-                    hover:scale-100
-                  "
-                />
-              </button>
-
-              <div class="flex gap-x-20 items-end">
-                <div class="flex-col text-center">
+                <div class="flex-col text-center sm:mb-3 lg:mb-0">
                   <p class="font-bold text-sm">Quantity</p>
                   <div
                     class="
@@ -97,7 +121,7 @@
                     <button
                       type="button"
                       :disabled="cart[key].qty === 1"
-                      class="w-10 cursor-pointer outline-none"
+                      class="w-6 sm:w-10 cursor-pointer outline-none"
                       @click="() => changeQty('minus', key)"
                     >
                       <span class="m-auto">−</span>
@@ -107,7 +131,7 @@
                     </p>
                     <button
                       type="button"
-                      class="h-full w-10 cursor-pointer"
+                      class="h-full w-6 sm:w-10 cursor-pointer"
                       @click="() => changeQty('plus', key)"
                     >
                       <span class="m-auto">+</span>

@@ -85,7 +85,7 @@
         </button>
         <p class="font-bold text-center">
           already have an account ?
-          <NuxtLink to="/accounts/register" class="text-pink hover:text-red-400"
+          <NuxtLink to="/accounts/login" class="text-pink hover:text-red-400"
             >sign in</NuxtLink
           >
         </p>
@@ -136,9 +136,8 @@ export default {
       GET_ADDRESS_AREAS: 'addressAreas/GET_ADDRESS_AREAS',
     }),
     async register() {
-      this.$store.dispatch('TOGGLE_LOADING', true)
-      try {
-        await this.$axios.$post('/register', {
+      const [_, err] = await this.$async(
+        this.$axios.$post('/register', {
           name: this.form.fullName,
           email: this.form.email,
           password: this.form.password,
@@ -147,22 +146,14 @@ export default {
           address: this.form.address,
           address_area_id: this.form.area,
         })
-        this.$router.push('/accounts/sign-up-success')
-      } catch (err) {
-        if (
-          err.response.data.errors &&
-          typeof err.response.data.errors === 'object'
-        ) {
-          this.errors = Object.keys(err.response.data.errors).reduce(
-            (acc, key) => {
-              return { ...acc, [key]: err.response.data.errors[key][0] }
-            },
-            {}
-          )
-        }
-      } finally {
-        this.$store.dispatch('TOGGLE_LOADING', false)
+      )
+
+      if (err) {
+        this.errors = err.response.data.errors
+        return
       }
+
+      this.$router.push('/accounts/sign-up-success')
     },
   },
 }
