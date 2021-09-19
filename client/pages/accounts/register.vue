@@ -85,7 +85,7 @@
         </button>
         <p class="font-bold text-center">
           already have an account ?
-          <NuxtLink to="/accounts/register" class="text-pink hover:text-red-400"
+          <NuxtLink to="/accounts/login" class="text-pink hover:text-red-400"
             >sign in</NuxtLink
           >
         </p>
