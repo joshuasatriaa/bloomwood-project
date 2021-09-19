@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Invoice;
+use App\Models\InvoicePayment;
 use App\Services\Contracts\PaymentGatewayContract;
 use Illuminate\Http\Request;
 use Midtrans\Config as MidtransConfig;
@@ -89,7 +90,7 @@ class MidtransService implements PaymentGatewayContract
 
         $invoice->invoicePayment()->updateOrCreate(
             ['invoice_id' => $order_id],
-            $notif
+            $payload
         );
 
         $invoice->status = $transactionStatus;
