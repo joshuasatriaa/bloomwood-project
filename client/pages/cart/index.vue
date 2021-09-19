@@ -170,6 +170,36 @@
           </div>
         </div>
       </template>
+      <template v-else>
+        <div>
+          <p class="font-bold text-primary text-lg">Oops no item yet</p>
+          <div class="flex w-full justify-center">
+            <div class="mt-8 flex flex-col items-center">
+              <ContainedImage
+                src="/empty-cart.svg"
+                alt="empty cart illustration"
+                width="425"
+                height="333"
+              />
+              <button
+                type="button"
+                class="
+                  bg-primary
+                  font-bold
+                  text-white
+                  mt-10
+                  w-11/12
+                  py-2
+                  rounded
+                  text-lg
+                "
+              >
+                back to home
+              </button>
+            </div>
+          </div>
+        </div>
+      </template>
     </client-only>
     <ModalContainer
       id="modal-delete"
@@ -182,6 +212,8 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Cart',
   data() {
@@ -209,6 +241,9 @@ export default {
     this.cart = this.$getStorage('bloomwoodCart') || {}
   },
   methods: {
+    ...mapActions({
+      GET_CART_COUNT: 'GET_CART_COUNT',
+    }),
     async changeQty(operator, key) {
       await this.$setStorage(
         'bloomwoodCart',
@@ -233,6 +268,7 @@ export default {
         this.$setStorage('bloomwoodCart', otherItems, 1000)
         this.cart = otherItems
         this.$modal.hide('modal-delete')
+        this.GET_CART_COUNT()
       } catch (e) {
         console.log(e)
       }
@@ -242,7 +278,11 @@ export default {
         const selectedItemsArr = []
         Object.keys(this.checkedItems).forEach((key) => {
           if (this.checkedItems[key]) {
-            selectedItemsArr.push({ ...this.cart[key], id: key })
+            selectedItemsArr.push({
+              ...this.cart[key],
+              id: key,
+              originalId: this.cart[key].id,
+            })
           }
         })
         this.$setStorage('bloomwoodShipment', selectedItemsArr, 1000)

@@ -14,6 +14,7 @@
         p-4
         placeholder-secondary
         c-input
+        ring-brown
       "
       :class="classes"
       @input="onInput($event)"

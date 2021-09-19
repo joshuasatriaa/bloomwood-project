@@ -41,7 +41,8 @@
           id="phone-number"
           v-model="form.phoneNumber"
           type="tel"
-          label="phone number"
+          pattern="\d{8,13}"
+          label="phone number (ex.081234567890)"
           class="mb-7"
           :error="errors.phone_number"
         />
@@ -63,16 +64,7 @@
         <InputSelect
           id="area"
           v-model="form.area"
-          :options="[
-            {
-              id: 1,
-              value: 'test',
-            },
-            {
-              id: 2,
-              value: 'test-2',
-            },
-          ]"
+          :options="areas"
           label="select area"
           class="mb-7"
           :error="errors.address_area_id"
@@ -104,16 +96,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { useGetAddressAreas } from '@/composables/useAddressArea'
 
 export default {
   name: 'Register',
   middleware: 'auth',
   auth: 'guest',
-  // setup() {
-  //   const { addressAreas, getAddressAreas } = useGetAddressAreas()
-  //   return { addressAreas, getAddressAreas }
-  // },
   data() {
     return {
       form: {
@@ -126,10 +113,18 @@ export default {
         area: '',
       },
       errors: {},
+      areas: [],
     }
   },
   async fetch() {
-    await this.GET_ADDRESS_AREAS()
+    const res = await this.GET_ADDRESS_AREAS({})
+    this.areas = res.data.map((address) => {
+      return {
+        id: address.id,
+        label: address.name,
+        value: address.id,
+      }
+    })
   },
   computed: {
     ...mapGetters({
@@ -154,7 +149,6 @@ export default {
         })
         this.$router.push('/accounts/sign-up-success')
       } catch (err) {
-        console.log(err.response.data.errors)
         if (
           err.response.data.errors &&
           typeof err.response.data.errors === 'object'

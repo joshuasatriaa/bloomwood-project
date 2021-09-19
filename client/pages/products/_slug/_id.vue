@@ -2,13 +2,14 @@
   <div class="container mx-auto pt-20">
     <div
       v-if="!$fetchState.pending"
-      class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 text-primary"
+      class="grid grid-cols-1 lg:grid-cols-2 gap-x-14 text-primary"
     >
       <ContainedImage
         :src="PRODUCT.data.images[0].original_image || '/'"
         alt=""
         width="650"
         height="650"
+        class="max-w-[690px]"
       />
       <div class="mt-10 lg:mt-0">
         <h1 class="text-4xl mb-6">{{ PRODUCT.data.name }}</h1>
@@ -25,6 +26,38 @@
           :current-value="form.size"
           @changed="(value) => (form.size = value)"
         />
+
+        <template v-if="PRODUCT.data.variants.length > 0">
+          <h3 class="text-2xl font-bold mb-5">Choose Variant</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 mb-8 gap-y-3">
+            <template v-for="variant in PRODUCT.data.variants">
+              <div :key="variant.id" class="flex items-center">
+                <input
+                  :id="variant.id"
+                  v-model="form.variant"
+                  type="radio"
+                  :name="variant.name"
+                  :value="variant.id"
+                  class="ring-primary checked:bg-primary"
+                />
+                <label :for="variant.id" class="ml-5 cursor-pointer">
+                  <div class="flex items-center">
+                    <ContainedImage
+                      :src="variant.thumbnail_image"
+                      width="50"
+                      height="50"
+                      class="max-w-[3.75rem] mr-5 rounded"
+                    />
+                    <div class="flex flex-col text-lg">
+                      <p class="font-bold">{{ variant.name }}</p>
+                      <p>({{ $currencyFormat(variant.price) }})</p>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </template>
+          </div>
+        </template>
 
         <h3 class="text-2xl font-bold mb-1">Gift Card Message</h3>
         <p class="mb-4 text-sm">
@@ -63,8 +96,8 @@
               text-primary
               border-2 border-primary
               font-bold
+              max-w-[170px]
             "
-            style="max-width: 170px"
           >
             <button
               type="button"
@@ -85,18 +118,19 @@
                 flex
                 items-center
                 text-2xl
+                border-none
               "
               name="custom-input-number"
             />
             <button
               type="button"
-              class="h-full w-20 cursor-pointer"
+              class="h-full w-20 cursor-pointer border-none"
               @click="() => form.qty++"
             >
               <span class="m-auto text-2xl font-thin">+</span>
             </button>
           </div>
-          <button
+          <!-- <button
             class="
               bg-primary
               text-white text-xl text-center
@@ -113,7 +147,7 @@
           >
             <p>add to cart</p>
             <IconCart class="absolute fill-current text-white right-5" />
-          </button>
+          </button> -->
         </div>
 
         <h3 class="text-2xl font-bold mb-5">Frequently Bought Together</h3>
@@ -284,32 +318,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import {
-  useRoute,
-  computed,
-  watch,
-  ref,
-  onMounted,
-  useFetch,
-  useContext,
-} from '@nuxtjs/composition-api'
-import { useGetProduct } from '@/composables/useProduct'
 
 export default {
   name: 'Product',
-  // setup() {
-  //   const route = useRoute()
-  //   const context = useContext()
-
-  //   const { product, getProduct } = useGetProduct()
-
-  //   const initialSize = PRODUCT.value?.data?.sizes[0].name
-
-  //   return {
-  //     product,
-  //     getProduct,
-  //   }
-  // },
   data() {
     return {
       form: {
@@ -317,12 +328,17 @@ export default {
         size: '',
         message: '',
         addOns: {},
+        variant: '',
       },
     }
   },
   async fetch() {
     await this.GET_PRODUCT(this.$route.params.id)
     this.form.size = this.PRODUCT.data.sizes[0].name
+    this.form.variant =
+      this.PRODUCT.data.variants.length > 0
+        ? this.PRODUCT.data.variants[0].id
+        : ''
   },
 
   computed: {
@@ -330,15 +346,19 @@ export default {
       PRODUCT: 'products/PRODUCT',
     }),
     getFlowerOnlyPrice() {
-      const { price } = this.PRODUCT.data.sizes.find((size) => {
-        return this.form.size === size.name
-      })
-      return price
+      if (this.PRODUCT.data && this.form.size) {
+        const size = this.PRODUCT.data.sizes.find((size) => {
+          return this.form.size === size.name
+        })
+        return size.price
+      }
+      return null
     },
   },
   methods: {
     ...mapActions({
       GET_PRODUCT: 'products/GET_PRODUCT',
+      GET_CART_COUNT: 'GET_CART_COUNT',
     }),
     addToCart() {
       const bloomwoodCart = this.$getStorage('bloomwoodCart') || {}
@@ -363,24 +383,35 @@ export default {
           return this.form.addOns[addOn.id]
         })
 
+        let variant = null
+        if (this.PRODUCT.data.variants) {
+          variant = this.PRODUCT.data.variants.find(
+            (variant) => this.form.variant === variant.id
+          )
+        }
+
         console.log(filteredAddOns)
         objToSave = {
           ...bloomwoodCart,
           [`${objName}`]: {
             ...this.form,
+            id: this.PRODUCT.data.id,
             productName: this.PRODUCT.data.name,
             subtotalPrice:
               this.getFlowerOnlyPrice +
               filteredAddOns.reduce((acc, curr) => {
                 return (acc += curr.price)
-              }, 0),
+              }, 0) +
+              (variant ? variant.price : 0),
             productImage: this.PRODUCT.data.images[0].thumbnail_image,
             addOns: filteredAddOns,
+            variant,
           },
         }
       }
       this.$setStorage('bloomwoodCart', objToSave, 1000)
       this.$modal.show('modal-add-cart')
+      this.GET_CART_COUNT()
     },
     getSizesButtonGroup() {
       return this.PRODUCT.data.sizes.map(({ name }) => {

@@ -27,22 +27,47 @@ class InvoiceRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'notes' => ['required', 'string'],
-            'recipients_name' => ['required', 'nullable', 'string'],
-            'recipients_phone' => ['required', 'nullable', 'string'],
-            'delivery_time' => ['required', 'nullable',  'date'],
-            'address' => ['required', 'nullable', 'string'],
-            'address_area_id' => ['required', 'nullable', 'string'],
+        $rules = [
+            'notes' => ['present', 'nullable', 'string'],
+            'recipients_name' => ['string'],
+            'recipients_phone' => ['string'],
+            'delivery_time' => ['date'],
+            'address' => ['string'],
+            'address_area_id' => ['string'],
             'pick_up' => ['required', 'boolean'],
 
             'products' => ['required', 'array', new ProductSizeExistsRule],
             'products.*.id' => ['required', 'string'],
-            'products.*.message' => ['required', 'nullable', 'string'],
+            'products.*.message' => ['present', 'nullable', 'string'],
             'products.*.size' => ['required', 'string', Rule::in(['Classic', 'Deluxe'])],
-            'products.*.variant_id' => ['required', 'nullable', 'string', 'exists:product_variants,_id'],
+            'products.*.variant_id' => ['present', 'nullable', 'string', 'exists:product_variants,_id'],
             'products.*.add_ons' => ['required', 'array'],
-            'products.*.add_ons.*.id' => ['nullable', 'present', 'string', 'exists:product_add_ons,_id'],
+            'products.*.add_ons.*.id' => ['present', 'nullable', 'string', 'exists:product_add_ons,_id'],
         ];
+
+        $props = [
+            'recipients_name',
+            'recipients_phone',
+            'delivery_time',
+            'address',
+            'address_area_id',
+            'delivery_time'
+        ];
+
+        switch ($this->pick_up) {
+            case 0:  // pickup false
+                foreach ($props as $item) {
+                    array_unshift($rules[$item], 'required');
+                }
+                break;
+            case 1: // pickup true
+                foreach ($props as $item) {
+                    array_unshift($rules[$item], 'nullable');
+                    array_unshift($rules[$item], 'present');
+                }
+                break;
+        }
+
+        return $rules;
     }
 }

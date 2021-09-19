@@ -1,6 +1,6 @@
 <template>
   <div class="border-t border-b border-soft-gray font-serif relative">
-    <div class="container mx-auto flex justify-between items-center h-24">
+    <div class="container mx-auto flex justify-between items-center h-20">
       <NuxtLink to="/">
         <ContainedImage
           src="/logo.svg"
@@ -22,14 +22,11 @@
         "
       >
         <div
-          v-for="{ id, slug, name, categories } in NAVIGATION_GROUPS.data"
+          v-for="{ id, name, categories } in NAVIGATION_GROUPS.data"
           :key="id"
           class="group relative"
         >
-          <div
-            :class="{ 'cursor-default': $route.query.group === slug }"
-            class="relative"
-          >
+          <div class="relative">
             <span class="cursor-default">{{ name }}</span>
             <div
               class="
@@ -40,12 +37,9 @@
                 absolute
                 top-8
                 bg-primary
+                w-0
+                group-hover:w-full
               "
-              :class="[
-                $route.query.group !== slug
-                  ? 'w-0 group-hover:w-full'
-                  : 'w-full',
-              ]"
             ></div>
           </div>
           <div
@@ -59,13 +53,13 @@
               origin-top
               opacity-0
               duration-300
-              top-36
+              top-32
               border-b
-              pt-[2.6rem]
+              pt-8
             "
             :class="{
-              'group-hover:scale-y-100 group-hover:top-24 group-hover:opacity-100':
-                $route.query.group !== slug,
+              'group-hover:scale-y-100 group-hover:top-[5.63rem] group-hover:opacity-100':
+                showDropdown,
             }"
           >
             <div class="bg-white py-4">
@@ -79,7 +73,10 @@
                     :key="category.id"
                     class="flex flex-col"
                   >
-                    <NuxtLink :to="`/products?category=${category.slug}`">
+                    <NuxtLink
+                      :to="`/products?category=${category.slug}`"
+                      @click.native="temporaryHideDropdown"
+                    >
                       <ContainedImage
                         :src="category.thumbnail_image"
                         class="mb-5 max-w-[150px]"
@@ -90,14 +87,17 @@
                     <NuxtLink
                       :to="`/products?category=${category.slug}`"
                       class="font-bold text-primary mb-3"
+                      @click.native="temporaryHideDropdown"
                     >
                       {{ category.label }}
                     </NuxtLink>
                     <ul class="text-secondary font-medium font-sans">
                       <li v-for="child in category.children" :key="child.id">
-                        <NuxtLink :to="`/products?category=${child.slug}`">{{
-                          child.label
-                        }}</NuxtLink>
+                        <NuxtLink
+                          :to="`/products?category=${child.slug}`"
+                          @click.native="temporaryHideDropdown"
+                          >{{ child.label }}</NuxtLink
+                        >
                       </li>
                     </ul>
                   </div>
@@ -129,7 +129,7 @@
           ></div>
         </NuxtLink>
       </div>
-      <InputSearch class="hidden sm:block max-w-[300px] mx-5" />
+      <InputSearch class="hidden sm:block xl:max-w-[300px] mx-5" />
       <div class="relative block xl:hidden">
         <button
           class="text-gray-500 w-10 h-10 relative focus:outline-none bg-white"
@@ -215,12 +215,7 @@
         />
         <button
           class="text-gray-500 w-10 h-10 relative focus:outline-none"
-          @click="
-            () => {
-              isOpen = !isOpen
-              $modal.hide('sm-nav')
-            }
-          "
+          @click="() => toggleModal(false)"
         >
           <span class="sr-only">open main menu</span>
           <div
@@ -283,10 +278,63 @@
         </button>
       </div>
       <div class="flex justify-center mt-10">
-        <InputSearch class="max-w-[250px]" />
+        <InputSearch class="w-11/12" />
       </div>
-      <div class="flex flex-col pt-12 items-center gap-y-6">
-        <button
+      <div class="flex flex-col pt-12 items-center gap-y-6 mb-10">
+        <template v-for="{ id, name, categories } in NAVIGATION_GROUPS.data">
+          <Accordion
+            :key="`${id}-sm`"
+            class="w-11/12"
+            :title="name"
+            :default-open="false"
+          >
+            <div
+              class="
+                grid grid-cols-1
+                sm:grid-cols-3
+                md:grid-cols-5
+                xl:grid-cols-6
+                gap-y-6 gap-x-4
+                pl-5
+              "
+            >
+              <div
+                v-for="category in categories"
+                :key="category.id"
+                class="flex flex-col"
+              >
+                <NuxtLink
+                  :to="`/products?category=${category.slug}`"
+                  @click.native="() => toggleModal(false)"
+                >
+                  <ContainedImage
+                    :src="category.thumbnail_image"
+                    class="mb-5 max-w-[150px]"
+                    width="150"
+                    height="150"
+                  />
+                </NuxtLink>
+                <NuxtLink
+                  :to="`/products?category=${category.slug}`"
+                  class="font-bold text-primary mb-3"
+                  @click.native="() => toggleModal(false)"
+                >
+                  {{ category.label }}
+                </NuxtLink>
+                <ul class="text-secondary font-medium font-sans">
+                  <li v-for="child in category.children" :key="child.id">
+                    <NuxtLink
+                      :to="`/products?category=${child.slug}`"
+                      @click.native="() => toggleModal(false)"
+                      >{{ child.label }}</NuxtLink
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </Accordion>
+        </template>
+        <!-- <button
           v-for="{ id, slug, name } in NAVIGATION_GROUPS.data"
           :key="id"
           :class="{ 'cursor-default': $route.query.group === slug }"
@@ -342,7 +390,7 @@
               $route.name !== slug ? 'w-0 group-hover:w-full' : 'w-full',
             ]"
           ></div>
-        </button>
+        </button> -->
       </div>
     </modal>
   </div>
@@ -355,6 +403,7 @@ export default {
   data() {
     return {
       isOpen: false,
+      showDropdown: true,
     }
   },
   async fetch() {
@@ -369,6 +418,16 @@ export default {
     ...mapActions({
       GET_NAVIGATION_GROUPS: 'GET_NAVIGATION_GROUPS',
     }),
+    temporaryHideDropdown() {
+      this.showDropdown = false
+      setTimeout(() => {
+        this.showDropdown = true
+      }, 200)
+    },
+    toggleModal(openBool) {
+      this.isOpen = openBool
+      openBool ? this.$modal.show('sm-nav') : this.$modal.hide('sm-nav')
+    },
   },
 }
 </script>

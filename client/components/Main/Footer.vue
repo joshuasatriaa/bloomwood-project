@@ -18,18 +18,32 @@
       <div class="flex flex-col items-center mb-10">
         <IconLogo class="transform sm:scale-150 text-center mb-10" />
         <ul class="font-sans font-normal">
-          <li class="flex mb-5">
-            <IconEmail class="transform scale-75 mr-5" />
-            bloomwoodflorist@gmail.com
+          <li>
+            <a
+              class="flex mb-5"
+              href="mailto:bloomwoodflorist@gmail.com"
+              rel="noopener noreferrer nofollow"
+            >
+              <IconEmail class="transform scale-75 mr-5" />
+              bloomwoodflorist@gmail.com
+            </a>
           </li>
-          <li class="flex mb-5">
-            <IconWhatsapp class="transform scale-75 mr-5" /> (+62) 878-8800-9807
+          <li>
+            <a
+              class="flex mb-5"
+              href="https://wa.me/+6287888009807"
+              rel="noopener noreferrer nofollow"
+              target="_blank"
+            >
+              <IconWhatsapp class="transform scale-75 mr-5" /> (+62)
+              878-8800-9807
+            </a>
           </li>
         </ul>
       </div>
       <div class="block text-center lg:flex justify-between">
         <span class="font-normal"
-          >Copyrights @ 2017 BLOOMWOOD. All Rights Reserved.</span
+          >Copyright © 2021 BLOOMWOOD. All Rights Reserved.</span
         >
         <div
           class="
@@ -42,11 +56,21 @@
             lg:mt-0
           "
         >
-          <div class="flex mr-6">
+          <a
+            href="https://www.instagram.com/bloomwoodflorist"
+            rel="noopener noreferrer nofollow"
+            target="_blank"
+            class="flex mr-6"
+          >
             <span class="mr-4">Follow Us</span>
             <IconInstagram class="fill-current text-white" />
-          </div>
-          <div class="flex">
+          </a>
+          <a
+            href="https://www.tokopedia.com/bloomwoodflorist"
+            rel="noopener noreferrer nofollow"
+            target="_blank"
+            class="flex"
+          >
             <span class="mr-4">Also Available on</span>
             <ContainedImage
               src="/tokopedia_icon.png"
@@ -55,7 +79,7 @@
               :is-fluid="false"
               class="mr-5"
             />
-          </div>
+          </a>
         </div>
       </div>
     </div>

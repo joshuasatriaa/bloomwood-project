@@ -9,8 +9,15 @@ use App\Models\ProductVariant;
 
 class InvoiceService
 {
-    public static function copyAddressAreaData(string $addressAreaId): array
+    /**
+     * @param mixed|string $addressAreaId
+     */
+    public static function copyAddressAreaData($addressAreaId): array
     {
+        if (!$addressAreaId) {
+            return [];
+        }
+
         $area = AddressArea::find($addressAreaId);
 
         return  [
@@ -74,7 +81,7 @@ class InvoiceService
                                 'id' => $addOn['id'],
                                 'name' => $addOn['name'],
                                 'price' => $addOn['price'],
-                                'thumbnail_image' => $variant->thumbnail_image
+                                'thumbnail_image' => $addOn->thumbnail_image
                             ]
                         );
 

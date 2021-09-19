@@ -24,6 +24,7 @@
             pb-14
             px-14
           "
+          data-aos="fade-up"
         >
           <IconLogo class="self-center mb-12 scale-125" />
           <div class="text-primary text-xl mb-11 font-serif">
@@ -59,8 +60,23 @@
       />
     </div>
 
-    <div class="grid grid-cols-4 gap-0 xl:container xl:mx-auto mb-20">
-      <div v-for="(flower, idx) in 4" :key="idx" class="relative group">
+    <div
+      v-if="!$fetchState.pending"
+      class="
+        grid grid-cols-2
+        sm:grid-cols-4
+        gap-0
+        xl:container xl:mx-auto
+        mb-20
+      "
+    >
+      <NuxtLink
+        v-for="item in [...FEATURED_PRODUCTS.data].splice(0, 4)"
+        :key="item.id"
+        :to="`/products/${item.slug}/${item.id}`"
+        class="relative group"
+        data-aos="zoom-in"
+      >
         <div
           class="
             absolute
@@ -87,15 +103,22 @@
               font-serif
             "
           >
-            Forever and Always in Pink
+            {{ item.name }}
           </p>
         </div>
-        <ContainedImage src="/flower-5.jpg" width="480" height="578" />
-      </div>
-      <div
-        v-for="(flower, idx) in 2"
-        :key="`${idx}-fdsjfklj`"
+        <ContainedImage
+          :src="item.images[0].original_image"
+          width="480"
+          height="578"
+        />
+      </NuxtLink>
+      <NuxtLink
+        v-for="(item, idx) in [...FEATURED_PRODUCTS.data].splice(4, 6)"
+        :key="item.id"
+        :to="`/products/${item.slug}/${item.id}`"
         class="relative group col-span-2"
+        data-aos="fade-up"
+        :data-aos-delay="100 * idx"
       >
         <div
           class="
@@ -123,18 +146,23 @@
               font-serif
             "
           >
-            Forever and Always in Pink
+            {{ item.name }}
           </p>
         </div>
-        <ContainedImage src="/flower-6.jpg" width="960" height="600" />
-      </div>
+        <ContainedImage
+          :src="item.images[0].original_image"
+          width="960"
+          height="600"
+        />
+      </NuxtLink>
     </div>
 
-    <div class="container mx-auto mb-20 px-10">
+    <div class="container mx-auto mb-20 xl:px-10">
       <h2 class="text-3xl font-bold text-primary text-center mb-16 font-serif">
         Most Gifted
       </h2>
       <div
+        v-if="!$fetchState.pending"
         class="
           grid grid-cols-1
           sm:grid-cols-2
@@ -144,25 +172,37 @@
         "
       >
         <div
-          v-for="(product, idx) in 4"
-          :key="idx"
+          v-for="product in MOST_GIFTED_PRODUCTS.data"
+          :key="product.id"
           class="flex flex-col items-center text-primary"
         >
-          <img src="/temp-product.jpg" class="mb-4 w-full font-serif" />
-          <p class="mb-2">Caspea Bouquet - Natural</p>
-          <strong>{{ $currencyFormat(125000) }}</strong>
+          <NuxtLink
+            :to="`/products/${product.slug}/${product.id}`"
+            class="text-center group"
+            data-aos="fade-up"
+          >
+            <ContainedImage
+              :src="product.images[0].original_image"
+              width="335"
+              height="335"
+              class="
+                mb-4
+                transition
+                rounded
+                filter
+                scale-100
+                sm:scale-95
+                group-hover:scale-100 group-hover:drop-shadow-xl
+              "
+            />
+            <p class="mb-2 font-serif">{{ product.name }}</p>
+            <strong>{{ $currencyFormat(getMinPrice(product.sizes)) }}</strong>
+          </NuxtLink>
         </div>
       </div>
     </div>
 
-    <div class="container mx-auto">
-      <h2 class="text-3xl font-bold text-primary text-center mb-16 font-serif">
-        What People Say
-      </h2>
-      <div class="h-96">
-        <HomeTestimoniesCarousel />
-      </div>
-    </div>
+    <HomeTestimoniesCarousel />
 
     <div class="container mx-auto">
       <h2
@@ -193,14 +233,31 @@
 </template>
 
 <script>
-// import { mapActions, mapGetters } from 'vuex'
-// import { useGetCategories } from '@/composables/useCategory'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  async fetch() {
+    await this.GET_MOST_GIFTED_PRODUCTS()
+    await this.GET_FEATURED_PRODUCTS()
+    console.log(this.FEATURED_PRODUCTS)
+  },
+  computed: {
+    ...mapGetters({
+      MOST_GIFTED_PRODUCTS: 'home/MOST_GIFTED_PRODUCTS',
+      FEATURED_PRODUCTS: 'home/FEATURED_PRODUCTS',
+    }),
+  },
   methods: {
-    // ...mapActions({
-    //   GET_NAVIGATION_GROUPS: 'GET_NAVIGATION_GROUPS',
-    // }),
+    ...mapActions({
+      GET_MOST_GIFTED_PRODUCTS: 'home/GET_MOST_GIFTED_PRODUCTS',
+      GET_FEATURED_PRODUCTS: 'home/GET_FEATURED_PRODUCTS',
+    }),
+    getMinPrice(sizes) {
+      const { price } = sizes.reduce((prev, curr) =>
+        prev.price < curr.price ? prev : curr
+      )
+      return price
+    },
   },
 }
 </script>
