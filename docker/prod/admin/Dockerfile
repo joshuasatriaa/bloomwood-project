@@ -1,5 +1,6 @@
 # Image
-FROM node:16.4.2-alpine
+FROM node:14.17-alpine
+RUN apk add g++ make python3
 
 COPY ./admin /var/www/admin
 
