@@ -8,6 +8,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MeController;
 use App\Http\Controllers\MostGiftedController;
 use App\Http\Controllers\NavigationGroupController;
+use App\Http\Controllers\PaymentHookController;
 use App\Http\Controllers\ProductAddOnController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
@@ -64,3 +65,5 @@ Route::apiResource('navigation-groups', NavigationGroupController::class)->only(
 Route::apiResource('address-areas', AddressAreaController::class)->only(['index', 'show']);
 
 Route::post('/auth/token', TokenController::class);
+
+Route::post('/payment-hook', PaymentHookController::class);
