@@ -115,7 +115,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'AccountOrderHistory',
   async fetch() {
-    await this.GET_ORDER_HISTORY(this.$route.params.id)
+    await this.GET_ORDER_HISTORY()
   },
   computed: {
     ...mapGetters({

@@ -150,7 +150,10 @@ export default {
 
       if (err) {
         this.errors = err.response.data.errors
+        return
       }
+
+      this.$router.push('/accounts/sign-up-success')
     },
   },
 }
