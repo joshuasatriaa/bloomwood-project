@@ -35,7 +35,7 @@
               group-hover:scale-100 group-hover:drop-shadow-xl
             "
           /> -->
-          <ContainedImageTemp
+          <ContainedImage
             :src="images[0].original_image"
             width="398"
             height="499"
@@ -47,6 +47,7 @@
               filter
               group-hover:scale-100 group-hover:drop-shadow-xl
             "
+            aspect-class="aspect-w-398 aspect-h-499"
           />
         </div>
         <h2

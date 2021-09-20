@@ -34,17 +34,17 @@
           aliquet in.
         </div>
       </div>
-      <div class="flex items-center" data-aos="fade-left">
+      <div class="flex items-center">
         <ContainedImage
           width="731"
           height="479"
-          style="height: 479px"
-          :is-fluid="false"
           src="/pink-roses.jfif"
           alt=""
-          class="clip-about-us"
+          class="clip-about-us w-full h-[479px]"
+          data-aos="fade-left"
         />
         <svg
+          class="sr-only"
           width="100%"
           height="100"
           fill="none"

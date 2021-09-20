@@ -76,7 +76,6 @@
               src="/tokopedia_icon.png"
               width="22"
               height="22"
-              :is-fluid="false"
               class="mr-5"
             />
           </a>

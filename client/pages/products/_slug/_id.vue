@@ -9,13 +9,14 @@
         v-if="!$fetchState.pending"
         class="grid grid-cols-1 lg:grid-cols-2 gap-x-14 text-primary relative"
       >
-        <ContainedImage
-          :src="PRODUCT.data.images[0].original_image || '/'"
-          alt=""
-          width="650"
-          height="650"
-          class="max-w-[690px]"
-        />
+        <div>
+          <ContainedImage
+            :src="PRODUCT.data.images[0].original_image || '/'"
+            width="650"
+            height="650"
+            aspect-class="aspect-w-650 aspect-h-650"
+          />
+        </div>
         <div class="mt-10 lg:mt-0">
           <h1 class="text-4xl mb-6">{{ PRODUCT.data.name }}</h1>
           <h2 class="text-lg font-bold text-pink mb-3">
@@ -52,6 +53,7 @@
                         width="50"
                         height="50"
                         class="max-w-[3.75rem] mr-5 rounded"
+                        aspect-class="aspect-w-50 aspect-h-50"
                       />
                       <div class="flex flex-col text-lg">
                         <p class="font-bold">{{ variant.name }}</p>
@@ -160,14 +162,16 @@
             <template
               v-for="({ id, thumbnail_image }, idx) in PRODUCT.data.add_ons"
             >
-              <div :key="id" class="flex flex-row items-center">
-                <ContainedImage
-                  :src="thumbnail_image"
-                  class="border-[#F4F3EE] border-4 rounded-md"
-                  width="162"
-                  height="108"
-                  :is-fluid="false"
-                />
+              <div :key="id" class="flex items-center">
+                <div>
+                  <ContainedImage
+                    :src="thumbnail_image"
+                    class="border-[#F4F3EE] border-4 rounded-md w-full"
+                    width="162"
+                    height="108"
+                    aspect-class="aspect-w-162 aspect-h-108"
+                  />
+                </div>
                 <span
                   v-if="idx + 1 !== PRODUCT.data.add_ons.length"
                   class="text-lg font-bold mx-4"
@@ -269,7 +273,11 @@
             <IconCart class="absolute fill-current text-white right-5" />
           </button>
 
-          <Accordion class="mt-10" :default-open="false" title="Delivery Details" >
+          <Accordion
+            class="mt-10"
+            :default-open="false"
+            title="Delivery Details"
+          >
             <ul class="list-disc ml-5">
               <li>Deliveries will be charged based on location.</li>
               <li>Flowers will be delivered between 12pm and 5pm.</li>
