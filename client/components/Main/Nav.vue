@@ -212,8 +212,7 @@
           src="/logo.svg"
           width="370"
           height="120"
-          class="max-w-[120px]"
-          aspect-class="aspect-w-370 aspect-h-120"
+          class="w-[7.5rem] h-[2.43rem]"
         />
         <button
           class="text-gray-500 w-10 h-10 relative focus:outline-none"

@@ -70,12 +70,21 @@
                 </div>
               </div>
               <div class="flex flex-col sm:flex-row items-center">
-                <ContainedImage
-                  :src="cart[key].productImage"
-                  width="148"
-                  height="148"
-                  class="rounded-lg border-4 border-primary max-w-[140px] mr-4"
-                />
+                <div>
+                  <ContainedImage
+                    :src="cart[key].productImage"
+                    width="148"
+                    height="148"
+                    class="
+                      rounded-lg
+                      border-4 border-primary
+                      w-[9.25rem]
+                      h-[9.25rem]
+                      mr-4
+                    "
+                  />
+                </div>
+
                 <div class="flex mt-3 sm:mt-0 flex-col">
                   <h2 class="font-bold font-serif text-lg mb-2">
                     {{ cart[key].productName }}

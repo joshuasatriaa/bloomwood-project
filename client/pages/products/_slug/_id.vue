@@ -184,7 +184,7 @@
               </div>
               <span
                 v-if="idx + 1 !== PRODUCT.data.add_ons.length"
-                class="text-lg font-bold mx-4"
+                class="hidden sm:block text-lg font-bold mx-4"
                 >+</span
               >
             </div>

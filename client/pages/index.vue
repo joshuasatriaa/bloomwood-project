@@ -58,6 +58,7 @@
         width="1920"
         height="666"
         aspect-class="aspect-w-1920 aspect-h-666"
+        class="min-h-[41.625rem]"
       />
     </div>
 

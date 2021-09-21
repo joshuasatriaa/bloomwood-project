@@ -54,12 +54,17 @@
       </div>
 
       <div class="md:ml-20 lg:ml-28">
-        <h2 class="font-bold text-xl md:text-2xl mb-10 flex items-center">
+        <NuxtLink
+          to="/contact-us"
+          class="font-bold text-xl md:text-2xl mb-10 flex items-center"
+        >
           <span class="mr-5"
             >Got more questions? reach us for any questions you might have</span
           >
-          <IconAngleRight />
-        </h2>
+          <div>
+            <IconAngleRight />
+          </div>
+        </NuxtLink>
       </div>
     </div>
   </div>
