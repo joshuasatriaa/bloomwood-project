@@ -158,32 +158,43 @@
           </div>
 
           <h3 class="text-2xl font-bold mb-5">Frequently Bought Together</h3>
-          <div class="flex items-center mb-8">
-            <template
+          <div class="flex items-center flex-wrap mb-8">
+            <div
               v-for="({ id, thumbnail_image }, idx) in PRODUCT.data.add_ons"
+              :key="id"
+              class="flex items-center"
             >
-              <div :key="id" class="flex items-center">
-                <div>
-                  <ContainedImage
-                    :src="thumbnail_image"
-                    class="border-[#F4F3EE] border-4 rounded-md w-full"
-                    width="162"
-                    height="108"
-                    aspect-class="aspect-w-162 aspect-h-108"
-                  />
-                </div>
-                <span
-                  v-if="idx + 1 !== PRODUCT.data.add_ons.length"
-                  class="text-lg font-bold mx-4"
-                  >+</span
-                >
+              <div class="w-full">
+                <ContainedImage
+                  :src="thumbnail_image"
+                  class="
+                    border-[#F4F3EE]
+                    min-w-[120px] min-h-[80px]
+                    sm:min-w-[135px] sm:min-h-[90px]
+                    md:min-w-[162px] md:min-h-[108px]
+                    lg:min-w-[162px] lg:min-h-[108px]
+                    border-4
+                    rounded-md
+                    w-full
+                  "
+                  width="162"
+                  height="108"
+                  aspect-class="aspect-w-162 aspect-h-108"
+                />
               </div>
-            </template>
+              <span
+                v-if="idx + 1 !== PRODUCT.data.add_ons.length"
+                class="text-lg font-bold mx-4"
+                >+</span
+              >
+            </div>
           </div>
 
           <p class="text-xl mb-6 font-serif">
-            <span>Total Price IDR 3.150.000 </span>
-            <span class="line-through">3.500.000</span>
+            <span>Total Price IDR {{ $currencyFormat(totalPrice) }} </span>
+            <span class="line-through">{{
+              $currencyFormat(totalPrice + (10 / 100) * totalPrice)
+            }}</span>
           </p>
 
           <div class="mb-10 font-serif">
@@ -368,7 +379,24 @@ export default {
         })
         return size.price
       }
-      return null
+      return 0
+    },
+    totalPrice() {
+      if (this.PRODUCT.data) {
+        const addOnsPrice = Object.keys(this.form.addOns)
+          .filter((key) => this.form.addOns[key])
+          .map((key) => {
+            const { price } = this.PRODUCT.data.add_ons.find(
+              (addOn) => key === addOn.id
+            )
+            return price
+          })
+          .reduce((acc, val) => {
+            return acc + val
+          }, 0)
+        return this.form.qty * (this.getFlowerOnlyPrice + addOnsPrice)
+      }
+      return 0
     },
   },
   methods: {
