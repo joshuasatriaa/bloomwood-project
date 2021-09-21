@@ -5,6 +5,7 @@
       <div
         class="
           container
+          z-[5]
           absolute
           top-1/2
           left-1/2
@@ -56,7 +57,8 @@
         src="/main-cover.jpg"
         width="1920"
         height="666"
-        style="min-height: 666px"
+        aspect-class="aspect-w-1920 aspect-h-666"
+        class="min-h-[41.625rem]"
       />
     </div>
 
@@ -79,6 +81,7 @@
       >
         <div
           class="
+            z-[5]
             absolute
             top-0
             left-0
@@ -110,6 +113,7 @@
           :src="item.images[0].original_image"
           width="480"
           height="578"
+          aspect-class="aspect-w-480 aspect-h-578"
         />
       </NuxtLink>
       <NuxtLink
@@ -122,6 +126,7 @@
       >
         <div
           class="
+            z-[5]
             absolute
             top-0
             left-0
@@ -153,6 +158,7 @@
           :src="item.images[0].original_image"
           width="960"
           height="600"
+          aspect-class="aspect-w-960 aspect-h-600"
         />
       </NuxtLink>
     </div>
@@ -174,7 +180,7 @@
         <div
           v-for="product in MOST_GIFTED_PRODUCTS.data"
           :key="product.id"
-          class="flex flex-col items-center text-primary"
+          class="text-center text-primary"
         >
           <NuxtLink
             :to="`/products/${product.slug}/${product.id}`"
@@ -194,7 +200,16 @@
                 sm:scale-95
                 group-hover:scale-100 group-hover:drop-shadow-xl
               "
+              aspect-class="aspect-w-335 aspect-h-335"
             />
+            <!-- <div class="aspect-w-335 aspect-h-335 w-full h-auto">
+              <img
+                :src="product.images[0].original_image"
+                width="335"
+                height="335"
+                class="w-full h-full object-center object-cover"
+              />
+            </div> -->
             <p class="mb-2 font-serif">{{ product.name }}</p>
             <strong>{{ $currencyFormat(getMinPrice(product.sizes)) }}</strong>
           </NuxtLink>
@@ -221,12 +236,16 @@
           xl:grid-cols-5
         "
       >
-        <img
-          v-for="(product, idx) in 10"
-          :key="idx"
-          src="/flower-2.jpg"
-          class="w-full"
-        />
+        <div v-for="(product, idx) in 10" :key="idx">
+          <ContainedImage
+            src="/flower-2.jpg"
+            class="w-full"
+            alt=""
+            width="300"
+            height="300"
+            aspect-class="aspect-w-300 aspect-h-300"
+          />
+        </div>
       </div>
     </div>
   </div>

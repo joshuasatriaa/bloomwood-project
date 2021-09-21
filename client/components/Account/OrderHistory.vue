@@ -31,7 +31,8 @@
                   class="
                     rounded-lg
                     border-4 border-primary
-                    max-w-[140px]
+                    w-[120px]
+                    h-[120px]
                     mr-4
                     mb-3
                     sm:mb-0
@@ -51,9 +52,9 @@
                     {{ product.name }}
                   </h2>
 
-                  <span class="font-normal"
+                  <span v-if="product.add_ons.length > 0" class="font-normal"
                     >Add Ons:
-                    {{ product.add_ons.map(({ name }) => name).join(',') }}
+                    {{ product.add_ons.map(({ name }) => name).join(', ') }}
                   </span>
                   <span class="font-normal">
                     Size: {{ product.size.name }}
@@ -69,6 +70,7 @@
             >
               <div class="text-center xl:mb-5 order-2 xl:order-1">
                 <button
+                  v-if="getStatus(history.status).isPayable"
                   class="pb-1 border-b border-brown text-center mb-3 font-bold"
                   @click="() => payNow(history.payment_token)"
                 >
@@ -76,7 +78,6 @@
                 </button>
                 <div
                   class="
-                    bg-success
                     min-w-[6rem]
                     sm:min-w-[10rem]
                     py-2
@@ -85,6 +86,7 @@
                     text-base
                     sm:text-lg
                   "
+                  :class="getStatus(history.status).class"
                 >
                   {{ history.status }}
                 </div>
@@ -140,6 +142,24 @@ export default {
     }),
     payNow(token) {
       window.snap.pay(token)
+    },
+    getStatus(status) {
+      switch (status) {
+        case 'capture':
+        case 'settlement':
+          return { isPayable: false, class: 'bg-success' }
+        case 'pending':
+          return { isPayable: true, class: 'bg-warn' }
+        case 'deny':
+        case 'cancel':
+        case 'expire':
+          return { isPayable: false, class: 'bg-red-400' }
+        case 'refund':
+        case 'partial_refund':
+          return { isPayable: false, class: 'bg-blue-400' }
+        case 'authorize':
+          return { isPayable: false, class: 'bg-grey-400' }
+      }
     },
   },
 }

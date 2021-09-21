@@ -22,11 +22,16 @@
       </a>
 
       <a
-        href="https://wa.me/+6287888009807"
-        rel="noopener noreferrer nofollow"
+        href="https://www.tokopedia.com/bloomwoodflorist"
+        rel="noopener noreferrer"
         target="_blank"
       >
-        <IconBrideStory class="fill-current text-primary mr-5" />
+        <ContainedImage
+          src="/tokopedia_icon.png"
+          width="22"
+          height="22"
+          class="mr-5"
+        />
       </a>
     </div>
     <div class="h-full flex divide-x">

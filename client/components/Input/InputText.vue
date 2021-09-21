@@ -120,7 +120,7 @@ export default {
       default: 'transparent',
     },
     error: {
-      type: [String, Boolean],
+      type: [Array, Boolean],
       default: false,
     },
   },

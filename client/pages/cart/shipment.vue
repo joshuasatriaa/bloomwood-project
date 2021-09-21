@@ -28,7 +28,7 @@
                   w-full
                 "
               >
-                <div class="flex">
+                <div class="flex flex-col gap-y-3 sm:flex-row">
                   <ContainedImage
                     :src="item.productImage"
                     width="148"
@@ -36,8 +36,9 @@
                     class="
                       rounded-lg
                       border-4 border-primary
-                      max-w-[120px]
                       mr-4
+                      w-[9.375rem]
+                      h-[9.375rem]
                     "
                   />
                   <div class="flex flex-col">
@@ -257,9 +258,9 @@
               <InputTextArea
                 id="request"
                 v-model="form.request"
+                :required="false"
                 class="my-5"
                 rows="6"
-                minlength="5"
                 classes="bg-white"
                 placeholder="ex: leave it in front of the gate"
               />
@@ -290,7 +291,7 @@
           </div>
           <div class="flex justify-between w-full items-end mt-10 font-bold">
             <p class="font-serif">Subtotal</p>
-            <p>{{ $currencyFormat(7532000) }}</p>
+            <p>{{ $currencyFormat(subtotal) }}</p>
           </div>
           <div class="flex w-100 justify-center">
             <button
@@ -379,7 +380,6 @@ export default {
         this.shipment.length > 0 &&
         this.deliveryMethod === 'delivery'
       ) {
-        console.log('computed')
         let area = {
           small_price: 0,
           medium_price: 0,
@@ -414,7 +414,7 @@ export default {
         const itemsPrice = this.shipment.reduce((acc, val) => {
           return (acc += val.subtotalPrice * val.qty)
         }, 0)
-        return itemsPrice
+        return itemsPrice + this.deliveryPrice
       }
       return 0
     },
@@ -448,14 +448,16 @@ export default {
             return [...acc, val]
           }, [])
           .map((item) => {
-            console.log(item)
             return {
               id: item.originalId,
               message: item.message ?? '',
               size: item.size,
-              add_ons: item.addOns.map((addOn) => {
-                return { id: addOn.id }
-              }),
+              add_ons:
+                item.addOns.length > 0
+                  ? item.addOns.map((addOn) => {
+                      return { id: addOn.id }
+                    })
+                  : [{ id: '' }],
               variant_id: item.variant?.id ?? '',
             }
           })

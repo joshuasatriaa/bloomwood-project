@@ -1,5 +1,7 @@
+<!-- Display image with aspect ratio -->
+<!-- To use this component please provide additional width and height ratio in tailwind.config.js -->
 <template>
-  <div class="aspect-w-398 aspect-h-499">
+  <div :class="getAspect()">
     <img
       :src="src"
       alt="..."
@@ -33,6 +35,11 @@ export default {
       type: Boolean,
       required: false,
       default: true,
+    },
+  },
+  methods: {
+    getAspect() {
+      return `aspect-w-${this.width} aspect-h-${this.height}`
     },
   },
 }

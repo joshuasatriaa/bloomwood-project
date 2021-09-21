@@ -4,7 +4,7 @@
       <NuxtLink to="/">
         <ContainedImage
           src="/logo.svg"
-          width="370"
+          width="150"
           height="120"
           class="max-w-[150px] sm:max-w-[200px]"
         />
@@ -67,7 +67,7 @@
                 <p class="text-6xl font-sans mb-10 text-[#F2F2F2]">
                   {{ name }}
                 </p>
-                <div class="grid grid-cols-7 pl-5">
+                <div class="grid grid-cols-7 gap-x-3 pl-5">
                   <div
                     v-for="category in categories"
                     :key="category.id"
@@ -79,9 +79,10 @@
                     >
                       <ContainedImage
                         :src="category.thumbnail_image"
-                        class="mb-5 max-w-[150px]"
+                        class="mb-5"
                         width="150"
                         height="150"
+                        aspect-class="aspect-w-150 aspect-h-150"
                       />
                     </NuxtLink>
                     <NuxtLink
@@ -211,7 +212,7 @@
           src="/logo.svg"
           width="370"
           height="120"
-          class="max-w-[120px]"
+          class="w-[7.5rem] h-[2.43rem]"
         />
         <button
           class="text-gray-500 w-10 h-10 relative focus:outline-none"
@@ -312,6 +313,7 @@
                     class="mb-5 max-w-[150px]"
                     width="150"
                     height="150"
+                    aspect-class="aspect-w-150 aspect-h-150"
                   />
                 </NuxtLink>
                 <NuxtLink
