@@ -72,7 +72,7 @@ export default {
     '@/plugins/global.js',
     { src: '@/plugins/swiper.client.js' },
     '@/plugins/vue-modal.js',
-    { src: '@/plugins/aos.js', mode: 'client' },
+    { src: '~/plugins/aos.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

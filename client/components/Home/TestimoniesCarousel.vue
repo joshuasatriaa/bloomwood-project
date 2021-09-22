@@ -41,12 +41,15 @@
       </div>
     </div>
     <div class="h-96">
-      <div class="swiper-container mySwiper w-full container">
+      <div
+        class="swiper-container mySwiper w-full container"
+        :class="{ hidden: !swiper }"
+      >
         <div class="swiper-wrapper m-0">
           <div
             v-for="testimony in TESTIMONIES.data"
             :key="testimony.id"
-            class="swiper-slide relative transition-all"
+            class="swiper-slide transition-all"
           >
             <div
               class="
@@ -103,6 +106,9 @@ export default {
       centeredSlides: true,
       slidesPerView: 1,
       loop: true,
+      autoplay: {
+        delay: 5000,
+      },
       navigation: {
         nextEl: '.c-swiper-button-next',
         prevEl: '.c-swiper-button-prev',
