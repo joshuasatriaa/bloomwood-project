@@ -27,7 +27,13 @@
           "
           data-aos="fade-up"
         >
-          <IconLogo class="self-center mb-12 scale-125" />
+          <!-- <IconLogo class="self-center mb-12 scale-125" /> -->
+          <ContainedImage
+            src="/logo.svg"
+            width="370"
+            height="120"
+            class="mb-12"
+          />
           <div class="text-primary text-xl mb-11 font-serif">
             Exclusive Enternity Collection
           </div>
@@ -176,6 +182,7 @@
           xl:grid-cols-4
           gap-x-10 gap-y-5
         "
+        data-aos="fade-up"
       >
         <div
           v-for="product in MOST_GIFTED_PRODUCTS.data"
@@ -235,6 +242,7 @@
           lg:grid-cols-4
           xl:grid-cols-5
         "
+        data-aos="fade-up"
       >
         <div v-for="(product, idx) in 10" :key="idx">
           <ContainedImage

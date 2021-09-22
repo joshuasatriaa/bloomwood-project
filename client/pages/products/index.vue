@@ -20,6 +20,7 @@
         :key="id"
         :to="`/products/${slug}/${id}`"
         class="group"
+        data-aos="zoom-in"
       >
         <div>
           <!-- <ContainedImage

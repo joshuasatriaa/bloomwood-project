@@ -67,7 +67,7 @@
                 <p class="text-6xl font-sans mb-10 text-[#F2F2F2]">
                   {{ name }}
                 </p>
-                <div class="grid grid-cols-7 gap-x-3 pl-5">
+                <div class="grid grid-cols-5 gap-x-10 pl-5">
                   <div
                     v-for="category in categories"
                     :key="category.id"

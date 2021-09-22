@@ -63,10 +63,10 @@
                 flex flex-col
                 items-center
                 justify-center
-                min-h-[290px]
+                min-h-[260px]
               "
             >
-              <p class="mb-7 font-bold line-clamp-7">
+              <p class="mb-7 font-bold line-clamp-6">
                 {{ testimony.message }}
               </p>
               <div>
