@@ -1,0 +1,100 @@
+version: "3"
+
+######### Services ###################################
+
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: docker/prod/nginx/Dockerfile
+    volumes:
+      - ./api/storage:/var/www/api/storage
+      - ./api/public:/var/www/api/public
+      - ./docker/prod/nginx/logs:/var/log/nginx
+    ports:
+      - 3000:80 # Client port
+      - 8000:81 # Laravel port
+      - 3001:82 # Admin port
+    depends_on:
+      - client
+      - php
+
+  php:
+    build:
+      context: ./
+      dockerfile: docker/prod/php/Dockerfile
+    volumes:
+      - ./api/public:/var/www/api/public
+      - ./api/storage:/var/www/api/storage
+    depends_on:
+      - mongo
+      - redis
+      - mailhog
+
+  supervisor:
+    build:
+      context: docker/dev/supervisor
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/
+      - ./docker/dev/supervisor/conf.d:/etc/supervisor/conf.d
+      - ./docker/dev/supervisor/logs:/var/log
+    depends_on:
+      - mongo
+      - redis
+      - mailhog
+
+  redis:
+    build:
+      context: docker/dev/redis
+      dockerfile: Dockerfile
+    volumes:
+      - redis:/data
+    ports:
+      - 6001:6379
+
+  # Mailhog container (SMTP testing)
+  mailhog:
+    build:
+      context: docker/dev/mailhog
+      dockerfile: Dockerfile
+    ports:
+      - 8026:8025
+
+  mongo:
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+
+  mongoclient:
+    image: mongoclient/mongoclient
+    ports:
+      - "8001:3000"
+    volumes:
+      - mongoclientdata:/data/db
+    depends_on:
+      - mongo
+
+  # Client container
+  client:
+    build:
+      context: ./
+      dockerfile: docker/prod/client/Dockerfile
+    restart: always
+
+  # Admin container
+  admin:
+    build:
+      context: ./
+      dockerfile: docker/prod/admin/Dockerfile
+    restart: always
+
+######### Volumes ###################################
+
+volumes:
+  mongodb-data:
+  mongoclientdata:
+  redis:
+    driver: local
