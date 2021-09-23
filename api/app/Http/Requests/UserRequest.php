@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserRequest extends FormRequest
 {
@@ -26,17 +27,23 @@ class UserRequest extends FormRequest
         $rules =   [
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
-            'password' => ['string'],
-            'role_id' => ['required', 'string', 'exists:roles,_id']
+            'address' => ['required', 'string'],
+            'address_area_id' => ['required', 'string'],
+            'phone_number' => ['required', 'string']
         ];
 
-        if (request()->isMethod('POST')) {
-            array_push($rules['password'], 'required');
+        /** @var User $user */
+        $user = Auth::user();
+        if ($user->is('superadmin')) {
+            if (request()->isMethod('post')) {
+                array_push($rules['password'], 'required');
+            }
+            if (request()->isMethod('put') || request()->isMethod('patch')) {
+                array_push($rules['password'], 'nullable');
+            }
+            array_push($rules['role_id'], ['required', 'string', 'exists:roles,_id']);
         }
 
-        if (request()->isMethod('put') || request()->isMethod('patch')) {
-            array_push($rules['password'], 'nullable');
-        }
 
 
         return $rules;

@@ -41,10 +41,12 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/axios.js',
     '@/plugins/bootstrap.js',
     '@/plugins/global.js',
     { src: '@/plugins/treeSelect.js', mode: 'client' },
     { src: '@/plugins/dropzone.js', mode: 'client' },
+    { src: '@/plugins/vuedraggable.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -89,7 +91,7 @@ export default {
         },
         redirect: {
           login: '/login',
-          logout: '/',
+          logout: '/login',
           home: '/home',
         },
       },

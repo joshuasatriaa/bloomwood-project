@@ -9,8 +9,15 @@ use App\Models\ProductVariant;
 
 class InvoiceService
 {
-    public static function copyAddressAreaData(string $addressAreaId): array
+    /**
+     * @param mixed|string $addressAreaId
+     */
+    public static function copyAddressAreaData($addressAreaId): array
     {
+        if (!$addressAreaId) {
+            return [];
+        }
+
         $area = AddressArea::find($addressAreaId);
 
         return  [
@@ -30,17 +37,24 @@ class InvoiceService
         $detail = [];
         foreach ($productsInRequest as $p) {
             $product = Product::findOrFail($p['id']);
-
+            $thumbnail = $product->productImages()->first();
             $total_price = 0;
+
+            $chosenSize = collect($product->sizes)->where('name', $p['size'])->first();
 
             $item = [
                 'id' => $product->id,
                 'name' => $product->name,
-                'size' => $product->size,
+                'size' => $chosenSize,
+                'message' => $p['message'],
+                'thumbnail_image' => $thumbnail->thumbnail_image,
+                'price' => $chosenSize['price'],
                 'variant' => [],
                 'add_ons' => [],
                 'total_price'  => 0,
             ];
+
+            $total_price += $item['price'];
 
             if ($p['variant_id']) {
                 $variant = ProductVariant::findOrFail($p['variant_id']);
@@ -49,11 +63,10 @@ class InvoiceService
                     'id' => $variant->id,
                     'name' => $variant->name,
                     'price' => $variant->price,
+                    'thumbnail_image' => $variant->thumbnail_image
                 ];
 
                 $total_price += $variant->price;
-            } else {
-                $total_price += $product->price;
             }
 
             if (count($p['add_ons']) > 0) {
@@ -68,6 +81,7 @@ class InvoiceService
                                 'id' => $addOn['id'],
                                 'name' => $addOn['name'],
                                 'price' => $addOn['price'],
+                                'thumbnail_image' => $addOn->thumbnail_image
                             ]
                         );
 

@@ -12,7 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     // use UuidTrait ;
     use HasFactory, Notifiable, HasApiTokens, FilterTrait;
@@ -28,7 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'phone_number',
         'role_id',
-        'is_suspended'
+        'is_suspended',
     ];
 
     /**
@@ -88,10 +88,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function is($role)
     {
         return $this->role->slug === $role;
-    }
-
-    public function setPasswordAttribute($password)
-    {
-        $this->attributes['password'] = Hash::make($password);
     }
 }

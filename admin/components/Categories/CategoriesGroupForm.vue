@@ -27,9 +27,10 @@
                 <TreeSelect
                   v-if="categories.data"
                   v-model="form.category_ids"
-                  :disable-branch-nodes="true"
+                  :disable-branch-nodes="false"
+                  :value-consists-of="'BRANCH_PRIORITY'"
                   :multiple="true"
-                  :options="categories.data"
+                  :options="disabledSubCategories"
                   placeholder="Select option..."
                 />
                 <p class="text-primary mt-2">
@@ -61,6 +62,7 @@
 <script>
 import { useNavigationGroupForm } from '@/composables/useNavigationGroupForm'
 import { useGetCategories } from '@/composables/useCategory'
+import { toRef } from '@vue/composition-api'
 
 export default {
   props: {
@@ -77,7 +79,7 @@ export default {
     const { form, createNavigationGroup, updateNavigationGroup } =
       useNavigationGroupForm()
 
-    const { categories } = useGetCategories()
+    const { categories } = useGetCategories(true)
 
     const initData = (data) => {
       form.name = data.name
@@ -95,6 +97,21 @@ export default {
       updateNavigationGroup,
       categories,
     }
+  },
+  computed: {
+    disabledSubCategories() {
+      if (!this.categories.data) {
+        return []
+      }
+
+      const cats = this.categories.data
+
+      for (const i of cats) {
+        delete i.children
+      }
+
+      return cats
+    },
   },
 }
 </script>

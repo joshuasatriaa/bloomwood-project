@@ -16,6 +16,8 @@ class CategoryRequest extends FormRequest
         return $this->user()->is(config('constants.superadmin.slug')) || $this->user()->is(config('constants.admin.slug'));
     }
 
+
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +26,9 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string']
+            'name' => ['required', 'string'],
+            'parent_id' => ['sometimes', 'nullable', 'exists:categories,_id'],
+            'thumbnail_image' => ['sometimes', 'nullable', 'image']
         ];
     }
 }

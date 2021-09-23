@@ -1,0 +1,20 @@
+<template>
+  <svg
+    width="12"
+    height="8"
+    viewBox="0 0 12 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M0 6.00016L1.41 7.41016L6 2.83016L10.59 7.41016L12 6.00016L6 0.000156403L0 6.00016Z"
+      fill="#8A817C"
+    />
+  </svg>
+</template>
+<script>
+export default {
+  name: 'CaretUp',
+}
+</script>
+<style></style>

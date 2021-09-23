@@ -4,11 +4,8 @@
       <thead class="">
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Province</th>
-          <th scope="col">City</th>
-          <th scope="col">District</th>
-          <th scope="col">Urban</th>
-          <th scope="col">Postal Code</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
           <th scope="col">Small Price</th>
           <th scope="col">Medium Price</th>
           <th scope="col" class="text-end">Action</th>
@@ -22,11 +19,8 @@
           <td>
             {{ index + 1 }}
           </td>
-          <td class="text-nowrap">{{ addressArea.province }}</td>
-          <td class="text-nowrap">{{ addressArea.city }}</td>
-          <td class="text-nowrap">{{ addressArea.district }}</td>
-          <td class="text-nowrap">{{ addressArea.urban }}</td>
-          <td class="text-nowrap">{{ addressArea.postal_code }}</td>
+          <td class="text-nowrap">{{ addressArea.name }}</td>
+          <td class="">{{ addressArea.description }}</td>
           <td class="text-nowrap">
             {{ $currencyFormat(addressArea.small_price) }}
           </td>
@@ -39,6 +33,12 @@
               class="btn btn-primary"
               >Edit</NuxtLink
             >
+            <button
+              class="btn btn-danger"
+              @click="deleteConfirmation(addressArea.id)"
+            >
+              Delete
+            </button>
           </td>
         </tr>
         <tr v-if="!addressAreas.data.length">
@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { useAddressAreaForm } from '@/composables/useAddressAreaForm'
+
 export default {
   name: 'AddressAreasTable',
   props: {
@@ -59,6 +61,18 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    const { deleteAddressArea } = useAddressAreaForm()
+
+    const deleteConfirmation = (id) => {
+      const conf = confirm('Are you sure you want to delete this area?')
+      if (conf) {
+        deleteAddressArea(id)
+      }
+    }
+
+    return { deleteConfirmation }
   },
 }
 </script>

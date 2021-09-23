@@ -14,7 +14,7 @@ class AddressAreaController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role.check:superadmin,admin'])->only(['update']);
+        $this->middleware(['role.check:superadmin,admin'])->only(['store', 'update']);
     }
     /**
      * Display a listing of the resource.
@@ -23,15 +23,15 @@ class AddressAreaController extends Controller
      */
     public function index()
     {
-        if (!request('search')) {
-            return Cache::tags(['address-areas-index'])->rememberForever('address-area-' . request('page', 1), function () {
-                return AddressAreaResource::collection(AddressArea::paginate(100));
-            });
-        }
+        // if (!request('search')) {
+        //     return Cache::tags(['address-areas-index'])->rememberForever('address-area-' . request('page', 1), function () {
+        //         return AddressAreaResource::collection(AddressArea::paginate(100));
+        //     });
+        // }
 
         $areas = AddressArea::query()->filter([
             AddressAreaFilter::class,
-        ])->paginate(request('per_page', 100));
+        ])->paginate(request('limit', 1000));
 
 
         return AddressAreaResource::collection($areas);
@@ -40,13 +40,16 @@ class AddressAreaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\AddressAreaRequest $request
      * @return \Illuminate\Http\Response
      */
-    // public function store(Request $request)
-    // {
-    //     //
-    // }
+    public function store(AddressAreaRequest $request)
+    {
+        $area = AddressArea::create($request->validated());
+
+        return (new AddressAreaResource($area))
+            ->response()->setStatusCode(201);
+    }
 
     /**
      * Display the specified resource.
@@ -82,8 +85,10 @@ class AddressAreaController extends Controller
      * @param  \App\Models\AddressArea  $addressArea
      * @return \Illuminate\Http\Response
      */
-    // public function destroy(AddressArea $addressArea)
-    // {
-    //     //
-    // }
+    public function destroy(AddressArea $addressArea)
+    {
+        $addressArea->delete();
+
+        return response()->json('', 204);
+    }
 }

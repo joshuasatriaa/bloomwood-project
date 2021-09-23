@@ -16,11 +16,8 @@ class AddressAreaResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'province' => $this->province,
-            'city' => $this->city,
-            'district' => $this->district,
-            'urban' => $this->urban,
-            'postal_code' => $this->postal_code,
+            'name' => $this->name,
+            'description' => $this->description,
             'small_price' => $this->small_price,
             'medium_price' => $this->medium_price,
         ];
