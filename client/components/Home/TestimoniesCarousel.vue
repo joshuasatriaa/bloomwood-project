@@ -66,7 +66,7 @@
                 min-h-[260px]
               "
             >
-              <p class="mb-7 font-bold line-clamp-6">
+              <p class="mb-7 font-medium line-clamp-6">
                 {{ testimony.message }}
               </p>
               <div>

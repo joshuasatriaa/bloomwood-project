@@ -73,7 +73,7 @@
           type="submit"
           class="
             w-full
-            bg-primary
+            bg-secondary
             font-bold
             text-lg text-white
             py-3
@@ -83,11 +83,9 @@
         >
           create account
         </button>
-        <p class="font-bold text-center">
+        <p class="font-bold text-center text-secondary">
           already have an account ?
-          <NuxtLink to="/accounts/login" class="text-pink hover:text-red-400"
-            >sign in</NuxtLink
-          >
+          <NuxtLink to="/accounts/login" class="text-primary">sign in</NuxtLink>
         </p>
       </form>
     </AccountCardContainer>

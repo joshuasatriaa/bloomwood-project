@@ -15,7 +15,7 @@
       placeholder=" "
       :value="value"
       required
-      class="w-full border-primary focus:outline-none ring-0 pl-0 pr-4"
+      class="w-full border-secondary focus:outline-none ring-0 pl-0 pr-4"
       :class="[
         {
           'mt-5 border-t-0 border-l-0 border-r-0 border-b-4':

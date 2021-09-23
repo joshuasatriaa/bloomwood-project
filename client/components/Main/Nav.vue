@@ -92,7 +92,7 @@
                     >
                       {{ category.label }}
                     </NuxtLink>
-                    <ul class="text-secondary font-medium font-sans">
+                    <ul class="text-secondary-light font-bold font-sans">
                       <li v-for="child in category.children" :key="child.id">
                         <NuxtLink
                           :to="`/products?category=${child.slug}`"

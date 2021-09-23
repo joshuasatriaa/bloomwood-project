@@ -19,7 +19,6 @@
             text-base
             md:text-lg
             border-primary
-            font-medium
           "
         >
           To promote the longevity of your flowers, keep them in a cool place
@@ -44,7 +43,6 @@
             text-base
             md:text-lg
             border-primary
-            font-medium
           "
         >
           Carefully top up the oasis (flower foam) with water everyday. Try to

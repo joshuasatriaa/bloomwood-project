@@ -2,11 +2,11 @@
   <div class="container mx-auto font-bold text-primary pt-20">
     <div class="flex flex-col justify-center items-center">
       <div>
-        <span>say hi to our team</span>
+        <span class="font-semibold">say hi to our team</span>
         <h1 class="text-5xl sm:text-6xl md:text-8xl mb-10 font-serif">
           Contact Us
         </h1>
-        <p class="text-xl mx-auto mb-16" style="max-width: 22ch">
+        <p class="text-xl mx-auto mb-16 max-w-[22ch] font-semibold">
           reach us for any questions you might have
         </p>
         <!-- <input
@@ -18,35 +18,36 @@
           <InputText
             id="name"
             v-model="form.name"
-            label="Name"
+            label="name"
             type="text"
             class="mb-7"
           />
           <InputText
             id="email"
             v-model="form.email"
-            label="Email Address"
+            label="email address"
             type="email"
             class="mb-7"
           />
           <InputText
             id="phone-number"
             v-model="form.phoneNumber"
-            label="Phone Number"
             type="tel"
+            pattern="\d{8,13}"
+            label="phone number (ex.081234567890)"
             class="mb-7"
           />
           <InputText
             id="how-did-you-find"
             v-model="form.howDidYouFind"
-            label="How did you find bloomwood"
+            label="how did you find bloomwood"
             type="text"
             class="mb-7"
           />
           <InputText
             id="message"
             v-model="form.message"
-            label="How can we help you"
+            label="how can we help you"
             type="text"
             class="mb-7"
           />
@@ -54,7 +55,7 @@
             type="submit"
             class="
               w-full
-              bg-primary
+              bg-secondary
               font-bold
               text-lg text-white
               py-3
@@ -101,7 +102,7 @@
         </div>
         <div class="text-primary mt-7 lg:mt-0 xl:mt-7">
           <h2
-            class="text-2xl lg:text-3xl xl:text-4xl font-bold mb-8"
+            class="text-2xl lg:text-3xl xl:text-4xl font-semibold mb-8"
             data-aos="fade-up"
           >
             The Location
@@ -120,11 +121,12 @@
             data-aos="fade-up"
             data-aos-delay="300"
           >
-            Jalan Jenderal Sudirman Nomor 32, Kebon Jeruk, Jakarta Barat,
-            Jakarta Barat 14400
+            Galeri Niaga Mediterania II, Ruko Gallery, Blk. L No.8 H,
+            RT.1/RW.16, Kapuk Muara, Jakarta, Kota Jkt Utara, Daerah Khusus
+            Ibukota Jakarta 14460
           </p>
           <h2
-            class="text-2xl lg:text-3xl xl:text-4xl font-bold mb-8"
+            class="text-2xl lg:text-3xl xl:text-4xl font-semibold mb-8"
             data-aos="fade-up"
           >
             Opening Hours
@@ -142,9 +144,9 @@
             data-aos="fade-up"
             data-aos-delay="300"
           >
-            Monday - Friday 10:00 - 18:00 WIB
+            Monday - Saturday 08:30 - 17:30 WIB
             <br />
-            Saturday - Sunday 11:00 - 19:00 WIB
+            Sunday Close
           </p>
         </div>
       </div>

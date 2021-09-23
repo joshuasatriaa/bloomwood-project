@@ -20,7 +20,7 @@
         class="
           w-full
           bg-transparent
-          border-primary
+          border-secondary
           ring-0
           focus:outline-none
           c-input

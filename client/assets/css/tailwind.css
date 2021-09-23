@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
+/* @font-face {
   font-family: 'Gotham';
   font-weight: 400;
   font-style: normal;
@@ -27,7 +27,7 @@
   src: url('~assets/fonts/gothambold-webfont.woff') format('woff'),
     url('~assets/fonts/GothamBold.ttf') format('truetype'),
     url('~assets/fonts/gothambold-webfont.woff2') format('woff2');
-}
+} */
 
 .vm--container {
   @apply overflow-x-hidden;
