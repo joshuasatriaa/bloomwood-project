@@ -294,7 +294,6 @@
                 grid grid-cols-1
                 sm:grid-cols-3
                 md:grid-cols-5
-                xl:grid-cols-6
                 gap-y-6 gap-x-4
                 pl-5
               "
@@ -310,7 +309,7 @@
                 >
                   <ContainedImage
                     :src="category.thumbnail_image"
-                    class="mb-5 max-w-[150px]"
+                    class="mb-5"
                     width="150"
                     height="150"
                     aspect-class="aspect-w-150 aspect-h-150"
