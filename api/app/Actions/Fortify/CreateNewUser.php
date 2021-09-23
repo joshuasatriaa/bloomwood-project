@@ -40,7 +40,8 @@ class CreateNewUser implements CreatesNewUsers
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-            'role_id' => $this->getCustomerId()
+            'role_id' => $this->getCustomerId(),
+            'phone_number' => $input['phone_number']
         ]);
 
         $user->customerAddresses()->create([

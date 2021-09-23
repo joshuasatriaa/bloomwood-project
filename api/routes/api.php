@@ -8,6 +8,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MeController;
 use App\Http\Controllers\MostGiftedController;
 use App\Http\Controllers\NavigationGroupController;
+use App\Http\Controllers\PaymentHookController;
 use App\Http\Controllers\ProductAddOnController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
@@ -32,6 +33,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', MeController::class);
+    Route::put('/user/change-password', [UserController::class, 'changePassword']);
     Route::apiResource('users', UserController::class);
     Route::apiResource('roles', RoleController::class)->only('index');
     Route::post('/suspend-user/{user}', [UserController::class, 'suspendUser']);
@@ -63,3 +65,5 @@ Route::apiResource('navigation-groups', NavigationGroupController::class)->only(
 Route::apiResource('address-areas', AddressAreaController::class)->only(['index', 'show']);
 
 Route::post('/auth/token', TokenController::class);
+
+Route::post('/payment-hook', PaymentHookController::class);

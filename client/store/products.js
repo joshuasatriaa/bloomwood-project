@@ -29,12 +29,24 @@ export const mutations = {
 }
 
 export const actions = {
-  async GET_PRODUCTS({ commit, state }, { page = 1 }) {
+  async GET_PRODUCTS(
+    { commit, state },
+    { page = 1, category = null, search = null }
+  ) {
     let query = ''
     if (state.qs) {
       query = state.qs
     }
-    const res = await this.$axios.$get(`/api/products?page=${page}${query}`)
+    const res = await this.$axios.$get('/api/products', {
+      params: {
+        // eslint-disable-next-line no-sequences
+        ...(search, { search }),
+        // eslint-disable-next-line no-sequences
+        ...(page, { page }),
+        // eslint-disable-next-line no-sequences
+        ...(category, { category }),
+      },
+    })
     commit('SET_PRODUCTS', res)
     return res
   },

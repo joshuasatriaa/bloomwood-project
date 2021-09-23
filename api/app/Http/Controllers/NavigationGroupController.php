@@ -21,7 +21,7 @@ class NavigationGroupController extends Controller
      */
     public function index()
     {
-        return NavigationGroupResource::collection(NavigationGroup::with('categories.allSubCategories')->orderBy('name', 'ASC')->get());
+        return NavigationGroupResource::collection(NavigationGroup::with('categories.allSubCategories')->orderBy('created_at', 'DESC')->get());
     }
 
     /**

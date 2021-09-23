@@ -38,10 +38,41 @@ module.exports = {
         md: '0.5rem',
       },
     },
+    lineClamp: {
+      1: '1',
+      2: '2',
+      3: '3',
+      4: '4',
+      5: '5',
+      6: '6',
+      7: '7',
+      8: '8',
+    },
     aspectRatio: {
       1: '1',
+      22: '22',
       27: '27',
       40: '40',
+      50: '50',
+      108: '108',
+      120: '120',
+      148: '148',
+      150: '150',
+      162: '162',
+      300: '300',
+      335: '335',
+      370: '370',
+      398: '398',
+      479: '479',
+      480: '480',
+      499: '499',
+      578: '578',
+      600: '600',
+      650: '650',
+      666: '666',
+      731: '731',
+      960: '960',
+      1920: '1920',
     },
   },
   variants: {
@@ -52,6 +83,7 @@ module.exports = {
   plugins: [
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/forms'),
   ],
   purge: {
     content: [
@@ -61,5 +93,11 @@ module.exports = {
       `plugins/**/*.{js,ts}`,
       `nuxt.config.{js,ts}`,
     ],
+    // safelist: [
+    //   'text-center',
+    //   'hover:opacity-100',
+    //   // ...
+    //   'lg:text-right',
+    // ],
   },
 }

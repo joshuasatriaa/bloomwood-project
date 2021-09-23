@@ -1,5 +1,5 @@
 <template>
-  <img
+  <!-- <img
     :src="getImgUrl()"
     :class="{ 'w-full h-auto': isFluid }"
     :style="{
@@ -9,7 +9,16 @@
     :width="width"
     :height="height"
     v-bind="$attrs"
-  />
+  /> -->
+  <div :class="aspectClass">
+    <img
+      :src="src"
+      class="w-full h-full object-center object-cover"
+      :width="width"
+      :height="height"
+      v-bind="$attrs"
+    />
+  </div>
 </template>
 
 <script>
@@ -26,20 +35,31 @@ export default {
     },
     width: {
       type: [String, Number],
-      required: false,
-      default: 1903,
+      required: true,
     },
     height: {
       type: [String, Number],
-      required: false,
-      default: 761,
+      required: true,
     },
     isFluid: {
       type: Boolean,
       required: false,
       default: true,
     },
+    aspectClass: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
+  // computed: {
+  //   aspectRatio() {
+  //     return `aspect-w-${this.width}`
+  //   },
+  //   aspectRatio2() {
+  //     return ` aspect-h-${this.height}`
+  //   },
+  // },
   methods: {
     getImgUrl() {
       if (this.isLocalUrl) {

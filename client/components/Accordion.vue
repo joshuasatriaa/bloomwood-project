@@ -47,10 +47,14 @@ export default {
       type: String,
       required: true,
     },
+    defaultOpen: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
-      isOpen: true,
+      isOpen: this.defaultOpen,
     }
   },
 }

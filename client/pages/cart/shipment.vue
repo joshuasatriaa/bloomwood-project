@@ -28,7 +28,7 @@
                   w-full
                 "
               >
-                <div class="flex">
+                <div class="flex flex-col gap-y-3 sm:flex-row">
                   <ContainedImage
                     :src="item.productImage"
                     width="148"
@@ -36,8 +36,9 @@
                     class="
                       rounded-lg
                       border-4 border-primary
-                      max-w-[120px]
                       mr-4
+                      w-[9.375rem]
+                      h-[9.375rem]
                     "
                   />
                   <div class="flex flex-col">
@@ -57,6 +58,7 @@
                       >Bundle:
                       {{ item.addOns.map(({ name }) => name).join(', ') }}</span
                     >
+                    <span>Qty: {{ item.qty }}</span>
                   </div>
                 </div>
                 <div class="font-bold text-right text-lg">
@@ -66,7 +68,7 @@
             </div>
           </template>
         </div>
-        <div class="bg-tertiary rounded-xl p-5">
+        <form class="bg-tertiary rounded-xl p-5" @submit.prevent="payment">
           <h2 class="mb-5 font-bold font-serif text-lg">Select Method</h2>
           <div class="flex min-h-[6rem] gap-x-3 sm:gap-x-6 mb-8">
             <button
@@ -149,9 +151,9 @@
                 >
                   <div class="flex flex-col">
                     <p class="mr-2 font-normal">My Current Address</p>
-                    <span class="font-bold font-sans text-sm"
-                      >Jalan Sudirman (Perumahan Mahkota) Nomor 12, 14410</span
-                    >
+                    <span class="font-bold font-sans text-sm">{{
+                      `${$auth.user.addresses[0].address} (${$auth.user.addresses[0].address_area.name})`
+                    }}</span>
                   </div>
                 </label>
               </div>
@@ -212,7 +214,7 @@
               />
               <InputText
                 id="phone-number"
-                v-model="form.phoneNumber"
+                v-model="form.phone"
                 type="text"
                 class="mb-10"
                 label="recipient's phone number"
@@ -225,16 +227,7 @@
                 variant="outlined"
                 background-color="white"
                 placeholder="Area"
-                :options="[
-                  {
-                    id: 1,
-                    value: 'test',
-                  },
-                  {
-                    id: 2,
-                    value: 'test-2',
-                  },
-                ]"
+                :options="areas"
                 label="area"
                 class="mb-10"
               />
@@ -248,34 +241,12 @@
                 variant="outlined"
               />
             </div>
-            <div v-else>
-              <InputSelect
-                id="area"
-                v-model="form.area"
-                variant="outlined"
-                background-color="white"
-                placeholder="Area"
-                :options="[
-                  {
-                    id: 1,
-                    value: 'test',
-                    label: 'test',
-                  },
-                  {
-                    id: 2,
-                    value: 'test-2',
-                    label: 'tesssst2222',
-                  },
-                ]"
-                label="Address"
-                class="mb-10"
-              />
-            </div>
 
             <InputDate
               id="delivery-date"
               v-model="form.time"
               placeholder="select delivery time"
+              :min="getMinDate()"
               class="mb-8"
               label="select delivery time"
             />
@@ -287,9 +258,9 @@
               <InputTextArea
                 id="request"
                 v-model="form.request"
+                :required="false"
                 class="my-5"
                 rows="6"
-                minlength="5"
                 classes="bg-white"
                 placeholder="ex: leave it in front of the gate"
               />
@@ -306,21 +277,25 @@
               {{ $currencyFormat(item.subtotalPrice * item.qty) }}
             </p>
           </div>
-          <div class="flex justify-between w-full items-end">
+          <div
+            v-if="deliveryMethod === 'delivery'"
+            class="flex justify-between w-full items-end"
+          >
             <p class="font-serif">Delivery Fee</p>
-            <p class="font-bold">{{ $currencyFormat(6000) }}</p>
-          </div>
-          <div class="flex justify-between w-full items-end">
-            <p class="font-serif">Additional Fee</p>
-            <p class="font-bold">{{ $currencyFormat(26000) }}</p>
+            <p v-if="deliveryPrice === 0" class="font-bold text-red-400">
+              Area not selected
+            </p>
+            <p v-else class="font-bold">
+              {{ $currencyFormat(deliveryPrice) }}
+            </p>
           </div>
           <div class="flex justify-between w-full items-end mt-10 font-bold">
             <p class="font-serif">Subtotal</p>
-            <p>{{ $currencyFormat(7532000) }}</p>
+            <p>{{ $currencyFormat(subtotal) }}</p>
           </div>
           <div class="flex w-100 justify-center">
             <button
-              type="button"
+              type="submit"
               class="
                 my-8
                 py-2
@@ -335,14 +310,18 @@
               proceed to payment
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </template>
   </div>
 </template>
+
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'Shipment',
+
   beforeRouteLeave(to, from, next) {
     if (this.shipment.length > 0) {
       const answer = window.confirm(
@@ -360,21 +339,171 @@ export default {
       addressType: 'currentAddress',
       form: {
         name: '',
-        phoneNumber: '',
+        phone: '',
         area: '',
         address: '',
         time: '',
         request: '',
       },
       shipment: [],
+      areas: [],
     }
+  },
+  async fetch() {
+    const res = await this.GET_ADDRESS_AREAS()
+    this.areas = res.data.map((address) => {
+      return {
+        id: address.id,
+        label: address.name,
+        value: address.id,
+      }
+    })
+  },
+  head() {
+    return {
+      script: [
+        {
+          type: 'text/javascript',
+          src: 'https://app.sandbox.midtrans.com/snap/snap.js',
+          'data-client-key': process.env.MIDTRANS_CLIENT_KEY || null,
+        },
+      ],
+    }
+  },
+  computed: {
+    ...mapGetters({
+      ADDRESS_AREAS: 'addressAreas/ADDRESS_AREAS',
+    }),
+    deliveryPrice() {
+      if (
+        this.ADDRESS_AREAS?.data &&
+        this.shipment.length > 0 &&
+        this.deliveryMethod === 'delivery'
+      ) {
+        let area = {
+          small_price: 0,
+          medium_price: 0,
+        }
+        switch (this.addressType) {
+          case 'customAddress':
+            if (this.form.area) {
+              area = this.ADDRESS_AREAS.data.find(
+                (area) => area.id === this.form.area
+              )
+            }
+
+            break
+          case 'currentAddress':
+            area = this.ADDRESS_AREAS.data.find(
+              (area) => area.id === this.$auth.user.addresses[0].address_area.id
+            )
+            break
+        }
+        if (this.shipment.length > 1) {
+          return area.medium_price
+        }
+
+        return this.shipment[0].size === 'Classic' && this.shipment[0].qty === 1
+          ? area.small_price
+          : area.medium_price
+      }
+      return 0
+    },
+    subtotal() {
+      if (this.shipment) {
+        const itemsPrice = this.shipment.reduce((acc, val) => {
+          return (acc += val.subtotalPrice * val.qty)
+        }, 0)
+        return itemsPrice + this.deliveryPrice
+      }
+      return 0
+    },
   },
   mounted() {
     this.shipment = this.$getStorage('bloomwoodShipment') || []
   },
   methods: {
+    ...mapActions({
+      GET_ADDRESS_AREAS: 'addressAreas/GET_ADDRESS_AREAS',
+    }),
     handleMethod(method) {
       this.deliveryMethod = method
+    },
+    getMinDate() {
+      const currentDate = new Date()
+      const offset = currentDate.getTimezoneOffset()
+      const formattedDate = new Date(currentDate.getTime() - offset * 60 * 1000)
+      return formattedDate.toISOString().split('T')[0]
+    },
+    async payment() {
+      try {
+        const products = this.shipment
+          .reduce((acc, val) => {
+            if (val.qty > 1) {
+              for (let i = 0; i < val.qty; i++) {
+                acc = [...acc, val]
+              }
+              return acc
+            }
+            return [...acc, val]
+          }, [])
+          .map((item) => {
+            return {
+              id: item.originalId,
+              message: item.message ?? '',
+              size: item.size,
+              add_ons:
+                item.addOns.length > 0
+                  ? item.addOns.map((addOn) => {
+                      return { id: addOn.id }
+                    })
+                  : [{ id: '' }],
+              variant_id: item.variant?.id ?? '',
+            }
+          })
+
+        let requestPayload = {}
+        if (this.deliveryMethod !== 'delivery') {
+          requestPayload = {
+            notes: '',
+            recipients_name: '',
+            recipients_phone: '',
+            delivery_time: '',
+            address: '',
+            address_area_id: '',
+          }
+        } else if (this.addressType === 'currentAddress') {
+          requestPayload = {
+            notes: this.form.request,
+            recipients_name: this.$auth.user.name,
+            recipients_phone: this.$auth.user.phone_number,
+            delivery_time: this.form.time,
+            address: this.$auth.user.addresses[0].address,
+            address_area_id: this.$auth.user.addresses[0].address_area.id,
+          }
+        } else {
+          requestPayload = {
+            notes: this.form.request,
+            recipients_name: this.form.name,
+            recipients_phone: this.form.phone_number,
+            delivery_time: this.form.time,
+            address: this.form.address,
+            address_area_id: this.form.area,
+          }
+        }
+
+        const res = await this.$axios
+          .$post('/api/invoices', {
+            ...requestPayload,
+            pick_up: this.deliveryMethod === 'delivery' ? 0 : 1,
+            products,
+          })
+          .then((res) => {
+            window.snap.pay(res.data.payment_token)
+          })
+      } catch (e) {
+        console.log(e)
+      }
     },
   },
 }

@@ -82,7 +82,7 @@
         Find Us
       </h1>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-16">
-        <div class="self-center">
+        <div class="self-center" data-aos="fade-up">
           <div
             class="
               border-4 border-primary
@@ -100,7 +100,10 @@
           </div>
         </div>
         <div class="text-primary mt-7 lg:mt-0 xl:mt-7">
-          <h2 class="text-2xl lg:text-3xl xl:text-4xl font-bold mb-8">
+          <h2
+            class="text-2xl lg:text-3xl xl:text-4xl font-bold mb-8"
+            data-aos="fade-up"
+          >
             The Location
           </h2>
           <p
@@ -114,11 +117,16 @@
               mb-10
               font-normal
             "
+            data-aos="fade-up"
+            data-aos-delay="300"
           >
             Jalan Jenderal Sudirman Nomor 32, Kebon Jeruk, Jakarta Barat,
             Jakarta Barat 14400
           </p>
-          <h2 class="text-2xl lg:text-3xl xl:text-4xl font-bold mb-8">
+          <h2
+            class="text-2xl lg:text-3xl xl:text-4xl font-bold mb-8"
+            data-aos="fade-up"
+          >
             Opening Hours
           </h2>
           <p
@@ -131,6 +139,8 @@
               border-l-4 border-primary
               font-normal
             "
+            data-aos="fade-up"
+            data-aos-delay="300"
           >
             Monday - Friday 10:00 - 18:00 WIB
             <br />

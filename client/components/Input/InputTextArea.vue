@@ -6,7 +6,7 @@
       ref="formTextArea"
       :type="type"
       :value="value"
-      required
+      :required="required"
       class="
         w-full
         border-primary border-2
@@ -14,6 +14,7 @@
         p-4
         placeholder-secondary
         c-input
+        ring-brown
       "
       :class="classes"
       @input="onInput($event)"
@@ -35,6 +36,10 @@ export default {
     type: {
       type: String,
       default: 'text',
+    },
+    required: {
+      type: Boolean,
+      default: true,
     },
     classes: {
       type: String,

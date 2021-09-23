@@ -5,22 +5,40 @@
 @font-face {
   font-family: 'Gotham';
   font-weight: 400;
-  src: url('~assets/fonts/GothamLight.ttf') format('truetype');
+  font-style: normal;
+  src: url('~assets/fonts/GothamLight.ttf') format('truetype'),
+    url('~assets/fonts/gothamlight-webfont.woff') format('woff'),
+    url('~assets/fonts/gothamlight-webfont.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Gotham';
   font-weight: 500;
-  src: url('~assets/fonts/GothamMedium.ttf') format('truetype');
+  font-style: normal;
+  src: url('~assets/fonts/GothamMedium.ttf') format('truetype'),
+    url('~assets/fonts/gothammedium-webfont.woff') format('woff'),
+    url('~assets/fonts/gothammedium-webfont.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Gotham';
   font-weight: 700;
-  src: url('~assets/fonts/GothamBold.ttf') format('truetype');
+  font-style: normal;
+  src: url('~assets/fonts/GothamBold.ttf') format('truetype'),
+    url('~assets/fonts/gothambold-webfont.woff') format('woff'),
+    url('~assets/fonts/gothambold-webfont.woff2') format('woff2');
 }
 
 .vm--container {
   @apply overflow-x-hidden;
   @apply overflow-y-auto;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.5s;
+}
+.page-enter,
+.page-leave-to {
+  opacity: 0;
 }

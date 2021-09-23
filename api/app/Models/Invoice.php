@@ -54,6 +54,11 @@ class Invoice extends Model
         'pick_up',
         'delivery_fee',
         'grand_total',
+        'payment_token'
+    ];
+
+    protected $with = [
+        'invoicePayment'
     ];
 
     /**
@@ -74,6 +79,11 @@ class Invoice extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function invoicePayment()
+    {
+        return $this->hasOne(InvoicePayment::class);
     }
 
     public static function generateInvoiceNumber(): string

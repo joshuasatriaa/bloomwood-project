@@ -1,6 +1,7 @@
 export const state = () => ({
   loading: false,
   navigationGroups: {},
+  cartCount: 0,
 })
 
 export const getters = {
@@ -16,6 +17,9 @@ export const getters = {
   NAVIGATION_GROUPS(state) {
     return state.navigationGroups
   },
+  CART_COUNT(state) {
+    return state.cartCount
+  },
 }
 
 export const mutations = {
@@ -28,6 +32,9 @@ export const mutations = {
   SET_NAVIGATION_GROUPS(state, payload) {
     state.navigationGroups = payload
   },
+  SET_CART_COUNT(state, payload) {
+    state.cartCount = payload
+  },
 }
 
 export const actions = {
@@ -38,5 +45,10 @@ export const actions = {
     const res = await this.$axios.$get(`/api/navigation-groups?page=${page}`)
     commit('SET_NAVIGATION_GROUPS', res)
     return res
+  },
+  GET_CART_COUNT({ commit }) {
+    const count = Object.keys(this.$getStorage('bloomwoodCart') || {}).length
+    commit('SET_CART_COUNT', count)
+    return count
   },
 }

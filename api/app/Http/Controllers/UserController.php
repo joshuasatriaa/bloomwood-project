@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Filters\UserFilter;
 use App\Filters\UserRoleFilter;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Role;
@@ -16,7 +17,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role.check:superadmin']);
+        $this->middleware(['role.check:superadmin'])->except(['update', 'show', 'changePassword']);
         // $this->middleware('check.pin')->only(['store', 'update', 'destroy']);
     }
 
@@ -43,7 +44,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $this->authorize('create', Auth::user());
+        $this->authorize('create');
 
         $validated = $request->validated();
         $user = User::create($validated);
@@ -60,6 +61,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('view', $user);
         return new UserResource($user);
     }
 
@@ -75,7 +77,9 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         $validated = $request->validated();
-        $user->update($validated);
+        $user->update(array_filter($validated));
+
+        $this->updateCustomerAddress($user, $validated);
 
         return new UserResource($user);
     }
@@ -111,8 +115,29 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $validated = $request->validated();
+        $user->forceFill([
+            'password' => Hash::make($validated['new_password'])
+        ])->save();
+
+
+        return response()->json(['message' => 'Ok'], 200);
+    }
+
     private function getRoleId($id)
     {
         return Role::where('_id', $id)->first()->id;
+    }
+
+    protected function updateCustomerAddress(User $user, array $validated): void
+    {
+        $address = $user->customerAddresses()->first();
+        $address->address = $validated['address'];
+        $address->address_area_id = $validated['address_area_id'];
     }
 }

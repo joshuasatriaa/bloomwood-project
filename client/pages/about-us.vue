@@ -4,6 +4,7 @@
       <div class="lg:ml-14">
         <h1
           class="text-5xl sm:text-6xl md:text-7xl text-primary mb-20 font-serif"
+          data-aos="fade-right"
         >
           About Us
         </h1>
@@ -18,6 +19,8 @@
             text-lg
             border-l-4
           "
+          data-aos="fade-right"
+          data-aos-delay="300"
         >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
           quis hendrerit dolor. Praesent nibh justo, efficitur vel ultrices
@@ -35,13 +38,13 @@
         <ContainedImage
           width="731"
           height="479"
-          style="height: 479px"
-          :is-fluid="false"
           src="/pink-roses.jfif"
           alt=""
-          class="clip-about-us"
+          class="clip-about-us w-full h-[479px]"
+          data-aos="fade-left"
         />
         <svg
+          class="sr-only"
           width="100%"
           height="100"
           fill="none"
