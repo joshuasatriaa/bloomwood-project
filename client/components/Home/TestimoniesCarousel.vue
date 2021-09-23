@@ -19,7 +19,7 @@
             c-swiper-button-prev
           "
         >
-          <IconPrevious class="fill-current scale-90" />
+          <IconPrevious class="fill-current text-primary scale-90" />
         </button>
         <button
           type="button"
@@ -36,7 +36,7 @@
             c-swiper-button-next
           "
         >
-          <IconPrevious class="fill-current scale-90" />
+          <IconPrevious class="fill-current text-primary scale-90" />
         </button>
       </div>
     </div>

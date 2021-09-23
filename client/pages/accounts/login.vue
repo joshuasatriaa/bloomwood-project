@@ -11,12 +11,14 @@
           label="Email Address"
           type="email"
           class="mb-7"
+          border-color="light"
         />
         <InputText
           id="password"
           v-model="form.password"
           label="Password"
           type="password"
+          border-color="light"
         />
         <NuxtLink
           to="/accounts/forgot-password"

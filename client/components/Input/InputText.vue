@@ -17,24 +17,17 @@
         :type="type"
         :value="value"
         required
-        class="
-          w-full
-          bg-transparent
-          border-secondary
-          ring-0
-          focus:outline-none
-          c-input
-          pl-0
-        "
+        class="w-full bg-transparent ring-0 focus:outline-none c-input pl-0"
         :class="[
           {
-            'mt-5 border-t-0 border-l-0 border-r-0 border-b-4':
+            'mt-5 border-t-0  border-l-0 border-r-0 border-b-4':
               variant === 'underlined',
-            'border-2 rounded-sm pl-3': variant === 'outlined',
+            'border-2  rounded-sm pl-3': variant === 'outlined',
             'h-10': height === 'default',
             'h-8': height === 'short',
             'text-sm': fontSize === 'small',
           },
+          borderColor === 'dark' ? 'border-primary' : 'border-secondary',
           getBackgroundColor,
         ]"
         @input="onInput($event)"
@@ -122,6 +115,13 @@ export default {
     error: {
       type: [Array, Boolean],
       default: false,
+    },
+    borderColor: {
+      type: String,
+      default: 'dark',
+      validator(value) {
+        return ['dark', 'light'].includes(value)
+      },
     },
   },
   computed: {

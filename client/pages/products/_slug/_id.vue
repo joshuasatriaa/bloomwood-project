@@ -9,7 +9,7 @@
         v-if="!$fetchState.pending"
         class="grid grid-cols-1 lg:grid-cols-2 gap-x-14 text-primary relative"
       >
-        <div class="lg:pl-40 pr-10">
+        <div class="lg:pl-10 xl:pl-40 xl:pr-10">
           <div class="flex flex-col">
             <div class="mb-10">
               <ContainedImage
@@ -110,7 +110,7 @@
         /> -->
 
           <h3 class="text-2xl font-bold text-uppercase mb-8">
-            {{ $currencyFormat(getFlowerOnlyPrice) }}
+            {{ $currencyFormat(flowerVariantPrice) }}
           </h3>
 
           <div class="flex gap-6 mb-12 flex-wrap">
@@ -395,12 +395,19 @@ export default {
     ...mapGetters({
       PRODUCT: 'products/PRODUCT',
     }),
-    getFlowerOnlyPrice() {
+    flowerVariantPrice() {
       if (this.PRODUCT.data && this.form.size) {
         const size = this.PRODUCT.data.sizes.find((size) => {
           return this.form.size === size.name
         })
-        return size.price
+        let variantPrice = 0
+        if (this.PRODUCT.data.variants.length > 0) {
+          const { price } = this.PRODUCT.data.variants.find(
+            (variant) => variant.id === this.form.variant
+          )
+          variantPrice = price
+        }
+        return size.price + variantPrice
       }
       return 0
     },
@@ -417,7 +424,8 @@ export default {
           .reduce((acc, val) => {
             return acc + val
           }, 0)
-        return this.form.qty * (this.getFlowerOnlyPrice + addOnsPrice)
+
+        return this.form.qty * (this.flowerVariantPrice + addOnsPrice)
       }
       return 0
     },
@@ -432,9 +440,10 @@ export default {
       const addOns = Object.keys(this.form.addOns).filter(
         (addOn) => this.form.addOns[addOn] === true
       )
-      const addOnsAppendedString =
-        addOns.length < 1 ? '' : `-${addOns.join('-')}`
-      const objName = `${this.PRODUCT.data.id}${addOnsAppendedString}`
+      const appendAddOns = addOns.length < 1 ? '' : `-${addOns.join('-')}`
+      const appendVariant = this.form.variant ? `-${this.form.variant}` : ''
+      console.log('appendVariant', appendVariant)
+      const objName = `${this.PRODUCT.data.id}${appendAddOns}${appendVariant}-${this.form.size}`
       let objToSave = {}
 
       if (bloomwoodCart[objName]) {
@@ -457,7 +466,6 @@ export default {
           )
         }
 
-        console.log(filteredAddOns)
         objToSave = {
           ...bloomwoodCart,
           [`${objName}`]: {
@@ -465,7 +473,7 @@ export default {
             id: this.PRODUCT.data.id,
             productName: this.PRODUCT.data.name,
             subtotalPrice:
-              this.getFlowerOnlyPrice +
+              this.flowerVariantPrice +
               filteredAddOns.reduce((acc, curr) => {
                 return (acc += curr.price)
               }, 0) +

@@ -85,6 +85,9 @@
                     {{ cart[key].productName }}
                   </h2>
                   <span>Size: {{ cart[key].size }}</span>
+                  <span v-if="cart[key].variant"
+                    >Variant: {{ cart[key].variant.name }}</span
+                  >
                   <span v-if="cart[key].addOns.length > 0"
                     >Bundle:
                     {{
@@ -212,7 +215,7 @@
               <button
                 type="button"
                 class="
-                  bg-primary
+                  bg-secondary
                   font-bold
                   text-white
                   mt-10

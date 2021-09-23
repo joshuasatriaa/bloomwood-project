@@ -12,6 +12,7 @@
           label="email address"
           class="mb-7"
           :error="errors.email"
+          border-color="light"
         />
         <InputText
           id="password"
@@ -20,6 +21,7 @@
           label="password"
           class="mb-7"
           :error="errors.password"
+          border-color="light"
         />
         <InputText
           id="password-confirmation"
@@ -28,6 +30,7 @@
           label="confirm password"
           class="mb-7"
           :error="errors.password"
+          border-color="light"
         />
         <InputText
           id="full-name"
@@ -36,6 +39,7 @@
           label="full name"
           class="mb-7"
           :error="errors.name"
+          border-color="light"
         />
         <InputText
           id="phone-number"
@@ -45,6 +49,7 @@
           label="phone number (ex.081234567890)"
           class="mb-7"
           :error="errors.phone_number"
+          border-color="light"
         />
         <InputText
           id="address"
@@ -53,6 +58,7 @@
           label="address"
           class="mb-7"
           :error="errors.address"
+          border-color="light"
         />
         <!-- <InputText
           id="area"
@@ -68,6 +74,7 @@
           label="select area"
           class="mb-7"
           :error="errors.address_area_id"
+          border-color="light"
         />
         <button
           type="submit"

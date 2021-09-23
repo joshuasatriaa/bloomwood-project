@@ -12,6 +12,7 @@
           type="email"
           class="mb-7"
           :error="errors.email"
+          border-color="light"
         />
         <button
           type="submit"
