@@ -19,7 +19,7 @@
             c-swiper-button-prev
           "
         >
-          <IconPrevious class="fill-current scale-90" />
+          <IconPrevious class="fill-current text-primary scale-90" />
         </button>
         <button
           type="button"
@@ -36,17 +36,20 @@
             c-swiper-button-next
           "
         >
-          <IconPrevious class="fill-current scale-90" />
+          <IconPrevious class="fill-current text-primary scale-90" />
         </button>
       </div>
     </div>
     <div class="h-96">
-      <div class="swiper-container mySwiper w-full container">
+      <div
+        class="swiper-container mySwiper w-full container"
+        :class="{ hidden: !swiper }"
+      >
         <div class="swiper-wrapper m-0">
           <div
             v-for="testimony in TESTIMONIES.data"
             :key="testimony.id"
-            class="swiper-slide relative transition-all"
+            class="swiper-slide transition-all"
           >
             <div
               class="
@@ -60,10 +63,10 @@
                 flex flex-col
                 items-center
                 justify-center
-                min-h-[290px]
+                min-h-[260px]
               "
             >
-              <p class="mb-7 font-bold line-clamp-7">
+              <p class="mb-7 font-medium line-clamp-6">
                 {{ testimony.message }}
               </p>
               <div>
@@ -103,6 +106,9 @@ export default {
       centeredSlides: true,
       slidesPerView: 1,
       loop: true,
+      autoplay: {
+        delay: 5000,
+      },
       navigation: {
         nextEl: '.c-swiper-button-next',
         prevEl: '.c-swiper-button-prev',

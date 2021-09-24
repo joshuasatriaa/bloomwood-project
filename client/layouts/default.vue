@@ -16,9 +16,5 @@
 export default {
   name: 'DefaultLayout',
   middleware: 'auth-ssr',
-  mounted() {
-    // localStorage.removeItem('bloomwoodShipment')
-    // this.$setStorage('bloomwoodShipment', [], 1000)
-  },
 }
 </script>

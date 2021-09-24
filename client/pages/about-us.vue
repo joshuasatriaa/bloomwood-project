@@ -9,16 +9,7 @@
           About Us
         </h1>
         <div
-          class="
-            ml-4
-            mb-20
-            pl-5
-            md:pl-9
-            border-primary
-            font-medium
-            text-lg
-            border-l-4
-          "
+          class="ml-4 mb-20 pl-5 md:pl-9 border-primary text-lg border-l-4"
           data-aos="fade-right"
           data-aos-delay="300"
         >

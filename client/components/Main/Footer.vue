@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-brown pt-10 pb-7 font-serif">
+  <footer class="bg-secondary pt-10 pb-7 font-serif">
     <div class="container mx-auto text-white">
       <p
         class="
@@ -16,7 +16,16 @@
         <NuxtLink to="/care-instructions">Care Instruction</NuxtLink>
       </p>
       <div class="flex flex-col items-center mb-10">
-        <IconLogo class="transform sm:scale-150 text-center mb-10" />
+        <IconLogo
+          class="
+            fill-current
+            text-white
+            transform
+            sm:scale-150
+            text-center
+            mb-10
+          "
+        />
         <ul class="font-sans font-normal">
           <li>
             <a

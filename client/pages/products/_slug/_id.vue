@@ -9,20 +9,41 @@
         v-if="!$fetchState.pending"
         class="grid grid-cols-1 lg:grid-cols-2 gap-x-14 text-primary relative"
       >
-        <div>
-          <ContainedImage
-            :src="PRODUCT.data.images[0].original_image || '/'"
-            width="650"
-            height="650"
-            aspect-class="aspect-w-650 aspect-h-650"
-          />
+        <div class="lg:pl-10 xl:pl-40 xl:pr-10">
+          <div class="flex flex-col">
+            <div class="mb-10">
+              <ContainedImage
+                :src="PRODUCT.data.images[0].original_image"
+                width="650"
+                height="650"
+                aspect-class="aspect-w-650 aspect-h-750"
+                image-class="rounded-lg"
+              />
+            </div>
+            <div class="grid grid-cols-3 gap-x-10">
+              <button
+                v-for="image in PRODUCT.data.images"
+                :key="image.id"
+                type="button"
+                class="cursor-pointer"
+              >
+                <ContainedImage
+                  :src="image.original_image"
+                  width="650"
+                  height="650"
+                  aspect-class="aspect-w-1 aspect-h-1"
+                  image-class="rounded-lg"
+                />
+              </button>
+            </div>
+          </div>
         </div>
         <div class="mt-10 lg:mt-0">
-          <h1 class="text-4xl mb-6">{{ PRODUCT.data.name }}</h1>
-          <h2 class="text-lg font-bold text-pink mb-3">
+          <h1 class="text-4xl mb-6 font-serif">{{ PRODUCT.data.name }}</h1>
+          <h2 class="text-xl font-bold text-pink mb-3">
             {{ PRODUCT.data.categories.map(({ name }) => name).join(', ') }}
           </h2>
-          <p class="font-bold text-lg mb-6">
+          <p class="text-lg mb-9">
             {{ PRODUCT.data.description }}
           </p>
           <h3 class="text-2xl font-bold mb-5">Choose Size</h3>
@@ -48,13 +69,14 @@
                   />
                   <label :for="variant.id" class="ml-5 cursor-pointer">
                     <div class="flex items-center">
-                      <ContainedImage
-                        :src="variant.thumbnail_image"
-                        width="50"
-                        height="50"
-                        class="max-w-[3.75rem] mr-5 rounded"
-                        aspect-class="aspect-w-50 aspect-h-50"
-                      />
+                      <div class="rounded">
+                        <ContainedImage
+                          :src="variant.thumbnail_image"
+                          width="50"
+                          height="50"
+                          class="w-[50px] h-[50px] mr-5"
+                        />
+                      </div>
                       <div class="flex flex-col text-lg">
                         <p class="font-bold">{{ variant.name }}</p>
                         <p>({{ $currencyFormat(variant.price) }})</p>
@@ -88,7 +110,7 @@
         /> -->
 
           <h3 class="text-2xl font-bold text-uppercase mb-8">
-            {{ $currencyFormat(getFlowerOnlyPrice) }}
+            {{ $currencyFormat(flowerVariantPrice) }}
           </h3>
 
           <div class="flex gap-6 mb-12 flex-wrap">
@@ -101,7 +123,7 @@
                 relative
                 bg-transparent
                 text-primary
-                border-2 border-primary
+                border-2 border-secondary
                 font-bold
                 max-w-[170px]
               "
@@ -118,6 +140,7 @@
                 type="number"
                 class="
                   outline-none
+                  ring-0
                   focus:outline-none
                   text-center
                   w-full
@@ -158,11 +181,11 @@
           </div>
 
           <h3 class="text-2xl font-bold mb-5">Frequently Bought Together</h3>
-          <div class="flex items-center flex-wrap mb-8">
+          <div class="flex items-center flex-wrap mb-8 gap-2">
             <div
               v-for="({ id, thumbnail_image }, idx) in PRODUCT.data.add_ons"
               :key="id"
-              class="flex items-center"
+              class="flex items-center gap-2"
             >
               <div class="w-full">
                 <ContainedImage
@@ -190,14 +213,7 @@
             </div>
           </div>
 
-          <p class="text-xl mb-6 font-serif">
-            <span>Total Price IDR {{ $currencyFormat(totalPrice) }} </span>
-            <span class="line-through">{{
-              $currencyFormat(totalPrice + (10 / 100) * totalPrice)
-            }}</span>
-          </p>
-
-          <div class="mb-10 font-serif">
+          <div class="mb-6 font-serif">
             <div
               v-for="{ id, name, price } in PRODUCT.data.add_ons"
               :key="id"
@@ -264,9 +280,16 @@
             </div>
           </div>
 
+          <p class="text-xl sm:text-2xl mb-10 font-serif">
+            <span>Total Price {{ $currencyFormat(totalPrice) }} </span>
+            <span class="line-through">{{
+              $currencyFormat(totalPrice + (10 / 100) * totalPrice)
+            }}</span>
+          </p>
+
           <button
             class="
-              bg-primary
+              bg-secondary
               text-white text-xl text-center
               font-bold
               rounded
@@ -372,12 +395,19 @@ export default {
     ...mapGetters({
       PRODUCT: 'products/PRODUCT',
     }),
-    getFlowerOnlyPrice() {
+    flowerVariantPrice() {
       if (this.PRODUCT.data && this.form.size) {
         const size = this.PRODUCT.data.sizes.find((size) => {
           return this.form.size === size.name
         })
-        return size.price
+        let variantPrice = 0
+        if (this.PRODUCT.data.variants.length > 0) {
+          const { price } = this.PRODUCT.data.variants.find(
+            (variant) => variant.id === this.form.variant
+          )
+          variantPrice = price
+        }
+        return size.price + variantPrice
       }
       return 0
     },
@@ -394,7 +424,8 @@ export default {
           .reduce((acc, val) => {
             return acc + val
           }, 0)
-        return this.form.qty * (this.getFlowerOnlyPrice + addOnsPrice)
+
+        return this.form.qty * (this.flowerVariantPrice + addOnsPrice)
       }
       return 0
     },
@@ -409,9 +440,10 @@ export default {
       const addOns = Object.keys(this.form.addOns).filter(
         (addOn) => this.form.addOns[addOn] === true
       )
-      const addOnsAppendedString =
-        addOns.length < 1 ? '' : `-${addOns.join('-')}`
-      const objName = `${this.PRODUCT.data.id}${addOnsAppendedString}`
+      const appendAddOns = addOns.length < 1 ? '' : `-${addOns.join('-')}`
+      const appendVariant = this.form.variant ? `-${this.form.variant}` : ''
+      console.log('appendVariant', appendVariant)
+      const objName = `${this.PRODUCT.data.id}${appendAddOns}${appendVariant}-${this.form.size}`
       let objToSave = {}
 
       if (bloomwoodCart[objName]) {
@@ -434,7 +466,6 @@ export default {
           )
         }
 
-        console.log(filteredAddOns)
         objToSave = {
           ...bloomwoodCart,
           [`${objName}`]: {
@@ -442,7 +473,7 @@ export default {
             id: this.PRODUCT.data.id,
             productName: this.PRODUCT.data.name,
             subtotalPrice:
-              this.getFlowerOnlyPrice +
+              this.flowerVariantPrice +
               filteredAddOns.reduce((acc, curr) => {
                 return (acc += curr.price)
               }, 0) +

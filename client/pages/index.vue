@@ -27,7 +27,13 @@
           "
           data-aos="fade-up"
         >
-          <IconLogo class="self-center mb-12 scale-125" />
+          <!-- <IconLogo class="self-center mb-12 scale-125" /> -->
+          <ContainedImage
+            src="/logo.svg"
+            width="370"
+            height="120"
+            class="mb-12"
+          />
           <div class="text-primary text-xl mb-11 font-serif">
             Exclusive Enternity Collection
           </div>
@@ -163,7 +169,7 @@
       </NuxtLink>
     </div>
 
-    <div class="container mx-auto mb-20 xl:px-10">
+    <div class="container mx-auto mb-32 xl:px-10">
       <h2 class="text-3xl font-bold text-primary text-center mb-16 font-serif">
         Most Gifted
       </h2>
@@ -176,6 +182,7 @@
           xl:grid-cols-4
           gap-x-10 gap-y-5
         "
+        data-aos="fade-up"
       >
         <div
           v-for="product in MOST_GIFTED_PRODUCTS.data"
@@ -211,7 +218,9 @@
               />
             </div> -->
             <p class="mb-2 font-serif">{{ product.name }}</p>
-            <strong>{{ $currencyFormat(getMinPrice(product.sizes)) }}</strong>
+            <p class="font-medium">
+              {{ $currencyFormat(getMinPrice(product.sizes)) }}
+            </p>
           </NuxtLink>
         </div>
       </div>
@@ -219,13 +228,13 @@
 
     <HomeTestimoniesCarousel />
 
-    <div class="container mx-auto">
-      <h2
+    <div class="container mx-auto mt-28">
+      <!-- <h2
         class="text-2xl sm:text-5xl md:text-7xl font-bold text-right mb-10"
         style="color: #f2f2f2"
       >
         @bloomwoodflorist
-      </h2>
+      </h2> -->
       <div
         class="
           grid grid-cols-1
@@ -235,6 +244,7 @@
           lg:grid-cols-4
           xl:grid-cols-5
         "
+        data-aos="fade-up"
       >
         <div v-for="(product, idx) in 10" :key="idx">
           <ContainedImage

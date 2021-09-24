@@ -54,10 +54,14 @@
                       {{ item.productName }}
                     </h2>
                     <span>Size: {{ item.size }}</span>
-                    <span
+                    <span v-if="item.variant"
+                      >Variant: {{ item.variant.name }}</span
+                    >
+                    <span v-if="item.addOns.length > 0"
                       >Bundle:
                       {{ item.addOns.map(({ name }) => name).join(', ') }}</span
                     >
+                    <span></span>
                     <span>Qty: {{ item.qty }}</span>
                   </div>
                 </div>
@@ -68,7 +72,10 @@
             </div>
           </template>
         </div>
-        <form class="bg-tertiary rounded-xl p-5" @submit.prevent="payment">
+        <form
+          class="bg-tertiary rounded-xl p-5"
+          @submit.prevent="showConfirmModal"
+        >
           <h2 class="mb-5 font-bold font-serif text-lg">Select Method</h2>
           <div class="flex min-h-[6rem] gap-x-3 sm:gap-x-6 mb-8">
             <button
@@ -88,7 +95,7 @@
               ]"
               @click="handleMethod('delivery')"
             >
-              <IconTruck class="mb-2" />
+              <IconTruck class="fill-current text-primary mb-2" />
               <p class="font-bold text-sm">Delivery</p>
             </button>
             <button
@@ -107,7 +114,7 @@
               ]"
               @click="handleMethod('pickup')"
             >
-              <IconBag class="mb-2" />
+              <IconBag class="fill-current text-primary mb-2" />
               <span class="font-bold text-sm">Self Pick Up</span>
             </button>
           </div>
@@ -150,8 +157,8 @@
                   for="currentAddress"
                 >
                   <div class="flex flex-col">
-                    <p class="mr-2 font-normal">My Current Address</p>
-                    <span class="font-bold font-sans text-sm">{{
+                    <p class="mr-2 font-bold">My Current Address</p>
+                    <span class="font-semibold font-sans text-sm">{{
                       `${$auth.user.addresses[0].address} (${$auth.user.addresses[0].address_area.name})`
                     }}</span>
                   </div>
@@ -196,7 +203,7 @@
                   for="customAddress"
                 >
                   <div class="flex flex-col">
-                    <p class="mr-2 font-normal">Custom Address</p>
+                    <p class="mr-2 font-bold">Custom Address</p>
                   </div>
                 </label>
               </div>
@@ -215,9 +222,10 @@
               <InputText
                 id="phone-number"
                 v-model="form.phone"
-                type="text"
+                type="tel"
+                pattern="\d{8,13}"
                 class="mb-10"
-                label="recipient's phone number"
+                label="recipient's phone ex.081234567890"
                 background-color="white"
                 variant="outlined"
               />
@@ -300,19 +308,33 @@
                 my-8
                 py-2
                 font-bold
-                text-lg
-                bg-primary
-                w-8/12
-                rounded-sm
+                text-xl
+                bg-secondary
+                w-11/12
+                sm:w-8/12
+                rounded-md
                 text-white
               "
             >
               proceed to payment
             </button>
+            <p v-if="invoiceError" class="text-red-400 font-bold">
+              Something went wrong, please try again
+            </p>
           </div>
         </form>
       </div>
     </template>
+    <ModalContainer
+      id="modal-proceed-payment"
+      title="Proceed to payment"
+      :desc="`we'll redirect you to our payment page. ${
+        loading ? 'Loading...' : ''
+      }`"
+      btn-close-title="cancel"
+      btn-proceed-title="pay now"
+      :btn-proceed-callback="() => proceedToPayment()"
+    />
   </div>
 </template>
 
@@ -321,17 +343,16 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Shipment',
-
-  beforeRouteLeave(to, from, next) {
-    if (this.shipment.length > 0) {
-      const answer = window.confirm(
-        "Leave page? You'll have to reselect from your cart."
-      )
-      answer ? next() : next(false)
-    } else {
-      next()
-    }
-  },
+  // beforeRouteLeave(to, from, next) {
+  //   if (this.shipment.length > 0) {
+  //     const answer = window.confirm(
+  //       "Leave page? You'll have to reselect from your cart."
+  //     )
+  //     answer ? next() : next(false)
+  //   } else {
+  //     next()
+  //   }
+  // },
   middleware: 'auth',
   data() {
     return {
@@ -347,6 +368,8 @@ export default {
       },
       shipment: [],
       areas: [],
+      loading: false,
+      invoiceError: false,
     }
   },
   async fetch() {
@@ -359,17 +382,17 @@ export default {
       }
     })
   },
-  head() {
-    return {
-      script: [
-        {
-          type: 'text/javascript',
-          src: 'https://app.sandbox.midtrans.com/snap/snap.js',
-          'data-client-key': process.env.MIDTRANS_CLIENT_KEY || null,
-        },
-      ],
-    }
-  },
+  // head() {
+  //   return {
+  //     script: [
+  //       {
+  //         type: 'text/javascript',
+  //         src: 'https://app.sandbox.midtrans.com/snap/snap.js',
+  //         'data-client-key': process.env.MIDTRANS_CLIENT_KEY || null,
+  //       },
+  //     ],
+  //   }
+  // },
   computed: {
     ...mapGetters({
       ADDRESS_AREAS: 'addressAreas/ADDRESS_AREAS',
@@ -425,6 +448,7 @@ export default {
   methods: {
     ...mapActions({
       GET_ADDRESS_AREAS: 'addressAreas/GET_ADDRESS_AREAS',
+      GET_CART_COUNT: 'GET_CART_COUNT',
     }),
     handleMethod(method) {
       this.deliveryMethod = method
@@ -435,8 +459,12 @@ export default {
       const formattedDate = new Date(currentDate.getTime() - offset * 60 * 1000)
       return formattedDate.toISOString().split('T')[0]
     },
-    async payment() {
+    showConfirmModal() {
+      this.$modal.show('modal-proceed-payment')
+    },
+    async proceedToPayment() {
       try {
+        this.loading = true
         const products = this.shipment
           .reduce((acc, val) => {
             if (val.qty > 1) {
@@ -499,10 +527,37 @@ export default {
             products,
           })
           .then((res) => {
-            window.snap.pay(res.data.payment_token)
+            // this.$router.push('/accounts')
+            const idsToDelete = new Set(this.shipment.map((item) => item.id))
+            const cart = this.$getStorage('bloomwoodCart')
+            const filteredCart = Object.entries(cart).reduce(
+              (acc, [key, val]) => {
+                if (!idsToDelete.has(key)) {
+                  acc[key] = val
+                }
+                return acc
+              },
+              {}
+            )
+            this.$setStorage('bloomwoodShipment', [], 1000)
+            this.$setStorage('bloomwoodCart', filteredCart, 1000)
+            this.$router.push({
+              path: '/account',
+              query: {
+                tab: 'order-history',
+                payment_token: res.data.payment_token,
+              },
+            })
+            // window.snap.pay(res.data.payment_token)
+            this.invoiceError = false
+            this.loading = false
+            this.GET_CART_COUNT()
           })
       } catch (e) {
-        console.log(e)
+        this.invoiceError = true
+        this.$modal.hide('modal-proceed-payment')
+      } finally {
+        this.loading = false
       }
     },
   },
