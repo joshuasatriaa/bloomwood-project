@@ -38,7 +38,7 @@ class UserControllerTest extends TestCase {
     /**@test */
     public function test_index_function(){  
         $user = $this->createSuperAdminUser();
-
+        User::factory()->count(2)->create();
         $this->actingAs($user)
             ->getJson(route('users.index'))
             ->assertStatus(200)
@@ -175,11 +175,16 @@ class UserControllerTest extends TestCase {
     /**@test */
     public function test_suspend_function(){
         $admin = $this->createSuperAdminUser();
-        $user = $this->createBasicUser();
+        $user = User::factory()->create();
 
         $this->actingAs($admin)
-            ->json('POST','/api/suspend-user/', ['user'=>$user])
-            ->assertStatus(200)
+            ->json('POST','/api/suspend-user/'.$user, ['user'=>$user])
+            ->assertStatus(201)
+            ->assertJson([
+                'data' => [
+                    'is_suspended'=>true,
+                ]
+            ])
             ->assertJsonStructure([
                 'data' => [
                     0 => [
@@ -204,8 +209,13 @@ class UserControllerTest extends TestCase {
         $user2 = User::factory()->create();
 
         $this->actingAs($user)
-            ->json('POST','/api/unsuspend-user', ['user'=>$user2])
-            ->assertStatus(200)
+            ->json('POST','/api/unsuspend-user'.$user2, ['user'=>$user2])
+            ->assertStatus(201)
+            ->assertJson([
+                'data' => [
+                    'is_suspended'=>false,
+                ]
+            ])
             ->assertJsonStructure([
                 'data' => [
                     0 => [

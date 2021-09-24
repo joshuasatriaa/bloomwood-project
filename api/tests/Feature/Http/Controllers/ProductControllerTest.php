@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\ProductAddOn;
 use App\Models\ProductImage;
 use App\Models\ProductVariant;
+use ErrorException;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\Traits\TestTrait;
@@ -40,6 +41,8 @@ class ProductControllerTest extends TestCase {
         $product = Product::factory()->count(2)->create();
         
         $name = $this->faker->word() . ' ' . $this->faker->randomElement(['Flower', 'Bouquet', 'Basket']);
+
+        
         $request = [
             'user_id'=>$user->id,
             'name'=> $name,
@@ -47,21 +50,23 @@ class ProductControllerTest extends TestCase {
             'slug'=> Str::slug($name),
             'price' => $this->faker->randomElement([300000, 500000, 800000, 1000000, 2000000, 3000000]),
             'size' => $this->faker->randomElement(['S', 'M']),
-            'variants'=> [
+            'images'=>$this->faker->imageUrl(),
+            'variants' => [
                 [
-                    'name' => '-1',
-                    'thumbnail_image' => $this->faker->imageUrl($width = 640, $height = 480)
-                    
+                    'name' => null,
+                    'thumbnail_image' => null
                 ]
             ],
-            'add_ons' =>  [
+            'add_ons' => [
                 [
-                    'name' => '-1',
-                    'thumbnail_image' => $this->faker->imageUrl($width = 640, $height = 480)
+                    'name' => null,
+                    'thumbnail_image' => null
                 ]
             ]
 
         ];
+       
+        
 
 
         $this->actingAs($admin)
