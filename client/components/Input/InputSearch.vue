@@ -43,8 +43,9 @@ export default {
   },
   methods: {
     search() {
-      this.$router.push(`/products?search=${this.searchInput}`)
-      this.searchInput = ''
+      if (this.searchInput) {
+        this.$router.push(`/products?search=${this.searchInput}`)
+      }
     },
   },
 }

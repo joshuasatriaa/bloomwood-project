@@ -11,12 +11,14 @@
           label="Email Address"
           type="email"
           class="mb-7"
+          border-color="light"
         />
         <InputText
           id="password"
           v-model="form.password"
           label="Password"
           type="password"
+          border-color="light"
         />
         <NuxtLink
           to="/accounts/forgot-password"
@@ -27,7 +29,7 @@
           type="submit"
           class="
             w-full
-            bg-primary
+            bg-secondary
             font-bold
             text-lg text-white
             py-3
@@ -37,9 +39,9 @@
         >
           login
         </button>
-        <p class="font-bold text-center">
+        <p class="font-bold text-center text-secondary">
           don't have an account ?
-          <NuxtLink to="/accounts/register" class="text-pink hover:text-red-400"
+          <NuxtLink to="/accounts/register" class="text-primary"
             >sign up</NuxtLink
           >
         </p>

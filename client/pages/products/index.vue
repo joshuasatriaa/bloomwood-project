@@ -13,7 +13,7 @@
       <div class="border-b-2 border-pink w-20 mx-auto flex-shrink"></div>
     </div>
     <div
-      class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-16 gap-y-12"
+      class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-12"
     >
       <NuxtLink
         v-for="{ id, images, name, slug, sizes } in PRODUCTS.data"
@@ -63,7 +63,9 @@
         >
           {{ name }}
         </h2>
-        <p class="text-lg">{{ $currencyFormat(getMinPrice(sizes)) }}</p>
+        <p class="font-medium text-lg">
+          {{ $currencyFormat(getMinPrice(sizes)) }}
+        </p>
       </NuxtLink>
     </div>
   </div>
@@ -74,20 +76,6 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Products',
-  // setup() {
-  //   const route = useRoute()
-
-  //   const category = computed(() => route.value.query.category)
-
-  //   const { products, getProducts } = useGetProducts('', category.value)
-
-  //   watch(
-  //     () => route.value.query.category,
-  //     () => getProducts('', category.value)
-  //   )
-
-  //   return { products, getProducts, getMinPrice }
-  // },
   data() {
     return { newQuery: this.$route.query }
   },
@@ -115,6 +103,9 @@ export default {
       }
     }
     return false
+  },
+  mounted() {
+    this.$AOS.refreshHard()
   },
   methods: {
     ...mapActions({

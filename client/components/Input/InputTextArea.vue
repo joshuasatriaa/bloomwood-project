@@ -10,6 +10,7 @@
       class="
         w-full
         border-primary border-2
+        rounded
         focus:outline-none
         p-4
         placeholder-secondary

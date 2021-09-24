@@ -67,7 +67,7 @@
                 <p class="text-6xl font-sans mb-10 text-[#F2F2F2]">
                   {{ name }}
                 </p>
-                <div class="grid grid-cols-7 gap-x-3 pl-5">
+                <div class="grid grid-cols-5 gap-x-10 pl-5">
                   <div
                     v-for="category in categories"
                     :key="category.id"
@@ -92,7 +92,7 @@
                     >
                       {{ category.label }}
                     </NuxtLink>
-                    <ul class="text-secondary font-medium font-sans">
+                    <ul class="text-secondary-light font-bold font-sans">
                       <li v-for="child in category.children" :key="child.id">
                         <NuxtLink
                           :to="`/products?category=${child.slug}`"
@@ -294,7 +294,6 @@
                 grid grid-cols-1
                 sm:grid-cols-3
                 md:grid-cols-5
-                xl:grid-cols-6
                 gap-y-6 gap-x-4
                 pl-5
               "
@@ -310,7 +309,7 @@
                 >
                   <ContainedImage
                     :src="category.thumbnail_image"
-                    class="mb-5 max-w-[150px]"
+                    class="mb-5"
                     width="150"
                     height="150"
                     aspect-class="aspect-w-150 aspect-h-150"

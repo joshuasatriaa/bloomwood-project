@@ -12,14 +12,15 @@
           type="email"
           class="mb-7"
           :error="errors.email"
+          border-color="light"
         />
         <button
           type="submit"
           class="
             w-full
-            bg-primary
+            bg-secondary
             font-bold
-            text-lg text-white
+            text-xl text-white
             py-3
             rounded-md
             mb-10

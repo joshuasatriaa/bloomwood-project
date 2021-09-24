@@ -14,6 +14,7 @@
     <img
       :src="src"
       class="w-full h-full object-center object-cover"
+      :class="`${imageClass}`"
       :width="width"
       :height="height"
       v-bind="$attrs"
@@ -47,6 +48,11 @@ export default {
       default: true,
     },
     aspectClass: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    imageClass: {
       type: String,
       required: false,
       default: '',

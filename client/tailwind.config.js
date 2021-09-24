@@ -7,9 +7,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#8A817C', // The Gray
-        secondary: '#BCB8B1', // The Light Gray
-        tertiary: '#F4F3EE', // The Chocolate
+        // primary: '#8A817C', // The Gray
+        primary: '#000000', // The Black,
+        secondary: '#A7A29E', // The New Gray
+        'secondary-light': '#BCB8B1', // The Light Gray
+        // tertiary: '#F4F3EE', // The Chocolate
+        tertiary: '#F9F9F9', // The Chocolate
         pink: '#E0AFA0', // The Pink
         'soft-gray': '#DEDEDE', // Border
         brown: '#463F3A', // The Brown
@@ -29,7 +32,7 @@ module.exports = {
         'Times',
         'serif',
       ],
-      sans: ['Gotham', 'ui-sans-serif', 'system-ui'],
+      sans: ['Inter', 'ui-sans-serif', 'system-ui'],
     },
     container: {
       padding: {
@@ -71,6 +74,7 @@ module.exports = {
       650: '650',
       666: '666',
       731: '731',
+      750: '750',
       960: '960',
       1920: '1920',
     },

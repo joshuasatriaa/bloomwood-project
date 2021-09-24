@@ -19,29 +19,29 @@
           id="full-name"
           v-model="form.name"
           type="text"
-          label="Full Name"
+          label="full name"
           class="mb-7"
         />
         <InputText
           id="email"
           v-model="form.email"
           type="email"
-          label="E-mail Address"
+          label="email address"
           class="mb-7"
         />
         <InputText
           id="phone-number"
           v-model="form.phoneNumber"
           type="tel"
-          pattern="^\d{3}-\d{3}-\d{4}$"
-          label="Phone Number"
+          pattern="\d{8,13}"
+          label="phone number (ex.081234567890)"
           class="mb-7"
         />
         <InputText
           id="address"
           v-model="form.address"
           type="text"
-          label="Address"
+          label="address"
           class="mb-7"
         />
         <InputSelect
@@ -56,7 +56,7 @@
           type="submit"
           class="
             w-full
-            bg-primary
+            bg-secondary
             font-bold
             text-lg text-white
             py-3
