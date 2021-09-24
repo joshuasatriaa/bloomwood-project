@@ -8,9 +8,9 @@
           v-for="tab in tabs"
           :key="tab"
           :class="[
-            tab !== selectedTab
+            tab !== $route.query.tab
               ? 'text-primary hover:border-primary hover:rounded-md'
-              : 'bg-secondary text-white rounded-md cursor-default',
+              : 'bg-primary text-white rounded-md cursor-default',
           ]"
           class="
             border border-transparent
@@ -21,18 +21,22 @@
             text-xl
             font-bold
             py-4
+            capitalize
           "
           @click="() => changeTab(tab)"
         >
-          {{ tab }}
+          {{ tab.replace('-', ' ') }}
         </button>
       </div>
     </div>
-    <div class="w-full">
-      <AccountInfo v-if="selectedTab === 'My Account'" />
-      <AccountOrderHistory v-else-if="selectedTab === 'Order History'" />
-      <AccountChangePassword v-else-if="selectedTab === 'Change Password'" />
-      <div v-else>Logging Out</div>
+    <div v-if="$route.query.tab" class="w-full">
+      <AccountInfo v-if="$route.query.tab === 'my-account'" />
+      <AccountOrderHistory v-else-if="$route.query.tab === 'order-history'" />
+      <AccountChangePassword
+        v-else-if="$route.query.tab === 'change-password'"
+      />
+      <div v-else-if="$route.query.tab === 'log-out'">Logging Out</div>
+      <div v-else></div>
     </div>
     <ModalContainer
       id="modal-logout"
@@ -49,11 +53,49 @@ export default {
   middleware: 'auth',
   data() {
     return {
-      selectedTab: 'My Account',
-      tabs: ['My Account', 'Order History', 'Change Password', 'Log Out'],
+      tabs: ['my-account', 'order-history', 'change-password', 'log-out'],
+    }
+  },
+  head() {
+    return {
+      script: [
+        {
+          hid: 'midtranssnap',
+          type: 'text/javascript',
+          src: 'https://app.sandbox.midtrans.com/snap/snap.js',
+          'data-client-key': process.env.MIDTRANS_CLIENT_KEY || null,
+          callback: () => {
+            this.snapOnMount()
+          },
+        },
+      ],
+    }
+  },
+  mounted() {
+    // if (
+    //   this.$route.query.payment_token &&
+    //   this.$route.query.tab !== 'order-history'
+    // ) {
+    //   this.$router.push({
+    //     path: this.$route.fullPath,
+    //     query: { tab: 'order-history' },
+    //   })
+    //   return
+    // }
+
+    if (!this.$route.query.tab) {
+      this.$router.push({
+        path: this.$route.fullPath,
+        query: { tab: 'my-account' },
+      })
     }
   },
   methods: {
+    snapOnMount() {
+      if (this.$route.query.payment_token) {
+        window.snap.pay(this.$route.query.payment_token)
+      }
+    },
     async logMeOut() {
       const [_, error] = await this.$async(this.$auth.logout())
       if (error) {
@@ -63,11 +105,14 @@ export default {
       this.$router.push('/')
     },
     changeTab(clickedTab) {
-      if (clickedTab === 'Log Out') {
+      if (clickedTab === 'log-out') {
         return this.$modal.show('modal-logout')
         // return this.logMeOut()
       }
-      this.selectedTab = clickedTab
+      this.$router.push({
+        path: this.$route.fullPath,
+        query: { tab: clickedTab },
+      })
     },
   },
 }

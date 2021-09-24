@@ -120,17 +120,17 @@ export default {
   async fetch() {
     await this.GET_ORDER_HISTORY()
   },
-  head() {
-    return {
-      script: [
-        {
-          type: 'text/javascript',
-          src: 'https://app.sandbox.midtrans.com/snap/snap.js',
-          'data-client-key': process.env.MIDTRANS_CLIENT_KEY || null,
-        },
-      ],
-    }
-  },
+  // head() {
+  //   return {
+  //     script: [
+  //       {
+  //         type: 'text/javascript',
+  //         src: 'https://app.sandbox.midtrans.com/snap/snap.js',
+  //         'data-client-key': process.env.MIDTRANS_CLIENT_KEY || null,
+  //       },
+  //     ],
+  //   }
+  // },
   computed: {
     ...mapGetters({
       ORDER_HISTORY: 'invoices/ORDER_HISTORY',

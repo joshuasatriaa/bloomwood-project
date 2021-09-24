@@ -61,6 +61,10 @@ export default {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap',
       },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
+      },
     ],
   },
 
@@ -72,7 +76,7 @@ export default {
     '@/plugins/global.js',
     { src: '@/plugins/swiper.client.js' },
     '@/plugins/vue-modal.js',
-    { src: '@/plugins/aos.js', mode: 'client' },
+    { src: '~/plugins/aos.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

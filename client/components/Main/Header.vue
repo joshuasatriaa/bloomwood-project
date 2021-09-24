@@ -78,7 +78,7 @@
             z-20
             min-h-full
             py-2
-            text-primary
+            text-primary text-center
           "
         >
           <NuxtLink to="/accounts/login" class="mb-3">Login</NuxtLink>

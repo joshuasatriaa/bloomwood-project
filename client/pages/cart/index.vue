@@ -75,13 +75,8 @@
                     :src="cart[key].productImage"
                     width="148"
                     height="148"
-                    class="
-                      rounded-lg
-                      border-4 border-primary
-                      w-[9.25rem]
-                      h-[9.25rem]
-                      mr-4
-                    "
+                    class="w-[9.25rem] h-[9.25rem] mr-4"
+                    image-class="rounded-lg border-2 border-primary"
                   />
                 </div>
 
@@ -90,6 +85,9 @@
                     {{ cart[key].productName }}
                   </h2>
                   <span>Size: {{ cart[key].size }}</span>
+                  <span v-if="cart[key].variant"
+                    >Variant: {{ cart[key].variant.name }}</span
+                  >
                   <span v-if="cart[key].addOns.length > 0"
                     >Bundle:
                     {{
@@ -158,8 +156,8 @@
           class="w-full flex flex-col items-end justify-end mt-14 text-primary"
         >
           <div class="flex flex-col items-end">
-            <div class="flex mb-5">
-              <p class="mr-10 font-serif">Subtotal</p>
+            <div class="flex w-full justify-between mb-5">
+              <p class="mr-10 font-bold font-serif">Subtotal</p>
               <p class="font-bold">{{ $currencyFormat(getTotalBySelected) }}</p>
             </div>
             <template v-if="!$auth.user">
@@ -188,7 +186,7 @@
                 font-bold
                 text-lg
                 py-2
-                bg-primary
+                bg-secondary
                 text-white
                 rounded
                 w-full
@@ -217,7 +215,7 @@
               <button
                 type="button"
                 class="
-                  bg-primary
+                  bg-secondary
                   font-bold
                   text-white
                   mt-10

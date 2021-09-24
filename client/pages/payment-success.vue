@@ -15,7 +15,7 @@
         class="
           w-11/12
           py-2
-          bg-primary
+          bg-secondary
           text-white
           font-bold
           text-lg
